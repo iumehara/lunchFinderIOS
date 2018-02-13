@@ -39,3 +39,5 @@ playground.xcworkspace
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 
+### Carthage ###
+Carthage/Build
