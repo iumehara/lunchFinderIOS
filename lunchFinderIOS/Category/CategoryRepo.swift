@@ -1,3 +1,6 @@
+import Foundation
+import BrightFutures
+
 protocol CategoryRepo {
-    func getAll() -> [Category]
+    func getAll() -> Future<[Category], NSError>
 }

@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		240B7AD620326D06005959AB /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 240B7AC920326C63005959AB /* BrightFutures.framework */; };
 		240B7AD720326D09005959AB /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 240B7ACD20326C6E005959AB /* Result.framework */; };
+		240B7AD92032D9E8005959AB /* BrightFutures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 240B7AC920326C63005959AB /* BrightFutures.framework */; };
+		240B7ADA2032D9EC005959AB /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 240B7ACD20326C6E005959AB /* Result.framework */; };
+		240B7ADC2033FA18005959AB /* NetworkCategoryRepoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240B7ADB2033FA18005959AB /* NetworkCategoryRepoTest.swift */; };
 		2453F2A7202D8C3F00322017 /* CategoryRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2453F2A6202D8C3F00322017 /* CategoryRepo.swift */; };
 		2453F2A9202D8C7300322017 /* NetworkCategoryRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2453F2A8202D8C7300322017 /* NetworkCategoryRepo.swift */; };
 		2453F2AB202D8D1300322017 /* SuccessStubCategoryRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2453F2AA202D8D1300322017 /* SuccessStubCategoryRepo.swift */; };
@@ -39,6 +42,7 @@
 		240B7ACD20326C6E005959AB /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/iOS/Result.framework; sourceTree = "<group>"; };
 		240B7AD120326CD7005959AB /* BrightFutures.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = BrightFutures.framework.dSYM; path = Carthage/Build/iOS/BrightFutures.framework.dSYM; sourceTree = "<group>"; };
 		240B7AD320326CDD005959AB /* Result.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; name = Result.framework.dSYM; path = Carthage/Build/iOS/Result.framework.dSYM; sourceTree = "<group>"; };
+		240B7ADB2033FA18005959AB /* NetworkCategoryRepoTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCategoryRepoTest.swift; sourceTree = "<group>"; };
 		2453F2A6202D8C3F00322017 /* CategoryRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRepo.swift; sourceTree = "<group>"; };
 		2453F2A8202D8C7300322017 /* NetworkCategoryRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCategoryRepo.swift; sourceTree = "<group>"; };
 		2453F2AA202D8D1300322017 /* SuccessStubCategoryRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessStubCategoryRepo.swift; sourceTree = "<group>"; };
@@ -72,6 +76,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				240B7AD92032D9E8005959AB /* BrightFutures.framework in Frameworks */,
+				240B7ADA2032D9EC005959AB /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -90,6 +96,7 @@
 			children = (
 				248D364F202D7F5D000C4EF3 /* CategoryListViewControllerTest.swift */,
 				2453F2AA202D8D1300322017 /* SuccessStubCategoryRepo.swift */,
+				240B7ADB2033FA18005959AB /* NetworkCategoryRepoTest.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -310,6 +317,7 @@
 			files = (
 				2453F2AB202D8D1300322017 /* SuccessStubCategoryRepo.swift in Sources */,
 				248D3650202D7F5D000C4EF3 /* CategoryListViewControllerTest.swift in Sources */,
+				240B7ADC2033FA18005959AB /* NetworkCategoryRepoTest.swift in Sources */,
 				248D3653202D8A74000C4EF3 /* DummyRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -497,6 +505,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PBB9GZ72D8;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = lunchFinderIOSTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = umehara.lunchFinderIOSTests;
@@ -516,6 +528,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = PBB9GZ72D8;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = lunchFinderIOSTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = umehara.lunchFinderIOSTests;

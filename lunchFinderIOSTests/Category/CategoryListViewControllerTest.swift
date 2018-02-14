@@ -3,11 +3,13 @@ import XCTest
 
 class CategoryListViewControllerTest: XCTestCase {
     var categoryListViewController: UITableViewController!
-
+    var repo: SuccessStubCategoryRepo!
+    
     override func setUp() {
+        repo = SuccessStubCategoryRepo()
         categoryListViewController = CategoryListViewController(
             router: DummyRouter(),
-            repo: SuccessStubCategoryRepo()
+            repo: repo
         )
 
         categoryListViewController.viewDidLoad()
@@ -28,11 +30,13 @@ class CategoryListViewControllerTest: XCTestCase {
     }
 
     func test_numberOfRows() {
-        let numberOfRows = categoryListViewController.tableView(
-            categoryListViewController.tableView,
-            numberOfRowsInSection: 0
-        )
-
-        XCTAssertGreaterThan(numberOfRows, 0)
+        repo.responseFuture.onSuccess(callback: { _ in
+            let numberOfRows = self.categoryListViewController.tableView(
+                self.categoryListViewController.tableView,
+                numberOfRowsInSection: 0
+            )
+            
+            XCTAssertGreaterThan(numberOfRows, 0)
+        })
     }
 }
