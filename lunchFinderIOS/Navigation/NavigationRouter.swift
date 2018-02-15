@@ -17,4 +17,14 @@ struct NavigationRouter: Router {
 
         navigationController.setViewControllers([categoryListViewController], animated: animated)
     }
+    
+    func showCategoryDetailScreen(id: Int) {
+        let categoryViewController = CategoryViewController(
+            router: self,
+            repo: NetworkCategoryRepo(),
+            id: id
+        )
+        
+        navigationController.pushViewController(categoryViewController, animated: animated)
+    }
 }

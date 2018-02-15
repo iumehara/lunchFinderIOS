@@ -4,7 +4,7 @@ class CategoryListViewController: UITableViewController {
     private let router: Router
     private let repo: CategoryRepo
     private let tableViewCellIdentifier: String = String(describing: UITableViewCell.self)
-    var categories: [Category] = []
+    private var categories: [Category] = []
     
     init(router: Router, repo: CategoryRepo) {
         self.router = router
@@ -37,5 +37,11 @@ class CategoryListViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
         cell.textLabel?.text = categories[indexPath.row].name
         return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedCategory = categories[indexPath.row]
+        
+        router.showCategoryDetailScreen(id: selectedCategory.id)
     }
 }

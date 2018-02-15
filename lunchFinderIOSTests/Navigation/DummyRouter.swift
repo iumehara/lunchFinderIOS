@@ -1,6 +1,6 @@
 @testable import lunchFinderIOS
 
 struct DummyRouter: Router {
-    func showCategoryListScreen() {
-    }
+    func showCategoryDetailScreen(id: Int) {}
+    func showCategoryListScreen() {}
 }

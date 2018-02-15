@@ -5,8 +5,12 @@ import Foundation
 @testable import lunchFinderIOS
 
 class SuccessStubCategoryRepo: CategoryRepo {
-    var responseFuture = Future<[lunchFinderIOS.Category], NSError>()
+    var get_responseFuture = Future<lunchFinderIOS.Category, NSError>()
+    func get(id: Int) -> Future<lunchFinderIOS.Category, NSError> {
+        return get_responseFuture
+    }
     
+    var responseFuture = Future<[lunchFinderIOS.Category], NSError>()
     func getAll() -> Future<[lunchFinderIOS.Category], NSError> {
         let promise = Promise<[lunchFinderIOS.Category], NSError>()
         promise.success([

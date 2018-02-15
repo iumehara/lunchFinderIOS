@@ -8,14 +8,27 @@ class NetworkCategoryRepo: CategoryRepo {
         URLSession.shared.dataTask(
             with: URL(string: "http://localhost:8080/categories")!,
             completionHandler: {(data: Data?, response: URLResponse?, error: Error?) in
-                self.completionHandler(data: data, response: response, error: error, promise: promise)
+                self.arrayCompletionHandler(data: data, response: response, error: error, promise: promise)
             }
         ).resume()
 
         return promise.future
     }
     
-    private func completionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<[Category], NSError>) {
+    func get(id: Int) -> Future<Category, NSError> {
+        let promise = Promise<Category, NSError>()
+        
+        URLSession.shared.dataTask(
+            with: URL(string: "http://localhost:8080/categories/\(id)")!,
+            completionHandler: {(data: Data?, response: URLResponse?, error: Error?) in
+                self.objectCompletionHandler(data: data, response: response, error: error, promise: promise)
+            }
+        ).resume()
+
+        return promise.future
+    }
+    
+    private func arrayCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<[Category], NSError>) {
         if let actualData = data {
             guard let dictionaryArray = try? JSONSerialization.jsonObject(with: actualData, options: []) as! [NSDictionary] else {
                 return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
@@ -28,6 +41,19 @@ class NetworkCategoryRepo: CategoryRepo {
             }
             
             return promise.success(categories)
+        }
+        
+        return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
+    }
+    
+    private func objectCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Category, NSError>) {
+        if let actualData = data {
+            guard let dictionary = try? JSONSerialization.jsonObject(with: actualData, options: []) as! NSDictionary else {
+                return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
+            }
+            
+            let category = Category(dictionary: dictionary as! [String: AnyObject])
+            return promise.success(category)
         }
         
         return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
