@@ -36,3 +36,11 @@ struct Category {
         }
     }
 }
+
+extension Category: Equatable {
+    static func ==(lhs: Category, rhs: Category) -> Bool {
+        return lhs.id == rhs.id &&
+            lhs.name == rhs.name &&
+            lhs.restaurants == rhs.restaurants
+    }
+}

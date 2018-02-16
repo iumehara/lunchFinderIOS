@@ -7,6 +7,9 @@ import Foundation
 class SuccessStubCategoryRepo: CategoryRepo {
     var get_responseFuture = Future<lunchFinderIOS.Category, NSError>()
     func get(id: Int) -> Future<lunchFinderIOS.Category, NSError> {
+        let promise = Promise<lunchFinderIOS.Category, NSError>()
+        promise.success(Category(id: 1, name: "Category A", restaurants: [Restaurant(id: 1, name: "Restaurant A")]))
+        get_responseFuture = promise.future
         return get_responseFuture
     }
     
@@ -14,8 +17,8 @@ class SuccessStubCategoryRepo: CategoryRepo {
     func getAll() -> Future<[lunchFinderIOS.Category], NSError> {
         let promise = Promise<[lunchFinderIOS.Category], NSError>()
         promise.success([
-            Category(id: 1, name: "Test Pizza"),
-            Category(id: 2, name: "Test Sushi")
+            Category(id: 1, name: "Category A"),
+            Category(id: 2, name: "Category B")
         ])
         
         responseFuture = promise.future

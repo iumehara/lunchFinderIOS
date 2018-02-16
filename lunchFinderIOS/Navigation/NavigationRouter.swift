@@ -19,12 +19,22 @@ struct NavigationRouter: Router {
     }
     
     func showCategoryDetailScreen(id: Int) {
-        let categoryViewController = CategoryViewController(
+        let categoryDetailViewController = CategoryDetailViewController(
             router: self,
             repo: NetworkCategoryRepo(),
             id: id
         )
         
-        navigationController.pushViewController(categoryViewController, animated: animated)
+        navigationController.pushViewController(categoryDetailViewController, animated: animated)
+    }
+    
+    func showRestaurantDetailScreen(id: Int) {
+        let restaurantDetailViewController = RestaurantDetailViewController(
+            router: self,
+            repo: NetworkRestaurantRepo(),
+            id: id
+        )
+        
+        navigationController.pushViewController(restaurantDetailViewController, animated: animated)
     }
 }

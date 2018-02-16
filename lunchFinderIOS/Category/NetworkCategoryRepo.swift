@@ -2,10 +2,12 @@ import Foundation
 import BrightFutures
 
 class NetworkCategoryRepo: CategoryRepo {
+    var session: URLSession = URLSession.shared
+    
     func getAll() -> Future<[Category], NSError> {
         let promise = Promise<[Category], NSError>()
 
-        URLSession.shared.dataTask(
+        session.dataTask(
             with: URL(string: "http://localhost:8080/categories")!,
             completionHandler: {(data: Data?, response: URLResponse?, error: Error?) in
                 self.arrayCompletionHandler(data: data, response: response, error: error, promise: promise)
@@ -18,7 +20,7 @@ class NetworkCategoryRepo: CategoryRepo {
     func get(id: Int) -> Future<Category, NSError> {
         let promise = Promise<Category, NSError>()
         
-        URLSession.shared.dataTask(
+        session.dataTask(
             with: URL(string: "http://localhost:8080/categories/\(id)")!,
             completionHandler: {(data: Data?, response: URLResponse?, error: Error?) in
                 self.objectCompletionHandler(data: data, response: response, error: error, promise: promise)

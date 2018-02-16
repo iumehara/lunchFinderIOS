@@ -2,7 +2,7 @@ import XCTest
 @testable import lunchFinderIOS
 
 class CategoryListViewControllerTest: XCTestCase {
-    var categoryListViewController: UITableViewController!
+    var categoryListViewController: CategoryListViewController!
     var repo: SuccessStubCategoryRepo!
     
     override func setUp() {
@@ -29,14 +29,15 @@ class CategoryListViewControllerTest: XCTestCase {
         XCTAssertEqual(numberOfSections, 1)
     }
 
-    func test_numberOfRows() {
+    func test_tableData() {
         repo.responseFuture.onSuccess(callback: { _ in
-            let numberOfRows = self.categoryListViewController.tableView(
-                self.categoryListViewController.tableView,
-                numberOfRowsInSection: 0
-            )
+            let firstRowText = self.categoryListViewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel?.text!
+            let secondRowText = self.categoryListViewController.tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel?.text!
             
-            XCTAssertGreaterThan(numberOfRows, 0)
+            XCTAssertEqual(firstRowText, "Category A")
+            XCTAssertEqual(secondRowText, "Category B")
         })
+        
+        XCTAssertTrue(repo.responseFuture.isCompleted)
     }
 }

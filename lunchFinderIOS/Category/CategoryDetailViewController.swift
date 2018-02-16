@@ -1,6 +1,6 @@
 import UIKit
 
-class CategoryViewController: UIViewController {
+class CategoryDetailViewController: UIViewController {
     private let router: Router
     private let repo: CategoryRepo
     private let tableViewCellIdentifier: String = String(describing: UITableViewCell.self)
@@ -13,7 +13,9 @@ class CategoryViewController: UIViewController {
         self.repo = repo
         self.id = id
         self.tableView = UITableView()
+        
         super.init(nibName: nil, bundle: nil)
+        self.title = "test"
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -27,9 +29,8 @@ class CategoryViewController: UIViewController {
             .onSuccess { category in
                 self.title = category.name
                 self.restaurants = category.restaurants
-        }
+            }
             .onComplete { _ in self.tableView.reloadData() }
-
         
         addSubviews()
         configureSubviews()
@@ -54,7 +55,7 @@ class CategoryViewController: UIViewController {
     }
 }
 
-extension CategoryViewController: UITableViewDataSource {
+extension CategoryDetailViewController: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return restaurants.count
     }
@@ -66,6 +67,9 @@ extension CategoryViewController: UITableViewDataSource {
     }
 }
 
-extension CategoryViewController: UITableViewDelegate {
-    
+extension CategoryDetailViewController: UITableViewDelegate {
+    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedRestaurant = restaurants[indexPath.row]
+        router.showRestaurantDetailScreen(id: selectedRestaurant.id)
+    }
 }
