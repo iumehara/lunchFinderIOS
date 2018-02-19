@@ -19,6 +19,8 @@
 		2453F2A7202D8C3F00322017 /* CategoryRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2453F2A6202D8C3F00322017 /* CategoryRepo.swift */; };
 		2453F2A9202D8C7300322017 /* NetworkCategoryRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2453F2A8202D8C7300322017 /* NetworkCategoryRepo.swift */; };
 		2453F2AB202D8D1300322017 /* SuccessStubCategoryRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2453F2AA202D8D1300322017 /* SuccessStubCategoryRepo.swift */; };
+		245CB0BA2039C7EB006A0B5F /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0B92039C7EB006A0B5F /* Map.swift */; };
+		245CB0BD203A6142006A0B5F /* Geolocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0BC203A6142006A0B5F /* Geolocation.swift */; };
 		248D364A202D71F5000C4EF3 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248D3649202D71F5000C4EF3 /* Category.swift */; };
 		248D3650202D7F5D000C4EF3 /* CategoryListViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248D364F202D7F5D000C4EF3 /* CategoryListViewControllerTest.swift */; };
 		248D3653202D8A74000C4EF3 /* DummyRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248D3652202D8A74000C4EF3 /* DummyRouter.swift */; };
@@ -34,6 +36,7 @@
 		24A435B020368420000EECAF /* CategoryDetailViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A435AF20368420000EECAF /* CategoryDetailViewControllerTest.swift */; };
 		24A435B2203698F8000EECAF /* NetworkCategoryRepoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A435B1203698F8000EECAF /* NetworkCategoryRepoTest.swift */; };
 		24A435B4203699DD000EECAF /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24A435B3203699DD000EECAF /* MockSession.swift */; };
+		4DAB728956909DE7B87300D5 /* libPods-lunchFinderIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56BCA54E45B9AFD14DC84A8C /* libPods-lunchFinderIOS.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +62,8 @@
 		2453F2A6202D8C3F00322017 /* CategoryRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRepo.swift; sourceTree = "<group>"; };
 		2453F2A8202D8C7300322017 /* NetworkCategoryRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCategoryRepo.swift; sourceTree = "<group>"; };
 		2453F2AA202D8D1300322017 /* SuccessStubCategoryRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessStubCategoryRepo.swift; sourceTree = "<group>"; };
+		245CB0B92039C7EB006A0B5F /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		245CB0BC203A6142006A0B5F /* Geolocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geolocation.swift; sourceTree = "<group>"; };
 		248D3649202D71F5000C4EF3 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		248D364F202D7F5D000C4EF3 /* CategoryListViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewControllerTest.swift; sourceTree = "<group>"; };
 		248D3652202D8A74000C4EF3 /* DummyRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyRouter.swift; sourceTree = "<group>"; };
@@ -78,6 +83,9 @@
 		24A435AF20368420000EECAF /* CategoryDetailViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryDetailViewControllerTest.swift; sourceTree = "<group>"; };
 		24A435B1203698F8000EECAF /* NetworkCategoryRepoTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCategoryRepoTest.swift; sourceTree = "<group>"; };
 		24A435B3203699DD000EECAF /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
+		517A380927A99B65AEC35787 /* Pods-lunchFinderIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOS/Pods-lunchFinderIOS.release.xcconfig"; sourceTree = "<group>"; };
+		56BCA54E45B9AFD14DC84A8C /* libPods-lunchFinderIOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lunchFinderIOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F7463B5A30A32CCC4B93FF27 /* Pods-lunchFinderIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOS/Pods-lunchFinderIOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +95,7 @@
 			files = (
 				240B7AD620326D06005959AB /* BrightFutures.framework in Frameworks */,
 				240B7AD720326D09005959AB /* Result.framework in Frameworks */,
+				4DAB728956909DE7B87300D5 /* libPods-lunchFinderIOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,9 +111,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16FDC2B5BC6C842F3DC7993D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F7463B5A30A32CCC4B93FF27 /* Pods-lunchFinderIOS.debug.xcconfig */,
+				517A380927A99B65AEC35787 /* Pods-lunchFinderIOS.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		240B7AD520326D06005959AB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				56BCA54E45B9AFD14DC84A8C /* libPods-lunchFinderIOS.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -119,6 +138,15 @@
 				2432517B20396BD4007CBEF9 /* RestaurantTableViewProtocols.swift */,
 			);
 			path = Restaurant;
+			sourceTree = "<group>";
+		};
+		245CB0BB203A612F006A0B5F /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				245CB0B92039C7EB006A0B5F /* Map.swift */,
+				245CB0BC203A6142006A0B5F /* Geolocation.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		248D364E202D7F06000C4EF3 /* Category */ = {
@@ -151,6 +179,7 @@
 				249DD918200F5263006031A1 /* lunchFinderIOSTests */,
 				249DD902200F5263006031A1 /* Products */,
 				240B7AD520326D06005959AB /* Frameworks */,
+				16FDC2B5BC6C842F3DC7993D /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -166,6 +195,7 @@
 		249DD903200F5263006031A1 /* lunchFinderIOS */ = {
 			isa = PBXGroup;
 			children = (
+				245CB0BB203A612F006A0B5F /* Map */,
 				240B7ADF2034108F005959AB /* Restaurant */,
 				249DD929200F53BF006031A1 /* Category */,
 				249DD924200F52D0006031A1 /* Navigation */,
@@ -218,10 +248,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 249DD91E200F5263006031A1 /* Build configuration list for PBXNativeTarget "lunchFinderIOS" */;
 			buildPhases = (
+				6EEF2D189AC8695453F9C53D /* [CP] Check Pods Manifest.lock */,
 				249DD8FD200F5263006031A1 /* Sources */,
 				249DD8FE200F5263006031A1 /* Frameworks */,
 				249DD8FF200F5263006031A1 /* Resources */,
 				240B7AD820326D3A005959AB /* ShellScript */,
+				46316897D58CB98C9F6117E1 /* [CP] Embed Pods Frameworks */,
+				68612AEA68FACEBAD20C8344 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -329,6 +362,59 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
+		46316897D58CB98C9F6117E1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lunchFinderIOS/Pods-lunchFinderIOS-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		68612AEA68FACEBAD20C8344 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-lunchFinderIOS/Pods-lunchFinderIOS-resources.sh",
+				"${PODS_ROOT}/GoogleMaps/Maps/Frameworks/GoogleMaps.framework/Resources/GoogleMaps.bundle",
+				"${PODS_ROOT}/GooglePlaces/Frameworks/GooglePlaces.framework/Resources/GooglePlaces.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleMaps.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GooglePlaces.bundle",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lunchFinderIOS/Pods-lunchFinderIOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6EEF2D189AC8695453F9C53D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-lunchFinderIOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -336,6 +422,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				245CB0BD203A6142006A0B5F /* Geolocation.swift in Sources */,
 				249DD92B200F53DB006031A1 /* CategoryListViewController.swift in Sources */,
 				249DD926200F52E1006031A1 /* Router.swift in Sources */,
 				241197512036694100ABD10E /* RestaurantDetailViewController.swift in Sources */,
@@ -346,6 +433,7 @@
 				24A435AC20366EDF000EECAF /* RestaurantRepo.swift in Sources */,
 				24A435AE20366F38000EECAF /* NetworkRestaurantRepo.swift in Sources */,
 				2453F2A9202D8C7300322017 /* NetworkCategoryRepo.swift in Sources */,
+				245CB0BA2039C7EB006A0B5F /* Map.swift in Sources */,
 				248D364A202D71F5000C4EF3 /* Category.swift in Sources */,
 				2432517C20396BD4007CBEF9 /* RestaurantTableViewProtocols.swift in Sources */,
 				2453F2A7202D8C3F00322017 /* CategoryRepo.swift in Sources */,
@@ -505,6 +593,7 @@
 		};
 		249DD91F200F5263006031A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F7463B5A30A32CCC4B93FF27 /* Pods-lunchFinderIOS.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -524,6 +613,7 @@
 		};
 		249DD920200F5263006031A1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 517A380927A99B65AEC35787 /* Pods-lunchFinderIOS.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

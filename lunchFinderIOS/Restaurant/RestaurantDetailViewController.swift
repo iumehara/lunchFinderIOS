@@ -4,59 +4,66 @@ class RestaurantDetailViewController: UIViewController {
     private let repo: RestaurantRepo
     private let id: Int
     private var restaurant: Restaurant?
-    private let card: UIView
-    private let tableView: UITableView
+    private let map: Map
+    private let categoryTable: UITableView
     private let categoryTableViewProtocols: CategoryTableViewProtocols
-    
+
     init(router: Router, repo: RestaurantRepo, id: Int) {
         self.repo = repo
         self.id = id
-        self.card = UIView()
-        self.tableView = UITableView()
+        self.map = Map(frame: CGRect.zero)
+        self.categoryTable = UITableView()
         self.categoryTableViewProtocols = CategoryTableViewProtocols(router: router)
-        
+
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("error")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+
+        setupSubviews()
+        activateConstraints()
+        
         repo.get(id: self.id)
             .onSuccess { restaurant in
                 self.title = restaurant.name
                 self.restaurant = restaurant
                 self.categoryTableViewProtocols.setCategories(categories: restaurant.categories)
+                self.map.setMarker(restaurant: restaurant)
             }
-            .onComplete { _ in self.tableView.reloadData() }
+            .onComplete { _ in self.categoryTable.reloadData() }
+    }
+    
+    private func setupSubviews() {
+        view.addSubview(map)
+        view.addSubview(categoryTable)
         
-        view.addSubview(card)
-        view.addSubview(tableView)
-        
-        tableView.dataSource = categoryTableViewProtocols
-        tableView.delegate = categoryTableViewProtocols
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(
+        categoryTable.dataSource = categoryTableViewProtocols
+        categoryTable.delegate = categoryTableViewProtocols
+        categoryTable.translatesAutoresizingMaskIntoConstraints = false
+        categoryTable.register(
             UITableViewCell.self,
             forCellReuseIdentifier: CategoryTableViewProtocols.cellIdentifier
         )
-        
+    }
+    
+    private func activateConstraints() {
         let margins = self.view.safeAreaLayoutGuide
-
-        card.translatesAutoresizingMaskIntoConstraints = false
-        card.backgroundColor = UIColor.red
-        card.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
-        card.heightAnchor.constraint(equalToConstant: CGFloat(200)).isActive = true
-        card.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
-        card.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
         
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.topAnchor.constraint(equalTo: card.bottomAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+        map.translatesAutoresizingMaskIntoConstraints = false
+        map.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
+        map.heightAnchor.constraint(equalToConstant: CGFloat(300)).isActive = true
+        map.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
+        map.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+        
+        categoryTable.translatesAutoresizingMaskIntoConstraints = false
+        categoryTable.topAnchor.constraint(equalTo: map.bottomAnchor).isActive = true
+        categoryTable.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
+        categoryTable.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
+        categoryTable.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
     }
 }

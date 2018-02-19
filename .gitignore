@@ -1,5 +1,7 @@
 ### Swift ###
 
+.DS_Store
+
 ## Build generated
 build/
 DerivedData/
@@ -41,3 +43,6 @@ playground.xcworkspace
 
 ### Carthage ###
 Carthage/Build
+
+### CocoaPods ###
+Pods/

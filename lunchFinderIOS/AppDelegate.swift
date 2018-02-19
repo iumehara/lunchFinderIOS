@@ -1,4 +1,5 @@
 import UIKit
+import GoogleMaps
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -25,6 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
 
         router.showCategoryListScreen()
+        
+        GMSServices.provideAPIKey("<GOOGLE_API_KEY>")
 
         return true
     }
