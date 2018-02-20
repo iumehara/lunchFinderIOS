@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         router.showCategoryListScreen()
         
         GMSServices.provideAPIKey("<GOOGLE_API_KEY>")
-
+        
         return true
     }
 

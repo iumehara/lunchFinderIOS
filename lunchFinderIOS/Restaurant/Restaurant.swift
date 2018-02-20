@@ -3,23 +3,23 @@ import Foundation
 struct Restaurant {
     var id = 0
     var name = ""
+    var nameJp: String?
+    var website: String?
     var categories: [Category] = []
-    var geolocation: Geolocation = Geolocation(lat: 0, long: 0)
+    var geolocation: Geolocation? = nil
     
-    init(id: Int, name: String) {
+    init(
+        id: Int,
+        name: String,
+        nameJp: String? = nil,
+        website: String? = nil,
+        categories: [Category] = [],
+        geolocation: Geolocation? = nil
+    ) {
         self.id = id
         self.name = name
-    }
-    
-    init(id: Int, name: String, categories: [Category]) {
-        self.id = id
-        self.name = name
-        self.categories = categories
-    }
-
-    init(id: Int, name: String, categories: [Category], geolocation: Geolocation) {
-        self.id = id
-        self.name = name
+        self.nameJp = nameJp
+        self.website = website
         self.categories = categories
         self.geolocation = geolocation
     }

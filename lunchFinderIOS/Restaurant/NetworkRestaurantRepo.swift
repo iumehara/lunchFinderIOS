@@ -2,10 +2,12 @@ import Foundation
 import BrightFutures
 
 class NetworkRestaurantRepo: RestaurantRepo {
+    var session: URLSession = URLSession.shared
+    
     func get(id: Int) -> Future<Restaurant, NSError> {
         let promise = Promise<Restaurant, NSError>()
         
-        URLSession.shared.dataTask(
+        session.dataTask(
             with: URL(string: "http://localhost:8080/restaurants/\(id)")!,
             completionHandler: {(data: Data?, response: URLResponse?, error: Error?) in
                 self.objectCompletionHandler(data: data, response: response, error: error, promise: promise)

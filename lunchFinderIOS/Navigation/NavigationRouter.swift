@@ -32,6 +32,7 @@ struct NavigationRouter: Router {
         let restaurantDetailViewController = RestaurantDetailViewController(
             router: self,
             repo: NetworkRestaurantRepo(),
+            mapService: GoogleMapService(),
             id: id
         )
         

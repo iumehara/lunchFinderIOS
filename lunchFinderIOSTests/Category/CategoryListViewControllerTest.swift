@@ -30,14 +30,16 @@ class CategoryListViewControllerTest: XCTestCase {
     }
 
     func test_tableData() {
-        repo.responseFuture.onSuccess(callback: { _ in
-            let firstRowText = self.categoryListViewController.tableView.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel?.text!
-            let secondRowText = self.categoryListViewController.tableView.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel?.text!
+        repo.getAll_responseFuture.onSuccess(callback: { _ in
+            let table = self.categoryListViewController.tableView!
+            
+            let firstRowText = table.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel?.text!
+            let secondRowText = table.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel?.text!
             
             XCTAssertEqual(firstRowText, "Category A")
             XCTAssertEqual(secondRowText, "Category B")
         })
         
-        XCTAssertTrue(repo.responseFuture.isCompleted)
+        XCTAssertTrue(repo.getAll_responseFuture.isCompleted)
     }
 }

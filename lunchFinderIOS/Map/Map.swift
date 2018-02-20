@@ -23,14 +23,16 @@ class Map: UIView {
     }
     
     func setMarker(restaurant: Restaurant) {
-        let marker = GMSMarker()
-        marker.position = CLLocationCoordinate2D(
-            latitude: restaurant.geolocation.lat,
-            longitude: restaurant.geolocation.long
-        )
-        marker.title = restaurant.name
-        marker.snippet = restaurant.name
-        marker.map = self.mapView
+        if let geolocation = restaurant.geolocation {
+            let marker = GMSMarker()
+            marker.position = CLLocationCoordinate2D(
+                latitude: geolocation.lat,
+                longitude: geolocation.long
+            )
+            marker.title = restaurant.name
+            marker.snippet = restaurant.name
+            marker.map = self.mapView
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {

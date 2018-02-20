@@ -26,4 +26,15 @@ class CategoryDetailViewControllerTest: XCTestCase {
         
         XCTAssertTrue(repo.get_responseFuture.isCompleted)
     }
+
+    func test_tableData() {
+        repo.get_responseFuture
+            .onSuccess(callback: { _ in
+                let table = self.categoryDetailViewController.view.subviews[0] as! UITableView
+                XCTAssertEqual(table.numberOfRows(inSection: 0), 2)
+                XCTAssertEqual(table.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel?.text, "Restaurant A")
+            })
+        
+        XCTAssertTrue(repo.get_responseFuture.isCompleted)
+    }
 }
