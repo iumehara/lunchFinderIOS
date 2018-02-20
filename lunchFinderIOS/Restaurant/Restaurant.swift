@@ -25,14 +25,22 @@ struct Restaurant {
     }
 
     init(dictionary: [String: AnyObject]) {
+        if let idInt = dictionary["id"] as? Int {
+            self.id = idInt
+        }
+
         if let nameString = dictionary["name"] as? String {
             self.name = nameString
         }
 
-        if let idInt = dictionary["id"] as? Int {
-            self.id = idInt
+        if let nameJpString = dictionary["nameJp"] as? String? {
+            self.nameJp = nameJpString
         }
-        
+
+        if let website = dictionary["website"] as? String? {
+            self.website = website
+        }
+
         var categories: [Category] = []
         if let dictionaryArray = dictionary["categories"] as? [NSDictionary] {
             for dictionary: NSDictionary in dictionaryArray {
@@ -53,6 +61,8 @@ extension Restaurant: Equatable {
     static func ==(lhs: Restaurant, rhs: Restaurant) -> Bool {
         return lhs.id == rhs.id &&
             lhs.name == rhs.name &&
+            lhs.nameJp == rhs.nameJp &&
+            lhs.website == rhs.website &&
             lhs.categories == rhs.categories &&
             lhs.geolocation == rhs.geolocation
     }

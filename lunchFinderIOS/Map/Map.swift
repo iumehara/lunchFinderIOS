@@ -29,7 +29,7 @@ class Map: UIView {
                 latitude: geolocation.lat,
                 longitude: geolocation.long
             )
-            marker.title = restaurant.name
+            marker.title = restaurant.nameJp ?? restaurant.name
             marker.snippet = restaurant.name
             marker.map = self.mapView
         }
