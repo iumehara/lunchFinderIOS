@@ -51,7 +51,6 @@ class RestaurantDetailViewControllerTest: XCTestCase {
                 let table = self.controller.view.subviews[1] as! UITableView
                 XCTAssertEqual(table.numberOfRows(inSection: 0), 2)
                 XCTAssertEqual(table.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel?.text, "Category A")
-                XCTAssertEqual(table.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel?.text, "Category B")
             })
         XCTAssertTrue(repo.get_responseFuture.isCompleted)
     }

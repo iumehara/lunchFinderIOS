@@ -9,9 +9,9 @@ class NetworkRestaurantRepoTest: XCTestCase {
         super.setUp()
 
         self.continueAfterFailure = false
-        repo = NetworkRestaurantRepo()
-        mockSession = MockSession()
-        repo.session = mockSession
+        let mockURLSessionProvider = MockURLSessionProvider()
+        mockSession = mockURLSessionProvider.urlSession as! MockSession
+        repo = NetworkRestaurantRepo(urlSessionProvider: mockURLSessionProvider)
     }
     
     func test_get_successfullyConvertsRequiredFields() {
@@ -23,7 +23,7 @@ class NetworkRestaurantRepoTest: XCTestCase {
         mockSession.completionHandler!(restaurantData, nil, nil)
         
         future.onSuccess { (response) -> Void in
-            XCTAssertEqual(self.mockSession.url?.description, "http://localhost:8080/restaurants/1")
+            XCTAssertEqual(self.mockSession.url?.description, "http://testURL/restaurants/1")
             XCTAssertEqual(response, Restaurant(id: 1, name: "Restaurant A"))
             XCTAssertTrue(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled)
         }

@@ -1,9 +1,11 @@
 import UIKit
+import Foundation
 
 struct NavigationRouter: Router {
     let navigationController: UINavigationController
     let animated: Bool
-
+    let urlSessionProvider = NetworkURLSessionProvider()
+    
     init(navigationController: UINavigationController, animated: Bool) {
         self.navigationController = navigationController
         self.animated = animated
@@ -12,7 +14,7 @@ struct NavigationRouter: Router {
     func showCategoryListScreen() {
         let categoryListViewController = CategoryListViewController(
             router: self,
-            repo: NetworkCategoryRepo()
+            repo: NetworkCategoryRepo(urlSessionProvider: urlSessionProvider)
         )
 
         navigationController.setViewControllers([categoryListViewController], animated: animated)
@@ -21,7 +23,7 @@ struct NavigationRouter: Router {
     func showCategoryDetailScreen(id: Int) {
         let categoryDetailViewController = CategoryDetailViewController(
             router: self,
-            repo: NetworkCategoryRepo(),
+            repo: NetworkCategoryRepo(urlSessionProvider: urlSessionProvider),
             mapService: GoogleMapService(),
             id: id
         )
@@ -32,7 +34,7 @@ struct NavigationRouter: Router {
     func showRestaurantDetailScreen(id: Int) {
         let restaurantDetailViewController = RestaurantDetailViewController(
             router: self,
-            repo: NetworkRestaurantRepo(),
+            repo: NetworkRestaurantRepo(urlSessionProvider: urlSessionProvider),
             mapService: GoogleMapService(),
             id: id
         )

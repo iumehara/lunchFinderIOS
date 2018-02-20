@@ -9,9 +9,9 @@ class NetworkCategoryRepoTest: XCTestCase {
         super.setUp()
 
         self.continueAfterFailure = false
-        repo = NetworkCategoryRepo()
-        mockSession = MockSession()
-        repo.session = mockSession
+        let urlSessionProvider = MockURLSessionProvider()
+        self.mockSession = urlSessionProvider.urlSession as! MockSession
+        repo = NetworkCategoryRepo(urlSessionProvider: urlSessionProvider)
     }
     
     func test_get_success() {
@@ -23,7 +23,7 @@ class NetworkCategoryRepoTest: XCTestCase {
         mockSession.completionHandler!(categoryData, nil, nil)
 
         future.onSuccess { (response) -> Void in
-            XCTAssertEqual(self.mockSession.url?.description, "http://localhost:8080/categories/1")
+            XCTAssertEqual(self.mockSession.url?.description, "http://testURL/categories/1")
             XCTAssertEqual(response, Category(id: 1, name: "Category A", restaurants: []))
             XCTAssertTrue(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled)
         }
@@ -41,7 +41,7 @@ class NetworkCategoryRepoTest: XCTestCase {
         mockSession.completionHandler!(categoriesData, nil, nil)
         
         future.onSuccess { (response) -> Void in
-            XCTAssertEqual(self.mockSession.url?.description, "http://localhost:8080/categories")
+            XCTAssertEqual(self.mockSession.url?.description, "http://testURL/categories")
             let expectedCategories = [Category(id: 1, name: "Category A", restaurants: []), Category(id: 2, name: "Category B", restaurants: [])]
             XCTAssertEqual(response, expectedCategories)
             XCTAssertTrue(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled)

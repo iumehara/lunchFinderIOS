@@ -28,6 +28,9 @@
 		245CB0C8203ABEB7006A0B5F /* MapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0C7203ABEB7006A0B5F /* MapService.swift */; };
 		245CB0CA203ABF4E006A0B5F /* GoogleMapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0C9203ABF4E006A0B5F /* GoogleMapService.swift */; };
 		245CB0CF203AC66C006A0B5F /* SpyMapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0CE203AC66C006A0B5F /* SpyMapService.swift */; };
+		245CB0D2203BCC1D006A0B5F /* NetworkURLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0D1203BCC1D006A0B5F /* NetworkURLSessionProvider.swift */; };
+		245CB0D4203BE6D8006A0B5F /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0D3203BE6D8006A0B5F /* URLSessionProvider.swift */; };
+		245CB0D7203BEC09006A0B5F /* MockURLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0D6203BEC09006A0B5F /* MockURLSessionProvider.swift */; };
 		248D364A202D71F5000C4EF3 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248D3649202D71F5000C4EF3 /* Category.swift */; };
 		248D3650202D7F5D000C4EF3 /* CategoryListViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248D364F202D7F5D000C4EF3 /* CategoryListViewControllerTest.swift */; };
 		248D3653202D8A74000C4EF3 /* DummyRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 248D3652202D8A74000C4EF3 /* DummyRouter.swift */; };
@@ -78,6 +81,9 @@
 		245CB0C7203ABEB7006A0B5F /* MapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapService.swift; sourceTree = "<group>"; };
 		245CB0C9203ABF4E006A0B5F /* GoogleMapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMapService.swift; sourceTree = "<group>"; };
 		245CB0CE203AC66C006A0B5F /* SpyMapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyMapService.swift; sourceTree = "<group>"; };
+		245CB0D1203BCC1D006A0B5F /* NetworkURLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkURLSessionProvider.swift; sourceTree = "<group>"; };
+		245CB0D3203BE6D8006A0B5F /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
+		245CB0D6203BEC09006A0B5F /* MockURLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLSessionProvider.swift; sourceTree = "<group>"; };
 		248D3649202D71F5000C4EF3 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		248D364F202D7F5D000C4EF3 /* CategoryListViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListViewControllerTest.swift; sourceTree = "<group>"; };
 		248D3652202D8A74000C4EF3 /* DummyRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyRouter.swift; sourceTree = "<group>"; };
@@ -184,6 +190,24 @@
 			path = Map;
 			sourceTree = "<group>";
 		};
+		245CB0D0203BCA10006A0B5F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				245CB0D1203BCC1D006A0B5F /* NetworkURLSessionProvider.swift */,
+				245CB0D3203BE6D8006A0B5F /* URLSessionProvider.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		245CB0D5203BEBD2006A0B5F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				24A435B3203699DD000EECAF /* MockSession.swift */,
+				245CB0D6203BEC09006A0B5F /* MockURLSessionProvider.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		248D364E202D7F06000C4EF3 /* Category */ = {
 			isa = PBXGroup;
 			children = (
@@ -230,6 +254,7 @@
 		249DD903200F5263006031A1 /* lunchFinderIOS */ = {
 			isa = PBXGroup;
 			children = (
+				245CB0D0203BCA10006A0B5F /* Network */,
 				245CB0BB203A612F006A0B5F /* Map */,
 				240B7ADF2034108F005959AB /* Restaurant */,
 				249DD929200F53BF006031A1 /* Category */,
@@ -246,12 +271,12 @@
 		249DD918200F5263006031A1 /* lunchFinderIOSTests */ = {
 			isa = PBXGroup;
 			children = (
+				245CB0D5203BEBD2006A0B5F /* Network */,
 				245CB0CB203AC5FB006A0B5F /* Map */,
 				245CB0C0203AAD5E006A0B5F /* Restaurant */,
 				248D3651202D8A1F000C4EF3 /* Navigation */,
 				248D364E202D7F06000C4EF3 /* Category */,
 				249DD91B200F5263006031A1 /* Info.plist */,
-				24A435B3203699DD000EECAF /* MockSession.swift */,
 			);
 			path = lunchFinderIOSTests;
 			sourceTree = "<group>";
@@ -459,6 +484,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				245CB0D4203BE6D8006A0B5F /* URLSessionProvider.swift in Sources */,
 				245CB0CA203ABF4E006A0B5F /* GoogleMapService.swift in Sources */,
 				245CB0BD203A6142006A0B5F /* Geolocation.swift in Sources */,
 				249DD92B200F53DB006031A1 /* CategoryListViewController.swift in Sources */,
@@ -475,6 +501,7 @@
 				245CB0BA2039C7EB006A0B5F /* Map.swift in Sources */,
 				248D364A202D71F5000C4EF3 /* Category.swift in Sources */,
 				2432517C20396BD4007CBEF9 /* RestaurantTableViewProtocols.swift in Sources */,
+				245CB0D2203BCC1D006A0B5F /* NetworkURLSessionProvider.swift in Sources */,
 				2453F2A7202D8C3F00322017 /* CategoryRepo.swift in Sources */,
 				240B7AE1203410A0005959AB /* Restaurant.swift in Sources */,
 				245CB0BF203A9488006A0B5F /* RestaurantBuilder.swift in Sources */,
@@ -485,6 +512,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				245CB0D7203BEC09006A0B5F /* MockURLSessionProvider.swift in Sources */,
 				24A435B4203699DD000EECAF /* MockSession.swift in Sources */,
 				2453F2AB202D8D1300322017 /* SuccessStubCategoryRepo.swift in Sources */,
 				24A435B020368420000EECAF /* CategoryDetailViewControllerTest.swift in Sources */,
