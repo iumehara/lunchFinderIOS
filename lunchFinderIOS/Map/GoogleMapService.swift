@@ -14,4 +14,10 @@ class GoogleMapService: MapService {
     func setMarker(restaurant: Restaurant) {
         map.setMarker(restaurant: restaurant)
     }
+    
+    func setMarkers(restaurants: [Restaurant]) {
+        for restaurant in restaurants {
+            map.setMarker(restaurant: restaurant)
+        }
+    }
 }

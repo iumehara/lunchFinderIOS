@@ -13,4 +13,9 @@ class SpyMapService: MapService {
     func setMarker(restaurant: Restaurant) {
         setMarker_wasCalledWith = restaurant
     }
+
+    var setMarkers_wasCalledWith: [Restaurant] = []
+    func setMarkers(restaurants: [Restaurant]) {
+        setMarkers_wasCalledWith = restaurants
+    }
 }

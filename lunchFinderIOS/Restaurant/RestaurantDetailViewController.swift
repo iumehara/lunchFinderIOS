@@ -8,15 +8,10 @@ class RestaurantDetailViewController: UIViewController {
     private let categoryTable: UITableView
     private let categoryTableViewProtocols: CategoryTableViewProtocols
 
-    init(
-        router: Router,
-        repo: RestaurantRepo,
-        mapService: MapService,
-        id: Int
-    ) {
+    init(router: Router, repo: RestaurantRepo, mapService: MapService, id: Int) {
         self.repo = repo
-        self.id = id
         self.mapService = mapService
+        self.id = id
         self.map = mapService.createMap()
         self.categoryTable = UITableView()
         self.categoryTableViewProtocols = CategoryTableViewProtocols(router: router)

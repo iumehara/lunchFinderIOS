@@ -22,6 +22,7 @@ struct NavigationRouter: Router {
         let categoryDetailViewController = CategoryDetailViewController(
             router: self,
             repo: NetworkCategoryRepo(),
+            mapService: GoogleMapService(),
             id: id
         )
         
