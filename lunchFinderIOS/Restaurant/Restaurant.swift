@@ -24,15 +24,13 @@ struct Restaurant {
         self.geolocation = geolocation
     }
 
-    init(dictionary: [String: AnyObject]) {
-        if let idInt = dictionary["id"] as? Int {
-            self.id = idInt
-        }
+    init?(dictionary: [String: AnyObject]) {
+        guard let idInt = dictionary["id"] as! Int? else { return nil }
+        self.id = idInt
 
-        if let nameString = dictionary["name"] as? String {
-            self.name = nameString
-        }
-
+        guard let nameString = dictionary["name"] as! String? else { return nil }
+        self.name = nameString
+        
         if let nameJpString = dictionary["nameJp"] as? String? {
             self.nameJp = nameJpString
         }
@@ -44,8 +42,9 @@ struct Restaurant {
         var categories: [Category] = []
         if let dictionaryArray = dictionary["categories"] as? [NSDictionary] {
             for dictionary: NSDictionary in dictionaryArray {
-                let category = Category(dictionary: dictionary as! [String: AnyObject])
-                categories.append(category)
+                if let category = Category(dictionary: dictionary as! [String: AnyObject]) {
+                    categories.append(category)
+                }
             }
             
             self.categories = categories

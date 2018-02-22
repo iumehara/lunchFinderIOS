@@ -12,7 +12,7 @@ class NetworkCategoryRepo: CategoryRepo {
     
     func getAll() -> Future<[Category], NSError> {
         let promise = Promise<[Category], NSError>()
-
+        
         session.dataTask(
             with: URL(string: "\(baseURL)categories")!,
             completionHandler: {(data: Data?, response: URLResponse?, error: Error?) in
@@ -56,45 +56,62 @@ class NetworkCategoryRepo: CategoryRepo {
     }
     
     private func arrayCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<[Category], NSError>) {
-        if let actualData = data {
-            guard let dictionaryArray = try? JSONSerialization.jsonObject(with: actualData, options: []) as! [NSDictionary] else {
-                return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
-            }
-            
-            var categories = [Category]()
-            for dictionary: NSDictionary in dictionaryArray {
-                let category = Category(dictionary: dictionary as! [String: AnyObject])
-                categories.append(category)
-            }
-            
-            return promise.success(categories)
+        if error != nil {
+            return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
         }
         
-        return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
+        guard let nonNulldata = data else {
+            return promise.failure(NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
+        }
+        
+        guard let dictionaryArray = try? JSONSerialization.jsonObject(with: nonNulldata, options: []) as! [[String: AnyObject]] else {
+            return promise.failure(NSError(domain: "completionHandler_dataCannotBeDeserializedToDictionayArray", code: 0, userInfo: nil))
+        }
+        
+        var categories = [Category]()
+        for dictionary in dictionaryArray {
+            guard let category = Category(dictionary: dictionary) else {
+                return promise.failure(NSError(domain: "completionHandler_jsonCannotInitializeCategory", code: 0, userInfo: nil))
+            }
+            categories.append(category)
+        }
+        
+        return promise.success(categories)
     }
-    
+
     private func objectCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Category, NSError>) {
-        if let actualData = data {
-            guard let dictionary = try? JSONSerialization.jsonObject(with: actualData, options: []) as! NSDictionary else {
-                return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
-            }
-            
-            let category = Category(dictionary: dictionary as! [String: AnyObject])
-            return promise.success(category)
+        if error != nil {
+            return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
         }
         
-        return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
+        guard let nonNullData = data else {
+            return promise.failure(NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
+        }
+        
+        guard let dictionary = try? JSONSerialization.jsonObject(with: nonNullData, options: []) as! [String: AnyObject] else {
+            return promise.failure(NSError(domain: "completionHandler_dataCannotBeDeserializedToDictionary", code: 0, userInfo: nil))
+        }
+        
+        guard let category = Category(dictionary: dictionary) else {
+            return promise.failure(NSError(domain: "completionHandler_jsonCannotInitializeCategory", code: 0, userInfo: nil))
+        }
+        
+        return promise.success(category)
     }
     
     private func intCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Int, NSError>) {
-        guard let nonNullData = data else {
-            return promise.failure(NSError(domain: "intCompletionHandler_dataIsNull", code: 0, userInfo: nil))
+        if error != nil {
+            return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
         }
         
-        guard let categoryId = try? JSONSerialization.jsonObject(with: nonNullData, options: .allowFragments) as! Int else {
-            return promise.failure(NSError(domain: "intCompletionHandler_dataCannotBeDeserialized", code: 0, userInfo: nil))
+        guard let nonNullData = data else {
+            return promise.failure(NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
+        }
+        
+        guard let int = try? JSONSerialization.jsonObject(with: nonNullData, options: .allowFragments) as! Int else {
+            return promise.failure(NSError(domain: "completionHandler_dataCannotBeDeserializedToInt", code: 0, userInfo: nil))
         }
 
-        return promise.success(categoryId)
+        return promise.success(int)
     }
 }

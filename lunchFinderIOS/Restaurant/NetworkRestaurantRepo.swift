@@ -24,15 +24,18 @@ class NetworkRestaurantRepo: RestaurantRepo {
     }
     
     private func objectCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Restaurant, NSError>) {
-        if let actualData = data {
-            guard let dictionary = try? JSONSerialization.jsonObject(with: actualData, options: []) as! NSDictionary else {
-                return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
-            }
-            
-            let restaurant = Restaurant(dictionary: dictionary as! [String: AnyObject])
-            return promise.success(restaurant)
+        guard let nonNilData = data else {
+            return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
         }
         
-        return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
+        guard let dictionary = try? JSONSerialization.jsonObject(with: nonNilData, options: []) as! [String: AnyObject] else {
+            return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
+        }
+        
+        guard let restaurant = Restaurant(dictionary: dictionary) else {
+            return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
+        }
+        
+        return promise.success(restaurant)
     }
 }

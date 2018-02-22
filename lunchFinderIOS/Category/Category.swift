@@ -11,24 +11,22 @@ struct Category {
         self.restaurants = restaurants
     }
 
-    init(dictionary: [String: AnyObject]) {
-        if let nameString = dictionary["name"] as? String {
-            self.name = nameString
-        }
-        if let idInt = dictionary["id"] as? Int {
-            self.id = idInt
-        }
+    init?(dictionary: [String: AnyObject]) {
+        guard let idInt = dictionary["id"] as! Int? else { return nil }
+        self.id = idInt
+
+        guard let nameString = dictionary["name"] as? String else { return nil }
+        self.name = nameString
         
         var restaurants: [Restaurant] = []
-        
-        if let dictionaryArray = dictionary["restaurants"] as? [NSDictionary] {
-            for dictionary: NSDictionary in dictionaryArray {
-                let restaurant = Restaurant(dictionary: dictionary as! [String: AnyObject])
-                restaurants.append(restaurant)
+        if let dictionaryArray = dictionary["restaurants"] as? [[String: AnyObject]] {
+            for dictionary in dictionaryArray {
+                if let restaurant = Restaurant(dictionary: dictionary) {
+                    restaurants.append(restaurant)
+                }
             }
-            
-            self.restaurants = restaurants
         }
+        self.restaurants = restaurants
     }
 }
 
