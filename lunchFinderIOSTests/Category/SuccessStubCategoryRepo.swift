@@ -33,4 +33,11 @@ class SuccessStubCategoryRepo: CategoryRepo {
         getAll_responseFuture = promise.future
         return getAll_responseFuture
     }
+    
+    var create_responseFuture = Future<Int, NSError>()
+    func create(newCategory: NewCategory) -> Future<Int, NSError> {
+        let promise = Promise<Int, NSError>()
+        create_responseFuture = promise.future
+        return create_responseFuture
+    }
 }

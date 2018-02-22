@@ -20,6 +20,7 @@ class CategoryListViewController: UITableViewController {
         super.viewDidLoad()
 
         title = "Categories"
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(addTapped))
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
 
@@ -42,5 +43,10 @@ class CategoryListViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedCategory = categories[indexPath.row]
         router.showCategoryDetailScreen(id: selectedCategory.id)
+    }
+    
+    @objc
+    func addTapped() {
+        router.showNewCategoryScreen()
     }
 }
