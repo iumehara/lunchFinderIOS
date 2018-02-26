@@ -26,6 +26,8 @@ struct NewRestaurant {
         dictionary["name"] = self.name
         dictionary["nameJp"] = nameJp ?? nil
         dictionary["website"] = website ?? nil
+        dictionary["geolocation"] = geolocation != nil ? geolocation!.dictionary() : nil
+        dictionary["categoryIds"] = categoryIds
         return dictionary
     }
 }

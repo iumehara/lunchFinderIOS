@@ -1,20 +1,25 @@
 import UIKit
 
 class TextInputRow: UIView {
-    private let textLabel: UILabel
-    private let textInput: UITextField
+    private let textLabel: UILabel = UILabel()
+    private let textInput: UITextField = UITextField()
+    private let labelWidth: CGFloat
 
-    init(labelText: String) {
-        self.textLabel = UILabel()
+    convenience init(labelText: String) {
+        self.init(labelText: labelText, labelWidth: CGFloat(100))
+    }
+
+    init(labelText: String, labelWidth: CGFloat) {
         self.textLabel.text = labelText
-        self.textInput = UITextField()
-        
+        self.labelWidth = labelWidth
+
         super.init(frame: CGRect.zero)
-        
+
         setupSubviews()
         activateConstraints()
     }
-    
+
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("error")
     }
@@ -32,19 +37,17 @@ class TextInputRow: UIView {
     }
     
     func activateConstraints() {
-        let margins = self.safeAreaLayoutGuide
-        
         textLabel.translatesAutoresizingMaskIntoConstraints = false
-        textLabel.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
+        textLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         textLabel.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
-        textLabel.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
-        textLabel.widthAnchor.constraint(equalToConstant: CGFloat(100)).isActive = true
+        textLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        textLabel.widthAnchor.constraint(equalToConstant: labelWidth).isActive = true
         
         textInput.translatesAutoresizingMaskIntoConstraints = false
-        textInput.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
+        textInput.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         textInput.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
         textInput.leadingAnchor.constraint(equalTo: textLabel.trailingAnchor).isActive = true
-        textInput.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+        textInput.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
     }
     
     func text() -> String? {

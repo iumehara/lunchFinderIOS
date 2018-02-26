@@ -11,11 +11,12 @@ class RestaurantFormTest: XCTestCase {
     }
     
     func test_subviews() {
+        let subviews = form.subviews
         let subviewTypes = form.subviews.map { view in
             return String(describing: type(of: view))
         }
         
-        XCTAssertEqual(subviewTypes.count, 4)
+        XCTAssertEqual(subviews.count, 4)
         XCTAssertTrue(subviewTypes.contains("TextInputRow"))
         XCTAssertTrue(subviewTypes.contains("MultipleSelectInput"))
     }

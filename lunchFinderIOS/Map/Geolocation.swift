@@ -15,6 +15,13 @@ struct Geolocation {
             self.long = longDouble
         }
     }
+    
+    func dictionary() -> [String: Double] {
+        var dictionary = [String: Double]()
+        dictionary["lat"] = lat
+        dictionary["long"] = long
+        return dictionary
+    }
 }
 
 extension Geolocation: Equatable {

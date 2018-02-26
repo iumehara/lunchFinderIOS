@@ -5,10 +5,14 @@ class RestaurantForm: UIView {
     private let nameInputRow: TextInputRow = TextInputRow(labelText: "name")
     private let nameJpInputRow: TextInputRow = TextInputRow(labelText: "店名")
     private let websiteInputRow: TextInputRow = TextInputRow(labelText: "website")
+    private let geolocationLabel: UILabel = UILabel()
+    private let geolocationLatInputRow: TextInputRow = TextInputRow(labelText: "Lat", labelWidth: CGFloat(40))
+    private let geolocationLongInputRow: TextInputRow = TextInputRow(labelText: "Long", labelWidth: CGFloat(40))
     private let categoriesInputRow: MultipleSelectInput = MultipleSelectInput(labelText: "categories")
 
     init(categoryRepo: CategoryRepo) {
         self.categoryRepo = categoryRepo
+        self.geolocationLabel.text = "Geolocation"
 
         super.init(frame: CGRect.zero)
 
@@ -23,12 +27,12 @@ class RestaurantForm: UIView {
 
     func fetchData() {
         categoryRepo.getAll()
-                .onSuccess { categories in
-                    let options = categories.map { category in
-                        return SelectOption(id: category.id, name: category.name)
-                    }
-                    self.categoriesInputRow.setOptions(selectOptions: options)
+            .onSuccess { categories in
+                let options = categories.map { category in
+                    return SelectOption(id: category.id, name: category.name)
                 }
+                self.categoriesInputRow.setOptions(selectOptions: options)
+            }
     }
 
     func setupSubviews() {
@@ -37,6 +41,9 @@ class RestaurantForm: UIView {
         addSubview(nameInputRow)
         addSubview(nameJpInputRow)	
         addSubview(websiteInputRow)
+        addSubview(geolocationLabel)
+        addSubview(geolocationLatInputRow)
+        addSubview(geolocationLongInputRow)
         addSubview(categoriesInputRow)
     }
     
@@ -59,8 +66,26 @@ class RestaurantForm: UIView {
         websiteInputRow.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         websiteInputRow.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
 
+        geolocationLabel.translatesAutoresizingMaskIntoConstraints = false
+        geolocationLabel.topAnchor.constraint(equalTo: websiteInputRow.bottomAnchor).isActive = true
+        geolocationLabel.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
+        geolocationLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        geolocationLabel.widthAnchor.constraint(equalToConstant: CGFloat(100)).isActive = true
+
+        geolocationLatInputRow.translatesAutoresizingMaskIntoConstraints = false
+        geolocationLatInputRow.topAnchor.constraint(equalTo: websiteInputRow.bottomAnchor).isActive = true
+        geolocationLatInputRow.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
+        geolocationLatInputRow.leadingAnchor.constraint(equalTo: geolocationLabel.trailingAnchor).isActive = true
+        geolocationLatInputRow.widthAnchor.constraint(equalToConstant: CGFloat(130)).isActive = true
+
+        geolocationLongInputRow.translatesAutoresizingMaskIntoConstraints = false
+        geolocationLongInputRow.topAnchor.constraint(equalTo: websiteInputRow.bottomAnchor).isActive = true
+        geolocationLongInputRow.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
+        geolocationLongInputRow.leadingAnchor.constraint(equalTo: geolocationLatInputRow.trailingAnchor).isActive = true
+        geolocationLongInputRow.widthAnchor.constraint(equalToConstant: CGFloat(130)).isActive = true
+
         categoriesInputRow.translatesAutoresizingMaskIntoConstraints = false
-        categoriesInputRow.topAnchor.constraint(equalTo: websiteInputRow.bottomAnchor).isActive = true
+        categoriesInputRow.topAnchor.constraint(equalTo: geolocationLabel.bottomAnchor).isActive = true
         categoriesInputRow.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         categoriesInputRow.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
 
@@ -70,12 +95,19 @@ class RestaurantForm: UIView {
     func newRestaurant() -> NewRestaurant? {
         guard let name = nameInputRow.text() else { return nil }
 
+        var geolocation: Geolocation? = nil
+        if let latString = geolocationLatInputRow.text(), let longString = self.geolocationLongInputRow.text() {
+            if let lat = Double(latString), let long = Double(longString) {
+                geolocation = Geolocation(lat: lat, long: long)
+            }
+        }
+        
         return NewRestaurant(
             name: name,
             nameJp: nameJpInputRow.text(),
             website: websiteInputRow.text(),
             categoryIds: categoriesInputRow.ids(),
-            geolocation: nil
+            geolocation: geolocation
         )
     }
 }

@@ -43,6 +43,8 @@ class NewRestaurantViewController: UIViewController {
     
     @objc
     func saveTapped() {
-        print("saveTapped \(form.newRestaurant())")
+        guard let newRestaurant = form.newRestaurant() else { return }
+        repo.create(newRestaurant: newRestaurant)
+            .onSuccess { restaurantId in self.router.showRestaurantDetailScreen(id: restaurantId) }
     }
 }
