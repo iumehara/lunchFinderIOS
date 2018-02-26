@@ -56,4 +56,14 @@ struct NavigationRouter: Router {
         
         navigationController.pushViewController(restaurantDetailViewController, animated: animated)
     }
+    
+    func showNewRestaurantScreen() {
+        let newRestaurantViewController = NewRestaurantViewController(
+            router: self,
+            repo: restaurantRepo,
+            categoryRepo: categoryRepo
+        )
+        
+        navigationController.pushViewController(newRestaurantViewController, animated: animated)
+    }
 }

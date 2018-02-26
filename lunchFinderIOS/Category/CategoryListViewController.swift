@@ -9,7 +9,7 @@ class CategoryListViewController: UITableViewController {
     init(router: Router, repo: CategoryRepo) {
         self.router = router
         self.repo = repo
-        super.init(nibName: nil, bundle: nil)
+        super.init(nibName: nil, bundle:  nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -19,8 +19,19 @@ class CategoryListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "Categories"
-        navigationItem.rightBarButtonItem = UIBarButtonItem.init(barButtonSystemItem: UIBarButtonSystemItem.add, target: self, action: #selector(addTapped))
+        title = "LunchFinder"
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(
+            title: "Add Category",
+            style: UIBarButtonItemStyle.plain,
+            target: self,
+            action: #selector(addCategoryTapped)
+        )
+        navigationItem.leftBarButtonItem = UIBarButtonItem.init(
+            title: "Add Restaurant",
+            style: UIBarButtonItemStyle.plain,
+            target: self,
+            action: #selector(addRestaurantTapped)
+        )
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
 
@@ -46,7 +57,12 @@ class CategoryListViewController: UITableViewController {
     }
     
     @objc
-    func addTapped() {
+    func addCategoryTapped() {
         router.showNewCategoryScreen()
+    }
+
+    @objc
+    func addRestaurantTapped() {
+        router.showNewRestaurantScreen()
     }
 }

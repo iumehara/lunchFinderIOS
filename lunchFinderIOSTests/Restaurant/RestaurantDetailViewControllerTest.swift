@@ -30,10 +30,13 @@ class RestaurantDetailViewControllerTest: XCTestCase {
     }
     
     func test_subviews() {
-        let subviews = self.controller.view.subviews
-        XCTAssertEqual(subviews.count, 2)
-        XCTAssertEqual(String(describing: type(of: subviews[0])), "Map")
-        XCTAssertEqual(String(describing: type(of: subviews[1])), "UITableView")
+        let subviewTypes = controller.view.subviews.map { view in
+            return String(describing: type(of: view))
+        }
+
+        XCTAssertEqual(subviewTypes.count, 2)
+        XCTAssertTrue(subviewTypes.contains("Map"))
+        XCTAssertTrue(subviewTypes.contains("UITableView"))
     }
     
     func test_map() {

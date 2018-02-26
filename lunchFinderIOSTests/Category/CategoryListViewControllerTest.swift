@@ -18,7 +18,7 @@ class CategoryListViewControllerTest: XCTestCase {
     func test_title() {
         let title = categoryListViewController.title
 
-        XCTAssertEqual(title, "Categories")
+        XCTAssertEqual(title, "LunchFinder")
     }
 
     func test_numberOfSections() {

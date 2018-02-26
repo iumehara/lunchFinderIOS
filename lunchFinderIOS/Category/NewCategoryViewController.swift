@@ -5,7 +5,6 @@ class NewCategoryViewController: UIViewController {
     private let repo: CategoryRepo
     private let nameLabel: UILabel
     private let nameInput: UITextField
-    private let cellIdentifier: String = String(describing: UITableViewCell.self)
     
     init(router: Router, repo: CategoryRepo) {
         self.router = router
@@ -63,13 +62,9 @@ class NewCategoryViewController: UIViewController {
         if let name = nameInput.text {
             let newCategory = NewCategory(name: name)
             repo.create(newCategory: newCategory)
-                .onSuccess { categoryId in
-                    self.router.showCategoryDetailScreen(id: categoryId)
-                }
-                .onFailure { error in
-                }
-                .onComplete { value in
-                }
+                .onSuccess { categoryId in self.router.showCategoryDetailScreen(id: categoryId) }
+                .onFailure { error in }
+                .onComplete { value in }
         }
     }
 }
