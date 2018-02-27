@@ -16,7 +16,7 @@ class RestaurantFormTest: XCTestCase {
             return String(describing: type(of: view))
         }
         
-        XCTAssertEqual(subviews.count, 4)
+        XCTAssertEqual(subviews.count, 7)
         XCTAssertTrue(subviewTypes.contains("TextInputRow"))
         XCTAssertTrue(subviewTypes.contains("MultipleSelectInput"))
     }

@@ -6,4 +6,5 @@ struct DummyRouter: Router {
     func showNewCategoryScreen() {}
     func showRestaurantDetailScreen(id: Int) {}
     func showNewRestaurantScreen() {}
+    func showEditRestaurantScreen(id: Int) {}
 }

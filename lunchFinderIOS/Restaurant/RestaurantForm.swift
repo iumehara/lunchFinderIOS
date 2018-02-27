@@ -34,6 +34,22 @@ class RestaurantForm: UIView {
                 self.categoriesInputRow.setOptions(selectOptions: options)
             }
     }
+    
+    func setDefaultValues(restaurant: Restaurant) {
+        nameInputRow.setDefaultValue(defaultValue: restaurant.name)
+        if let nameJp = restaurant.nameJp {
+            nameJpInputRow.setDefaultValue(defaultValue: nameJp)
+        }
+        if let website = restaurant.website {
+            websiteInputRow.setDefaultValue(defaultValue: website)
+        }
+        if let geolocation = restaurant.geolocation {
+            geolocationLatInputRow.setDefaultValue(defaultValue: String(describing: geolocation.lat))
+            geolocationLongInputRow.setDefaultValue(defaultValue: String(describing: geolocation.long))
+        }
+        
+        categoriesInputRow.setDefaultValues(options: restaurant.categories.map { cat in SelectOption(id: cat.id, name: cat.name) })
+    }
 
     func setupSubviews() {
         self.backgroundColor = UIColor.white

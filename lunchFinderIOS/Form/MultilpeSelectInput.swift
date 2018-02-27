@@ -90,18 +90,33 @@ class MultipleSelectInput: UIView {
         return names
     }
     
+    func setDefaultValues(options: [SelectOption]) {
+        for option in options {
+            let filteredOptions = options.filter { option in !names().contains(option.name) }
+            let selectInput = SingleSelectInput(options: filteredOptions)
+            
+            addToSubviewAndActivateContraints(selectInput: selectInput)
+            let input = selectInput.subviews[0] as! UITextField
+            input.text = option.name
+        }
+    }
+    
     @objc
     func addTapped(sender: UIButton) {
         let filteredOptions = options.filter { option in !names().contains(option.name) }
         let selectInput = SingleSelectInput(options: filteredOptions)
 
+        addToSubviewAndActivateContraints(selectInput: selectInput)
+    }
+    
+    func addToSubviewAndActivateContraints(selectInput: SingleSelectInput) {
         selectInputCollection.addSubview(selectInput)
         
         selectInput.translatesAutoresizingMaskIntoConstraints = false
         selectInput.topAnchor.constraint(equalTo: selectInputBottomAnchor).isActive = true
         selectInput.leadingAnchor.constraint(equalTo: selectInputCollection.leadingAnchor).isActive = true
         selectInput.trailingAnchor.constraint(equalTo: selectInputCollection.trailingAnchor).isActive = true
-
+        
         selectInputCollectionHeightConstraint.isActive = false
         
         let height = CGFloat(selectInputCollection.subviews.count * 50)

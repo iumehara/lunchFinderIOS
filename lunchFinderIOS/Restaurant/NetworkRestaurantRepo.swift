@@ -42,6 +42,25 @@ class NetworkRestaurantRepo: RestaurantRepo {
         return promise.future
     }
     
+    func update(id: Int, newRestaurant: NewRestaurant) -> Future<Void, NSError> {
+        let promise = Promise<Void, NSError>()
+        
+        var request = URLRequest(url: URL(string: "\(baseURL)restaurants/\(id)")!)
+        request.httpMethod = "PUT"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.httpBody = try! JSONSerialization.data(withJSONObject: newRestaurant.dictionary(), options: [])
+        
+        session.dataTask(
+            with: request,
+            completionHandler: {(data: Data?, response: URLResponse?, error: Error?) in
+                self.voidCompletionHandler(data: data, response: response, error: error, promise: promise)
+            }
+        ).resume()
+        
+        return promise.future
+    }
+    
     private func objectCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Restaurant, NSError>) {
         guard let nonNilData = data else {
             return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
@@ -72,5 +91,22 @@ class NetworkRestaurantRepo: RestaurantRepo {
         }
         
         return promise.success(int)
+    }
+    
+    private func voidCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Void, NSError>) {
+        if error != nil {
+            return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
+        }
+        
+        guard let httpResponse = response as? HTTPURLResponse else {
+            return promise.failure(NSError(domain: "completionHandler_responseIsNotValid", code: 0, userInfo: nil))
+        }
+        
+        guard httpResponse.statusCode == 200 else {
+            print("--status code \(httpResponse.statusCode)")
+            return promise.failure(NSError(domain: "completionHandler_dataCannotBeDeserializedToInt", code: 0, userInfo: nil))
+        }
+        
+        return promise.success(())
     }
 }

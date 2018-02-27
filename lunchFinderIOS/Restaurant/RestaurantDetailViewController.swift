@@ -1,6 +1,7 @@
 import UIKit
 
 class RestaurantDetailViewController: UIViewController {
+    private let router: Router
     private let repo: RestaurantRepo
     private let mapService: MapService
     private let id: Int
@@ -9,6 +10,7 @@ class RestaurantDetailViewController: UIViewController {
     private let categoryTableViewProtocols: CategoryTableViewProtocols
 
     init(router: Router, repo: RestaurantRepo, mapService: MapService, id: Int) {
+        self.router = router
         self.repo = repo
         self.mapService = mapService
         self.id = id
@@ -25,6 +27,14 @@ class RestaurantDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        title = "LunchFinder"
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(
+                title: "Edit",
+                style: UIBarButtonItemStyle.plain,
+                target: self,
+                action: #selector(editTapped)
+        )
 
         setupSubviews()
         activateConstraints()
@@ -64,5 +74,10 @@ class RestaurantDetailViewController: UIViewController {
         categoryTable.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
         categoryTable.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
         categoryTable.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+    }
+
+    @objc
+    private func editTapped() {
+        router.showEditRestaurantScreen(id: id)
     }
 }

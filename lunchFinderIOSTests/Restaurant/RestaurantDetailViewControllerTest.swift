@@ -19,7 +19,12 @@ class RestaurantDetailViewControllerTest: XCTestCase {
         
         controller.viewDidLoad()
     }
-    
+
+    func test_navbar() {
+        let title = controller.navigationItem.rightBarButtonItem!.title
+        XCTAssertEqual(title, "Edit")
+    }
+
     func test_title() {
         repo.get_responseFuture
             .onSuccess(callback: { _ in
