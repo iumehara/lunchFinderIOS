@@ -32,4 +32,8 @@ class SuccessStubRestaurantRepo: RestaurantRepo {
         create_responseFuture = promise.future
         return create_responseFuture
     }
+
+    func update(id: Int, newRestaurant: NewRestaurant) -> Future<Void, NSError> {
+        fatalError("update(id:newRestaurant:) has not been implemented")
+    }
 }
