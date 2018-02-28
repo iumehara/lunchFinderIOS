@@ -11,8 +11,8 @@ class SuccessStubRestaurantRepo: RestaurantRepo {
         nameJp: "レストランA",
         website: "www.example.com",
         categories: [
-            Category(id: 1, name: "Category A"),
-            Category(id: 2, name: "Category B")
+            BasicCategory(id: 1, name: "Category A"),
+            BasicCategory(id: 2, name: "Category B")
         ],
         geolocation: Geolocation(lat: 1.0, long: 1.0)
     )

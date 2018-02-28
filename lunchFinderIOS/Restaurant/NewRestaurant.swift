@@ -1,6 +1,6 @@
 import Foundation
 
-struct NewRestaurant {
+struct NewRestaurant: Codable {
     var name = ""
     var nameJp: String?
     var website: String?
@@ -21,16 +21,7 @@ struct NewRestaurant {
         self.geolocation = geolocation
     }
     
-    func dictionary() -> [String: Any] {
-        var dictionary = [String: Any]()
-        dictionary["name"] = self.name
-        dictionary["nameJp"] = nameJp ?? nil
-        dictionary["website"] = website ?? nil
-        dictionary["geolocation"] = geolocation != nil ? geolocation!.dictionary() : nil
-        dictionary["categoryIds"] = categoryIds
-        return dictionary
-    }
-}
+   }
 
 extension NewRestaurant: Equatable {
     static func ==(lhs: NewRestaurant, rhs: NewRestaurant) -> Bool {

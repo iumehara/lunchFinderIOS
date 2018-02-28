@@ -5,7 +5,7 @@ struct RestaurantBuilder {
     var name = ""
     var nameJp: String?
     var website: String?
-    var categories: [Category] = []
+    var categories: [BasicCategory] = []
     var geolocation: Geolocation? = Geolocation(lat: 0, long: 0)
 
     init(id: Int, name: String) {
@@ -23,7 +23,7 @@ struct RestaurantBuilder {
         return self
     }
 
-    mutating func withCategories(categories: [Category]) -> RestaurantBuilder {
+    mutating func withCategories(categories: [BasicCategory]) -> RestaurantBuilder {
         self.categories = categories
         return self
     }

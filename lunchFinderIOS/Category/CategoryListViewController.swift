@@ -4,7 +4,7 @@ class CategoryListViewController: UITableViewController {
     private let router: Router
     private let repo: CategoryRepo
     private let tableViewCellIdentifier: String = String(describing: UITableViewCell.self)
-    private var categories: [Category] = []
+    private var categories: [BasicCategory] = []
     
     init(router: Router, repo: CategoryRepo) {
         self.router = router

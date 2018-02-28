@@ -21,10 +21,10 @@ class NetworkCategoryRepoTest: XCTestCase {
         XCTAssertEqual(self.mockSession.url?.description, "http://testURL/categories/1")
     }
 
-    func test_get_success() {
+    func test_get_responseHandling() {
         let future = repo.get(id: 1)
         
-        let responseCategoryJSON: [String: Any] = ["id": 1, "name": "Category A"]
+        let responseCategoryJSON: [String: Any] = ["id": 1, "name": "Category A", "restaurants": []]
         let responseCategoryData = try! JSONSerialization.data(withJSONObject: responseCategoryJSON)
         mockSession.completionHandler!(responseCategoryData, nil, nil)
         
@@ -57,7 +57,10 @@ class NetworkCategoryRepoTest: XCTestCase {
         let responseCategoriesData = try! JSONSerialization.data(withJSONObject: responseCategoriesJSON)
         mockSession.completionHandler!(responseCategoriesData, nil, nil)
 
-        let expectedCategories = [Category(id: 1, name: "Category A", restaurants: []), Category(id: 2, name: "Category B", restaurants: [])]
+        let expectedCategories = [
+            BasicCategory(id: 1, name: "Category A"),
+            BasicCategory(id: 2, name: "Category B")
+        ]
         XCTAssertEqual(future.result!.value!, expectedCategories)
 
         XCTAssertTrue(future.isSuccess)
@@ -71,22 +74,8 @@ class NetworkCategoryRepoTest: XCTestCase {
         repo.create(newCategory: newCategory)
     
         XCTAssertEqual(self.mockSession.url?.description, "http://testURL/categories/")
+        let requestBody = try! JSONEncoder().encode(newCategory)
 
-        let requestBody = try! JSONSerialization.data(withJSONObject: newCategory.dictionary())
         XCTAssertEqual(self.mockSession.body, requestBody)
-    }
-
-    func test_create_responseHandling() {
-        let future = repo.create(newCategory: NewCategory(name: "New Category A"))
-        
-        let responseIntJson = "25"
-        let responseIntData = responseIntJson.data(using: .utf8)
-        mockSession.completionHandler!(responseIntData, nil, nil)
-        
-        XCTAssertEqual(future.result!.value!, 25)
-        XCTAssertTrue(future.isSuccess)
-        XCTAssertFalse(future.isFailure)
-        XCTAssertTrue(future.isCompleted)
-        XCTAssertTrue(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled)
     }
 }

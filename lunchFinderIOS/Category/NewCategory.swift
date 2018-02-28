@@ -1,16 +1,10 @@
 import Foundation
 
-struct NewCategory {
+struct NewCategory: Codable {
     var name = ""
     
     init(name: String) {
         self.name = name
-    }
-    
-    func dictionary() -> [String: Any] {
-        var dictionary = [String: Any]()
-        dictionary["name"] = self.name
-        return dictionary
     }
 }
 

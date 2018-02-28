@@ -1,26 +1,10 @@
-struct Geolocation {
+struct Geolocation: Codable {
     var lat = 0.0
     var long = 0.0
     
     init(lat: Double, long: Double) {
         self.lat = lat
         self.long = long
-    }
-    
-    init(dictionary: [String: AnyObject]) {
-        if let latDouble = dictionary["lat"] as? Double {
-            self.lat = latDouble
-        }
-        if let longDouble = dictionary["long"] as? Double {
-            self.long = longDouble
-        }
-    }
-    
-    func dictionary() -> [String: Double] {
-        var dictionary = [String: Double]()
-        dictionary["lat"] = lat
-        dictionary["long"] = long
-        return dictionary
     }
 }
 

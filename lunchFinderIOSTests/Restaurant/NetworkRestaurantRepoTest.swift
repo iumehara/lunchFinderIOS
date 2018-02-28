@@ -52,7 +52,7 @@ class NetworkRestaurantRepoTest: XCTestCase {
             name: "Restaurant A",
             nameJp: "レストラン A",
             website: "www.example.com",
-            categories: [Category(id: 1, name: "Category A")],
+            categories: [BasicCategory(id: 1, name: "Category A")],
             geolocation: Geolocation(lat: 1.0, long: 1.0)
         )
         future.onSuccess { (response) -> Void in XCTAssertEqual(response, expectedRestaurant)}

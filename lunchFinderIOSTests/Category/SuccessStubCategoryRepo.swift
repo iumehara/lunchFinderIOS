@@ -22,12 +22,12 @@ class SuccessStubCategoryRepo: CategoryRepo {
         return get_responseFuture
     }
     
-    var getAll_responseFuture = Future<[lunchFinderIOS.Category], NSError>()
-    func getAll() -> Future<[lunchFinderIOS.Category], NSError> {
-        let promise = Promise<[lunchFinderIOS.Category], NSError>()
+    var getAll_responseFuture = Future<[lunchFinderIOS.BasicCategory], NSError>()
+    func getAll() -> Future<[lunchFinderIOS.BasicCategory], NSError> {
+        let promise = Promise<[lunchFinderIOS.BasicCategory], NSError>()
         promise.success([
-            Category(id: 1, name: "Category A"),
-            Category(id: 2, name: "Category B")
+            lunchFinderIOS.BasicCategory(id: 1, name: "Category A"),
+            lunchFinderIOS.BasicCategory(id: 2, name: "Category B")
         ])
         
         getAll_responseFuture = promise.future
