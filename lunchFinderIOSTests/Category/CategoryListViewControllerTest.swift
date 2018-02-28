@@ -1,45 +1,39 @@
 import XCTest
+import Nimble
 @testable import lunchFinderIOS
 
 class CategoryListViewControllerTest: XCTestCase {
-    var categoryListViewController: CategoryListViewController!
+    var controller: CategoryListViewController!
     var repo: SuccessStubCategoryRepo!
     
     override func setUp() {
         repo = SuccessStubCategoryRepo()
-        categoryListViewController = CategoryListViewController(
+        controller = CategoryListViewController(
             router: DummyRouter(),
             repo: repo
         )
 
-        categoryListViewController.viewDidLoad()
+        controller.viewDidLoad()
     }
 
-    func test_title() {
-        let title = categoryListViewController.title
-
-        XCTAssertEqual(title, "LunchFinder")
+    func test_navigationBar() {
+        expect(self.controller.title).to(equal("LunchFinder"))
+        expect(self.controller.navigationItem.leftBarButtonItem!.title).to(equal("Add Restaurant"))
+        expect(self.controller.navigationItem.rightBarButtonItem!.title).to(equal("Add Category"))
     }
 
     func test_numberOfSections() {
-        let numberOfSections = categoryListViewController.numberOfSections(
-            in: categoryListViewController.tableView
+        let numberOfSections = controller.numberOfSections(
+            in: controller.tableView
         )
 
         XCTAssertEqual(numberOfSections, 1)
     }
 
     func test_tableData() {
-        repo.getAll_responseFuture.onSuccess(callback: { _ in
-            let table = self.categoryListViewController.tableView!
-            
-            let firstRowText = table.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel?.text!
-            let secondRowText = table.cellForRow(at: IndexPath(row: 1, section: 0))?.textLabel?.text!
-            
-            XCTAssertEqual(firstRowText, "Category A")
-            XCTAssertEqual(secondRowText, "Category B")
-        })
-        
-        XCTAssertTrue(repo.getAll_responseFuture.isCompleted)
+        let table = self.controller.tableView!
+
+        expect(table.cellForRow(at: IndexPath(row: 0, section: 0))!.textLabel!.text!).toEventually(equal("Category A"))
+        expect(table.cellForRow(at: IndexPath(row: 1, section: 0))!.textLabel!.text!).toEventually(equal("Category B"))
     }
 }
