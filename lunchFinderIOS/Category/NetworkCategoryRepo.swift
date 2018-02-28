@@ -2,19 +2,24 @@ import Foundation
 import BrightFutures
 
 class NetworkCategoryRepo: CategoryRepo {
+    var urlSessionProvider: URLSessionProvider
     var session: URLSession
-    var baseURL: String
     
     init(urlSessionProvider: URLSessionProvider) {
+        self.urlSessionProvider = urlSessionProvider
         self.session = urlSessionProvider.urlSession
-        self.baseURL = urlSessionProvider.baseURL
     }
     
     func getAll() -> Future<[BasicCategory], NSError> {
         let promise = Promise<[BasicCategory], NSError>()
-        
+
+        guard let urlRequest = urlSessionProvider.getRequest(path: "categories/") else {
+            promise.failure(NSError(domain: "could not generate urlRequest", code: 0, userInfo: nil))
+            return promise.future
+        }
+
         session.dataTask(
-            with: URL(string: "\(baseURL)categories")!,
+            with: urlRequest,
             completionHandler: { (data, response, error) in
                 self.arrayCompletionHandler(data: data, response: response, error: error, promise: promise)
             }
@@ -25,9 +30,14 @@ class NetworkCategoryRepo: CategoryRepo {
     
     func get(id: Int) -> Future<Category, NSError> {
         let promise = Promise<Category, NSError>()
-        
+
+        guard let urlRequest = urlSessionProvider.getRequest(path: "categories/\(id)") else {
+            promise.failure(NSError(domain: "could not generate urlRequest", code: 0, userInfo: nil))
+            return promise.future
+        }
+
         session.dataTask(
-            with: URL(string: "\(baseURL)categories/\(id)")!,
+            with: urlRequest,
             completionHandler: { (data, response, error) in
                 self.objectCompletionHandler(data: data, response: response, error: error, promise: promise)
             }
@@ -39,19 +49,18 @@ class NetworkCategoryRepo: CategoryRepo {
     func create(newCategory: NewCategory) -> Future<Int, NSError> {
         let promise = Promise<Int, NSError>()
         
-        var request = URLRequest(url: URL(string: "\(baseURL)categories/")!)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
         guard let httpBody = try? JSONEncoder().encode(newCategory) else {
             promise.failure(NSError(domain: "could not encode category", code: 0, userInfo: nil))
             return promise.future
         }
-        request.httpBody = httpBody
 
+        guard let urlRequest = urlSessionProvider.postRequest(path: "categories/", body: httpBody) else {
+            promise.failure(NSError(domain: "could not generate urlRequest", code: 0, userInfo: nil))
+            return promise.future
+        }
 
         session.dataTask(
-            with: request,
+            with: urlRequest,
             completionHandler: { (data, response, error) in
                 self.intCompletionHandler(data: data, response: response, error: error, promise: promise)
             }
@@ -65,11 +74,11 @@ class NetworkCategoryRepo: CategoryRepo {
             return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
         }
         
-        guard let nonNullData = data else {
+        guard let nonNilData = data else {
             return promise.failure(NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
         }
         
-        guard let categories = try? JSONDecoder().decode([BasicCategory].self, from: nonNullData) else {
+        guard let categories = try? JSONDecoder().decode([BasicCategory].self, from: nonNilData) else {
             return promise.failure(NSError(domain: "completionHandler_dataCannotBeDecoded", code: 0, userInfo: nil))
         }
 
@@ -81,11 +90,11 @@ class NetworkCategoryRepo: CategoryRepo {
             return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
         }
         
-        guard let nonNullData = data else {
+        guard let nonNilData = data else {
             return promise.failure(NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
         }
 
-        guard let category = try? JSONDecoder().decode(Category.self, from: nonNullData) else {
+        guard let category = try? JSONDecoder().decode(Category.self, from: nonNilData) else {
             return promise.failure(NSError(domain: "completionHandler_dataCannotBeDecoded", code: 0, userInfo: nil))
         }
 
@@ -97,11 +106,11 @@ class NetworkCategoryRepo: CategoryRepo {
             return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
         }
         
-        guard let nonNullData = data else {
+        guard let nonNilData = data else {
             return promise.failure(NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
         }
 
-        guard let int = try? JSONDecoder().decode(Int.self, from: nonNullData) else {
+        guard let int = try? JSONDecoder().decode(Int.self, from: nonNilData) else {
             return promise.failure(NSError(domain: "completionHandler_dataCannotBeDeserializedToInt", code: 0, userInfo: nil))
         }
 

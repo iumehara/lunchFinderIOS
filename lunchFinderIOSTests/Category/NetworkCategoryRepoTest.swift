@@ -36,31 +36,20 @@ class NetworkCategoryRepoTest: XCTestCase {
         XCTAssertTrue(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled)
     }
 
-    func test_get_failure_nilResponse() {
-        let future = repo.get(id: 1)
-        
-        mockSession.completionHandler!(nil, nil, nil)
-        
-        XCTAssertEqual(future.result!.error!, NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
-        XCTAssertFalse(future.isSuccess)
-        XCTAssertTrue(future.isFailure)
-        XCTAssertTrue(future.isCompleted)
-        XCTAssertTrue(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled)
-    }
-    
-    func test_getAll_success() {
-        let future = repo.getAll()
+    func test_getAll_request() {
+        repo.getAll()
 
-        XCTAssertEqual(self.mockSession.url!.description, "http://testURL/categories")
+        XCTAssertEqual(self.mockSession.url!.description, "http://testURL/categories/")
+    }
+
+    func test_getAll_responseHandling() {
+        let future = repo.getAll()
 
         let responseCategoriesJSON: [[String: Any]] = [["id": 1, "name": "Category A"], ["id": 2, "name": "Category B"]]
         let responseCategoriesData = try! JSONSerialization.data(withJSONObject: responseCategoriesJSON)
         mockSession.completionHandler!(responseCategoriesData, nil, nil)
 
-        let expectedCategories = [
-            BasicCategory(id: 1, name: "Category A"),
-            BasicCategory(id: 2, name: "Category B")
-        ]
+        let expectedCategories = [BasicCategory(id: 1, name: "Category A"), BasicCategory(id: 2, name: "Category B")]
         XCTAssertEqual(future.result!.value!, expectedCategories)
 
         XCTAssertTrue(future.isSuccess)
@@ -68,14 +57,15 @@ class NetworkCategoryRepoTest: XCTestCase {
         XCTAssertTrue(future.isCompleted)
         XCTAssertTrue(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled)
     }
-    
+
+
     func test_create_request() {
         let newCategory = NewCategory(name: "New Category A")
         repo.create(newCategory: newCategory)
-    
-        XCTAssertEqual(self.mockSession.url?.description, "http://testURL/categories/")
-        let requestBody = try! JSONEncoder().encode(newCategory)
 
+        XCTAssertEqual(self.mockSession.url?.description, "http://testURL/categories/")
+
+        let requestBody = try! JSONEncoder().encode(newCategory)
         XCTAssertEqual(self.mockSession.body, requestBody)
     }
 }

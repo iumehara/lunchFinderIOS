@@ -2,19 +2,24 @@ import Foundation
 import BrightFutures
 
 class NetworkRestaurantRepo: RestaurantRepo {
+    var urlSessionProvider: URLSessionProvider
     var session: URLSession
-    var baseURL: String
 
     init(urlSessionProvider: URLSessionProvider) {
+        self.urlSessionProvider = urlSessionProvider
         self.session = urlSessionProvider.urlSession
-        self.baseURL = urlSessionProvider.baseURL
     }
     
     func get(id: Int) -> Future<Restaurant, NSError> {
         let promise = Promise<Restaurant, NSError>()
-        
+
+        guard let urlRequest = urlSessionProvider.getRequest(path: "restaurants/\(id)") else {
+            promise.failure(NSError(domain: "could not generate urlRequest", code: 0, userInfo: nil))
+            return promise.future
+        }
+
         session.dataTask(
-            with: URL(string: "\(baseURL)restaurants/\(id)")!,
+            with: urlRequest,
             completionHandler: { (data, response, error) in
                 self.objectCompletionHandler(data: data, response: response, error: error, promise: promise)
             }
@@ -26,18 +31,18 @@ class NetworkRestaurantRepo: RestaurantRepo {
     func create(newRestaurant: NewRestaurant) -> Future<Int, NSError> {
         let promise = Promise<Int, NSError>()
         
-        var request = URLRequest(url: URL(string: "\(baseURL)restaurants/")!)
-        request.httpMethod = "POST"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
         guard let httpBody = try? JSONEncoder().encode(newRestaurant) else {
             promise.failure(NSError(domain: "could not encode restaurant", code: 0, userInfo: nil))
             return promise.future
         }
-        request.httpBody = httpBody
-        
+
+        guard let urlRequest = urlSessionProvider.postRequest(path: "restaurants/", body: httpBody) else {
+            promise.failure(NSError(domain: "could not generate urlRequest", code: 0, userInfo: nil))
+            return promise.future
+        }
+
         session.dataTask(
-            with: request,
+            with: urlRequest,
             completionHandler: { (data, response, error) in
                 self.intCompletionHandler(data: data, response: response, error: error, promise: promise)
             }
@@ -48,19 +53,19 @@ class NetworkRestaurantRepo: RestaurantRepo {
     
     func update(id: Int, newRestaurant: NewRestaurant) -> Future<Void, NSError> {
         let promise = Promise<Void, NSError>()
-        
-        var request = URLRequest(url: URL(string: "\(baseURL)restaurants/\(id)")!)
-        request.httpMethod = "PUT"
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("application/json", forHTTPHeaderField: "Accept")
+
         guard let httpBody = try? JSONEncoder().encode(newRestaurant) else {
             promise.failure(NSError(domain: "could not encode restaurant", code: 0, userInfo: nil))
             return promise.future
         }
-        request.httpBody = httpBody
+
+        guard let urlRequest = urlSessionProvider.putRequest(path: "restaurants/\(id)", body: httpBody) else {
+            promise.failure(NSError(domain: "could not generate urlRequest", code: 0, userInfo: nil))
+            return promise.future
+        }
         
         session.dataTask(
-            with: request,
+            with: urlRequest,
             completionHandler: { (data, response, error) in
                 self.voidCompletionHandler(data: data, response: response, error: error, promise: promise)
             }

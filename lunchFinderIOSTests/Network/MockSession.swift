@@ -6,13 +6,6 @@ class MockSession: URLSession {
     var completionHandler: ((Data?, URLResponse?, Error?) -> Void)?
     let urlSessionDataTaskSpy = URLSessionDataTaskSpy()
 
-    override func dataTask(with url: URL, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
-        self.url = url
-        self.completionHandler = completionHandler
-        
-        return urlSessionDataTaskSpy
-    }
-    
     override func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         self.url = request.url
         self.body = request.httpBody
