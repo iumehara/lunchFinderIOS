@@ -6,15 +6,18 @@ PODS:
     - GoogleMaps/Base
   - GooglePlaces (2.6.0):
     - GoogleMaps/Base (= 2.6.0)
+  - Nimble (7.0.3)
 
 DEPENDENCIES:
   - GoogleMaps
   - GooglePlaces
+  - Nimble (~> 7.0)
 
 SPEC CHECKSUMS:
   GoogleMaps: 42f91c68b7fa2f84d5c86597b18ceb99f5414c7f
   GooglePlaces: f6ddf33b75cef69e888907d9947c57198ed845f3
+  Nimble: 7f5a9c447a33002645a071bddafbfb24ea70e0ac
 
-PODFILE CHECKSUM: ff17f1688bebeea0e38fcee5b6b0008f96bfa300
+PODFILE CHECKSUM: 0fa89fd9fd6e76074a4fb08772e16180ab5c8f56
 
 COCOAPODS: 1.4.0

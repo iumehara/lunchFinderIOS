@@ -61,6 +61,7 @@
 		24F99AE42043D6160060B526 /* RestaurantFormTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F99AE32043D6160060B526 /* RestaurantFormTest.swift */; };
 		24F99AE62043F0560060B526 /* EditRestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F99AE52043F0560060B526 /* EditRestaurantViewController.swift */; };
 		4DAB728956909DE7B87300D5 /* libPods-lunchFinderIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56BCA54E45B9AFD14DC84A8C /* libPods-lunchFinderIOS.a */; };
+		7D6E30343FC3F255343C62CE /* Pods_lunchFinderIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7176081F6896B73B89D093BA /* Pods_lunchFinderIOSTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +134,9 @@
 		24F99AE52043F0560060B526 /* EditRestaurantViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRestaurantViewController.swift; sourceTree = "<group>"; };
 		517A380927A99B65AEC35787 /* Pods-lunchFinderIOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOS/Pods-lunchFinderIOS.release.xcconfig"; sourceTree = "<group>"; };
 		56BCA54E45B9AFD14DC84A8C /* libPods-lunchFinderIOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-lunchFinderIOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7176081F6896B73B89D093BA /* Pods_lunchFinderIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lunchFinderIOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8AC1775D4008FBA58192A7E5 /* Pods-lunchFinderIOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOSTests/Pods-lunchFinderIOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		9962C523D0CB541DE2E8561E /* Pods-lunchFinderIOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOSTests/Pods-lunchFinderIOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		F7463B5A30A32CCC4B93FF27 /* Pods-lunchFinderIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOS/Pods-lunchFinderIOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,6 +157,7 @@
 			files = (
 				240B7AD92032D9E8005959AB /* BrightFutures.framework in Frameworks */,
 				240B7ADA2032D9EC005959AB /* Result.framework in Frameworks */,
+				7D6E30343FC3F255343C62CE /* Pods_lunchFinderIOSTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -164,6 +169,8 @@
 			children = (
 				F7463B5A30A32CCC4B93FF27 /* Pods-lunchFinderIOS.debug.xcconfig */,
 				517A380927A99B65AEC35787 /* Pods-lunchFinderIOS.release.xcconfig */,
+				8AC1775D4008FBA58192A7E5 /* Pods-lunchFinderIOSTests.debug.xcconfig */,
+				9962C523D0CB541DE2E8561E /* Pods-lunchFinderIOSTests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -172,6 +179,7 @@
 			isa = PBXGroup;
 			children = (
 				56BCA54E45B9AFD14DC84A8C /* libPods-lunchFinderIOS.a */,
+				7176081F6896B73B89D093BA /* Pods_lunchFinderIOSTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -389,9 +397,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 249DD921200F5263006031A1 /* Build configuration list for PBXNativeTarget "lunchFinderIOSTests" */;
 			buildPhases = (
+				B0EB8FAE11E6244088CD639F /* [CP] Check Pods Manifest.lock */,
 				249DD911200F5263006031A1 /* Sources */,
 				249DD912200F5263006031A1 /* Frameworks */,
 				249DD913200F5263006031A1 /* Resources */,
+				B022B22FFC26224768482306 /* [CP] Embed Pods Frameworks */,
+				6B17C23FF22E18999A724E21 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -517,6 +528,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lunchFinderIOS/Pods-lunchFinderIOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		6B17C23FF22E18999A724E21 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lunchFinderIOSTests/Pods-lunchFinderIOSTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6EEF2D189AC8695453F9C53D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -529,6 +555,42 @@
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-lunchFinderIOS-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B022B22FFC26224768482306 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-lunchFinderIOSTests/Pods-lunchFinderIOSTests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Nimble/Nimble.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nimble.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lunchFinderIOSTests/Pods-lunchFinderIOSTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B0EB8FAE11E6244088CD639F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-lunchFinderIOSTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -777,8 +839,8 @@
 		};
 		249DD922200F5263006031A1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8AC1775D4008FBA58192A7E5 /* Pods-lunchFinderIOSTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -800,8 +862,8 @@
 		};
 		249DD923200F5263006031A1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9962C523D0CB541DE2E8561E /* Pods-lunchFinderIOSTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
