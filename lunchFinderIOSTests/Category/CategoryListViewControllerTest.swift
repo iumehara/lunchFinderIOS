@@ -9,7 +9,7 @@ class CategoryListViewControllerTest: XCTestCase {
     override func setUp() {
         repo = SuccessStubCategoryRepo()
         controller = CategoryListViewController(
-            router: DummyRouter(),
+            router: SpyRouter(),
             repo: repo
         )
 

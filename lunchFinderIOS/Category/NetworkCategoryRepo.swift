@@ -110,8 +110,12 @@ class NetworkCategoryRepo: CategoryRepo {
             return promise.failure(NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
         }
 
-        guard let int = try? JSONDecoder().decode(Int.self, from: nonNilData) else {
+        guard let intDictionary = try? JSONDecoder().decode([String: Int].self, from: nonNilData) else {
             return promise.failure(NSError(domain: "completionHandler_dataCannotBeDeserializedToInt", code: 0, userInfo: nil))
+        }
+
+        guard let int = intDictionary["id"] else {
+            return promise.failure(NSError(domain: "completionHandler_responseDoesNotIncludeId", code: 0, userInfo: nil))
         }
 
         return promise.success(int)

@@ -34,7 +34,6 @@ class NetworkCategoryRepoTest: XCTestCase {
 
 
         expect(future.isSuccess).to(beTrue())
-        expect(future.isFailure).to(beFalse())
         expect(future.isCompleted).to(beTrue())
         expect(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled).to(beTrue())
     }
@@ -56,7 +55,6 @@ class NetworkCategoryRepoTest: XCTestCase {
 
         expect(resultValue).to(equal(Category(id: 1, name: "Category A", restaurants: [])))
         expect(future.isSuccess).to(beTrue())
-        expect(future.isFailure).to(beFalse())
         expect(future.isCompleted).to(beTrue())
         expect(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled).to(beTrue())
     }
@@ -69,5 +67,22 @@ class NetworkCategoryRepoTest: XCTestCase {
 
         let requestBody = try! JSONEncoder().encode(newCategory)
         expect(self.mockSession.body).to(equal(requestBody))
+    }
+
+    func test_create_responseHandling() {
+        let newCategory = NewCategory(name: "Category A")
+        let future = repo.create(newCategory: newCategory)
+
+        let responseId: [String: Int] = ["id": 1]
+        let responseCategoryData = try! JSONEncoder().encode(responseId)
+
+
+        mockSession.completionHandler!(responseCategoryData, nil, nil)
+
+        let resultValue = future.result!.value!
+        expect(resultValue).to(equal(1))
+        expect(future.isSuccess).to(beTrue())
+        expect(future.isCompleted).to(beTrue())
+        expect(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled).to(beTrue())
     }
 }

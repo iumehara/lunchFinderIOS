@@ -5,7 +5,6 @@ import Foundation
 @testable import lunchFinderIOS
 
 class SuccessStubCategoryRepo: CategoryRepo {
-    var get_responseFuture = Future<lunchFinderIOS.Category, NSError>()
     func get(id: Int) -> Future<lunchFinderIOS.Category, NSError> {
         let promise = Promise<lunchFinderIOS.Category, NSError>()
         promise.success(
@@ -18,11 +17,9 @@ class SuccessStubCategoryRepo: CategoryRepo {
                 ]
             )
         )
-        get_responseFuture = promise.future
-        return get_responseFuture
+        return promise.future
     }
     
-    var getAll_responseFuture = Future<[lunchFinderIOS.BasicCategory], NSError>()
     func getAll() -> Future<[lunchFinderIOS.BasicCategory], NSError> {
         let promise = Promise<[lunchFinderIOS.BasicCategory], NSError>()
         promise.success([
@@ -30,14 +27,14 @@ class SuccessStubCategoryRepo: CategoryRepo {
             lunchFinderIOS.BasicCategory(id: 2, name: "Category B")
         ])
         
-        getAll_responseFuture = promise.future
-        return getAll_responseFuture
+        return promise.future
     }
     
-    var create_responseFuture = Future<Int, NSError>()
+    var create_wasCalledWith: NewCategory?
     func create(newCategory: NewCategory) -> Future<Int, NSError> {
+        create_wasCalledWith = newCategory
         let promise = Promise<Int, NSError>()
-        create_responseFuture = promise.future
-        return create_responseFuture
+        promise.success(1)
+        return promise.future
     }
 }

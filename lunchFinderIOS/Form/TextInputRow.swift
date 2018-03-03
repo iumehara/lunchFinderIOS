@@ -60,6 +60,9 @@ class TextInputRow: UIView {
     }
     
     func text() -> String? {
+        guard textInput.text != "" else {
+            return nil
+        }
         return textInput.text
     }
 }

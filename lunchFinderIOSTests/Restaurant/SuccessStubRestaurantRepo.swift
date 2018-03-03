@@ -26,9 +26,12 @@ class SuccessStubRestaurantRepo: RestaurantRepo {
         return get_responseFuture
     }
 
+    var create_wasCalledWith: NewRestaurant?
     var create_responseFuture = Future<Int, NSError>()
     func create(newRestaurant: NewRestaurant) -> Future<Int, NSError> {
+        create_wasCalledWith = newRestaurant
         let promise = Promise<Int, NSError>()
+        promise.success(1)
         create_responseFuture = promise.future
         return create_responseFuture
     }

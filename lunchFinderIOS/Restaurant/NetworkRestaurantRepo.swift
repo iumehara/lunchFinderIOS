@@ -82,7 +82,7 @@ class NetworkRestaurantRepo: RestaurantRepo {
         guard let nonNilData = data else {
             return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
         }
-        
+
         guard let restaurant = try? JSONDecoder().decode(Restaurant.self, from: nonNilData) else {
             return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
         }
@@ -99,7 +99,11 @@ class NetworkRestaurantRepo: RestaurantRepo {
             return promise.failure(NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
         }
         
-        guard let int = try? JSONDecoder().decode(Int.self, from: nonNilData) else {
+        guard let intDictionary = try? JSONDecoder().decode([String: Int].self, from: nonNilData) else {
+            return promise.failure(NSError(domain: "completionHandler_dataCannotBeDeserializedToInt", code: 0, userInfo: nil))
+        }
+
+        guard let int = intDictionary["id"] else {
             return promise.failure(NSError(domain: "completionHandler_dataCannotBeDeserializedToInt", code: 0, userInfo: nil))
         }
         

@@ -12,7 +12,7 @@ class CategoryDetailViewControllerTest: XCTestCase {
         repo = SuccessStubCategoryRepo()
         mapService = SpyMapService()
         controller = CategoryDetailViewController(
-            router: DummyRouter(),
+            router: SpyRouter(),
             repo: repo,
             mapService: mapService,
             id: 1
