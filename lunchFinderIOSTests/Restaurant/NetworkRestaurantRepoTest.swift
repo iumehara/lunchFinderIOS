@@ -7,7 +7,8 @@ extension Int: Codable {}
 class NetworkRestaurantRepoTest: XCTestCase {
     var repo: NetworkRestaurantRepo!
     var mockSession: MockSession!
-    
+    let successfulHttpResponse = HTTPURLResponse(url: URL(string: "http://www.example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+
     override func setUp() {
         super.setUp()
 
@@ -35,7 +36,7 @@ class NetworkRestaurantRepoTest: XCTestCase {
         ]
 
         let restaurantData = try! JSONSerialization.data(withJSONObject: restaurantJSON)
-        mockSession.completionHandler!(restaurantData, nil, nil)
+        mockSession.completionHandler!(restaurantData, successfulHttpResponse, nil)
 
         let expectedRestaurant = Restaurant(
             id: 1,
@@ -72,7 +73,7 @@ class NetworkRestaurantRepoTest: XCTestCase {
         let responseId: [String: Int] = ["id": 1]
         let restaurantIdData = try! JSONEncoder().encode(responseId)
 
-        mockSession.completionHandler!(restaurantIdData, nil, nil)
+        mockSession.completionHandler!(restaurantIdData, successfulHttpResponse, nil)
 
         expect(future.result!.value!).to(equal(1))
         expect(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled).to(beTrue())
@@ -103,8 +104,7 @@ class NetworkRestaurantRepoTest: XCTestCase {
         )
         let future = repo.update(id: 1, newRestaurant: newRestaurant)
 
-        let httpResponse = HTTPURLResponse(url: URL(string: "www.example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
-        mockSession.completionHandler!(nil, httpResponse, nil)
+        mockSession.completionHandler!(Data(), successfulHttpResponse, nil)
 
         expect(future.result!.value).to(beVoid())
         expect(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled).to(beTrue())

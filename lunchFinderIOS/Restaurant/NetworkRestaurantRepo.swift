@@ -21,7 +21,7 @@ class NetworkRestaurantRepo: RestaurantRepo {
         session.dataTask(
             with: urlRequest,
             completionHandler: { (data, response, error) in
-                self.objectCompletionHandler(data: data, response: response, error: error, promise: promise)
+                self.restaurantCompletionHandler(data: data, response: response, error: error, promise: promise)
             }
         ).resume()
         
@@ -44,7 +44,7 @@ class NetworkRestaurantRepo: RestaurantRepo {
         session.dataTask(
             with: urlRequest,
             completionHandler: { (data, response, error) in
-                self.intCompletionHandler(data: data, response: response, error: error, promise: promise)
+                CompletionHandlers.intCompletionHandler(data: data, response: response, error: error, promise: promise)
             }
         ).resume()
         
@@ -67,20 +67,16 @@ class NetworkRestaurantRepo: RestaurantRepo {
         session.dataTask(
             with: urlRequest,
             completionHandler: { (data, response, error) in
-                self.voidCompletionHandler(data: data, response: response, error: error, promise: promise)
+                CompletionHandlers.voidCompletionHandler(data: data, response: response, error: error, promise: promise)
             }
         ).resume()
         
         return promise.future
     }
     
-    private func objectCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Restaurant, NSError>) {
-        if error != nil {
-            return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
-        }
-
-        guard let nonNilData = data else {
-            return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
+    private func restaurantCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Restaurant, NSError>) {
+        guard let nonNilData = CompletionHandlers.responsePreFilter(data: data, response: response, error: error) else {
+            return promise.failure(NSError(domain: "completionHandler_responsePreFilterFailed", code: 0, userInfo: nil))
         }
 
         guard let restaurant = try? JSONDecoder().decode(Restaurant.self, from: nonNilData) else {
@@ -88,41 +84,5 @@ class NetworkRestaurantRepo: RestaurantRepo {
         }
 
         return promise.success(restaurant)
-    }
-    
-    private func intCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Int, NSError>) {
-        if error != nil {
-            return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
-        }
-        
-        guard let nonNilData = data else {
-            return promise.failure(NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
-        }
-        
-        guard let intDictionary = try? JSONDecoder().decode([String: Int].self, from: nonNilData) else {
-            return promise.failure(NSError(domain: "completionHandler_dataCannotBeDeserializedToInt", code: 0, userInfo: nil))
-        }
-
-        guard let int = intDictionary["id"] else {
-            return promise.failure(NSError(domain: "completionHandler_dataCannotBeDeserializedToInt", code: 0, userInfo: nil))
-        }
-        
-        return promise.success(int)
-    }
-    
-    private func voidCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Void, NSError>) {
-        if error != nil {
-            return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
-        }
-        
-        guard let httpResponse = response as? HTTPURLResponse else {
-            return promise.failure(NSError(domain: "completionHandler_responseIsNotValid", code: 0, userInfo: nil))
-        }
-        
-        guard httpResponse.statusCode == 200 else {
-            return promise.failure(NSError(domain: "completionHandler_dataCannotBeDeserializedToInt", code: 0, userInfo: nil))
-        }
-        
-        return promise.success(())
     }
 }

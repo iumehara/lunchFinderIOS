@@ -64,6 +64,7 @@
 		24F99AE62043F0560060B526 /* EditRestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F99AE52043F0560060B526 /* EditRestaurantViewController.swift */; };
 		4DAB728956909DE7B87300D5 /* libPods-lunchFinderIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56BCA54E45B9AFD14DC84A8C /* libPods-lunchFinderIOS.a */; };
 		7D6E30343FC3F255343C62CE /* Pods_lunchFinderIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7176081F6896B73B89D093BA /* Pods_lunchFinderIOSTests.framework */; };
+		ECF959852E3D4AA4C30CB549 /* CompletionHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF954EF7AD69EB9ABAF10FB /* CompletionHandlers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -140,6 +141,7 @@
 		7176081F6896B73B89D093BA /* Pods_lunchFinderIOSTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_lunchFinderIOSTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8AC1775D4008FBA58192A7E5 /* Pods-lunchFinderIOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOSTests/Pods-lunchFinderIOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9962C523D0CB541DE2E8561E /* Pods-lunchFinderIOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOSTests/Pods-lunchFinderIOSTests.release.xcconfig"; sourceTree = "<group>"; };
+		ECF954EF7AD69EB9ABAF10FB /* CompletionHandlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionHandlers.swift; sourceTree = "<group>"; };
 		ECF95CFC789FD048CCACAABC /* NewCategoryViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewCategoryViewControllerTest.swift; sourceTree = "<group>"; };
 		F7463B5A30A32CCC4B93FF27 /* Pods-lunchFinderIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOS/Pods-lunchFinderIOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -242,6 +244,7 @@
 			children = (
 				245CB0D1203BCC1D006A0B5F /* NetworkURLSessionProvider.swift */,
 				245CB0D3203BE6D8006A0B5F /* URLSessionProvider.swift */,
+				ECF954EF7AD69EB9ABAF10FB /* CompletionHandlers.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -642,6 +645,7 @@
 				2453F2A7202D8C3F00322017 /* CategoryRepo.swift in Sources */,
 				240B7AE1203410A0005959AB /* Restaurant.swift in Sources */,
 				245CB0BF203A9488006A0B5F /* RestaurantBuilder.swift in Sources */,
+				ECF959852E3D4AA4C30CB549 /* CompletionHandlers.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

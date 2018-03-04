@@ -21,7 +21,7 @@ class NetworkCategoryRepo: CategoryRepo {
         session.dataTask(
             with: urlRequest,
             completionHandler: { (data, response, error) in
-                self.arrayCompletionHandler(data: data, response: response, error: error, promise: promise)
+                self.categoryListCompletionHandler(data: data, response: response, error: error, promise: promise)
             }
         ).resume()
 
@@ -39,13 +39,13 @@ class NetworkCategoryRepo: CategoryRepo {
         session.dataTask(
             with: urlRequest,
             completionHandler: { (data, response, error) in
-                self.objectCompletionHandler(data: data, response: response, error: error, promise: promise)
+                self.categoryCompletionHandler(data: data, response: response, error: error, promise: promise)
             }
         ).resume()
 
         return promise.future
     }
-    
+
     func create(newCategory: NewCategory) -> Future<Int, NSError> {
         let promise = Promise<Int, NSError>()
         
@@ -62,7 +62,7 @@ class NetworkCategoryRepo: CategoryRepo {
         session.dataTask(
             with: urlRequest,
             completionHandler: { (data, response, error) in
-                self.intCompletionHandler(data: data, response: response, error: error, promise: promise)
+                CompletionHandlers.intCompletionHandler(data: data, response: response, error: error, promise: promise)
             }
         ).resume()
         
@@ -80,20 +80,16 @@ class NetworkCategoryRepo: CategoryRepo {
         session.dataTask(
                 with: urlRequest,
                 completionHandler: { (data, response, error) in
-                    self.voidCompletionHandler(data: data, response: response, error: error, promise: promise)
+                    CompletionHandlers.voidCompletionHandler(data: data, response: response, error: error, promise: promise)
                 }
         ).resume()
 
         return promise.future
     }
     
-    private func arrayCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<[BasicCategory], NSError>) {
-        if error != nil {
-            return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
-        }
-        
-        guard let nonNilData = data else {
-            return promise.failure(NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
+    private func categoryListCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<[BasicCategory], NSError>) {
+        guard let nonNilData = CompletionHandlers.responsePreFilter(data: data, response: response, error: error) else {
+            return promise.failure(NSError(domain: "completionHandler_responsePreFilterFailed", code: 0, userInfo: nil))
         }
         
         guard let categories = try? JSONDecoder().decode([BasicCategory].self, from: nonNilData) else {
@@ -103,13 +99,9 @@ class NetworkCategoryRepo: CategoryRepo {
         return promise.success(categories)
     }
 
-    private func objectCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Category, NSError>) {
-        if error != nil {
-            return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
-        }
-        
-        guard let nonNilData = data else {
-            return promise.failure(NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
+    private func categoryCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Category, NSError>) {
+        guard let nonNilData = CompletionHandlers.responsePreFilter(data: data, response: response, error: error) else {
+            return promise.failure(NSError(domain: "completionHandler_responsePreFilterFailed", code: 0, userInfo: nil))
         }
 
         guard let category = try? JSONDecoder().decode(Category.self, from: nonNilData) else {
@@ -117,41 +109,5 @@ class NetworkCategoryRepo: CategoryRepo {
         }
 
         return promise.success(category)
-    }
-    
-    private func intCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Int, NSError>) {
-        if error != nil {
-            return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
-        }
-        
-        guard let nonNilData = data else {
-            return promise.failure(NSError(domain: "completionHandler_dataIsNull", code: 0, userInfo: nil))
-        }
-
-        guard let intDictionary = try? JSONDecoder().decode([String: Int].self, from: nonNilData) else {
-            return promise.failure(NSError(domain: "completionHandler_dataCannotBeDeserializedToInt", code: 0, userInfo: nil))
-        }
-
-        guard let int = intDictionary["id"] else {
-            return promise.failure(NSError(domain: "completionHandler_responseDoesNotIncludeId", code: 0, userInfo: nil))
-        }
-
-        return promise.success(int)
-    }
-
-    private func voidCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Void, NSError>) {
-        if error != nil {
-            return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
-        }
-
-        guard let httpResponse = response as? HTTPURLResponse else {
-            return promise.failure(NSError(domain: "completionHandler_responseIsNotValid", code: 0, userInfo: nil))
-        }
-
-        guard httpResponse.statusCode == 200 else {
-            return promise.failure(NSError(domain: "completionHandler_responseStatusIsNot200", code: 0, userInfo: nil))
-        }
-
-        return promise.success(())
     }
 }

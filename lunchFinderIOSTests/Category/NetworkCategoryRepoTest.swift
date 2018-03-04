@@ -7,7 +7,8 @@ class NetworkCategoryRepoTest: XCTestCase {
     var repo: NetworkCategoryRepo!
     var urlSessionProvider: MockURLSessionProvider!
     var mockSession: MockSession!
-    
+    let successfulHttpResponse = HTTPURLResponse(url: URL(string: "http://www.example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+
     override func setUp() {
         super.setUp()
 
@@ -29,7 +30,7 @@ class NetworkCategoryRepoTest: XCTestCase {
 
         let responseCategoriesJSON: [[String: Any]] = [["id": 1, "name": "Category A"], ["id": 2, "name": "Category B"]]
         let responseCategoriesData = try! JSONSerialization.data(withJSONObject: responseCategoriesJSON)
-        mockSession.completionHandler!(responseCategoriesData, nil, nil)
+        mockSession.completionHandler!(responseCategoriesData, successfulHttpResponse, nil)
 
         let expectedCategories = [BasicCategory(id: 1, name: "Category A"), BasicCategory(id: 2, name: "Category B")]
         expect(future.result!.value!).to(equal(expectedCategories))
@@ -52,7 +53,7 @@ class NetworkCategoryRepoTest: XCTestCase {
         
         let responseCategoryJSON: [String: Any] = ["id": 1, "name": "Category A", "restaurants": []]
         let responseCategoryData = try! JSONSerialization.data(withJSONObject: responseCategoryJSON)
-        mockSession.completionHandler!(responseCategoryData, nil, nil)
+        mockSession.completionHandler!(responseCategoryData, successfulHttpResponse, nil)
         
         let resultValue = future.result!.value!
 
@@ -81,7 +82,7 @@ class NetworkCategoryRepoTest: XCTestCase {
         let responseCategoryData = try! JSONEncoder().encode(responseId)
 
 
-        mockSession.completionHandler!(responseCategoryData, nil, nil)
+        mockSession.completionHandler!(responseCategoryData, successfulHttpResponse, nil)
 
         let resultValue = future.result!.value!
         expect(resultValue).to(equal(1))
@@ -99,9 +100,8 @@ class NetworkCategoryRepoTest: XCTestCase {
 
     func test_delete_responseHandling() {
         let future = repo.delete(id: 1)
-        let httpResponse = HTTPURLResponse(url: URL(string: "http://www.example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
 
-        mockSession.completionHandler!(nil, httpResponse, nil)
+        mockSession.completionHandler!(Data(), successfulHttpResponse, nil)
 
         expect(future.result!.value).to(beVoid())
         expect(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled).to(beTrue())
