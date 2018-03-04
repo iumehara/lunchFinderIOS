@@ -37,4 +37,12 @@ class SuccessStubCategoryRepo: CategoryRepo {
         promise.success(1)
         return promise.future
     }
+
+    var delete_wasCalledWith: Int?
+    func delete(id: Int) -> Future<Void, NSError> {
+        delete_wasCalledWith = id
+        let promise = Promise<Void, NSError>()
+        promise.success(())
+        return promise.future
+    }
 }

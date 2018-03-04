@@ -68,6 +68,24 @@ class NetworkCategoryRepo: CategoryRepo {
         
         return promise.future
     }
+
+    func delete(id: Int) -> Future<Void, NSError> {
+        let promise = Promise<Void, NSError>()
+
+        guard let urlRequest = urlSessionProvider.deleteRequest(path: "categories/\(id)/") else {
+            promise.failure(NSError(domain: "could not generate urlRequest", code: 0, userInfo: nil))
+            return promise.future
+        }
+
+        session.dataTask(
+                with: urlRequest,
+                completionHandler: { (data, response, error) in
+                    self.voidCompletionHandler(data: data, response: response, error: error, promise: promise)
+                }
+        ).resume()
+
+        return promise.future
+    }
     
     private func arrayCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<[BasicCategory], NSError>) {
         if error != nil {
@@ -119,5 +137,21 @@ class NetworkCategoryRepo: CategoryRepo {
         }
 
         return promise.success(int)
+    }
+
+    private func voidCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Void, NSError>) {
+        if error != nil {
+            return promise.failure(NSError(domain: error.debugDescription, code: 0, userInfo: nil))
+        }
+
+        guard let httpResponse = response as? HTTPURLResponse else {
+            return promise.failure(NSError(domain: "completionHandler_responseIsNotValid", code: 0, userInfo: nil))
+        }
+
+        guard httpResponse.statusCode == 200 else {
+            return promise.failure(NSError(domain: "completionHandler_responseStatusIsNot200", code: 0, userInfo: nil))
+        }
+
+        return promise.success(())
     }
 }

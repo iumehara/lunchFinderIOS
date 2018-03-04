@@ -103,10 +103,10 @@ class NetworkRestaurantRepoTest: XCTestCase {
         )
         let future = repo.update(id: 1, newRestaurant: newRestaurant)
 
-        let httpResponse = HTTPURLResponse(url: URL(string: "")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+        let httpResponse = HTTPURLResponse(url: URL(string: "www.example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
         mockSession.completionHandler!(nil, httpResponse, nil)
 
-        expect(future.result!.value).to(beNil())
+        expect(future.result!.value).to(beVoid())
         expect(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled).to(beTrue())
     }
 }

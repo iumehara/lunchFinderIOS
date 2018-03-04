@@ -5,13 +5,14 @@ import BrightFutures
 
 class NetworkCategoryRepoTest: XCTestCase {
     var repo: NetworkCategoryRepo!
+    var urlSessionProvider: MockURLSessionProvider!
     var mockSession: MockSession!
     
     override func setUp() {
         super.setUp()
 
         self.continueAfterFailure = false
-        let urlSessionProvider = MockURLSessionProvider()
+        self.urlSessionProvider = MockURLSessionProvider()
         self.mockSession = urlSessionProvider.urlSession as! MockSession
         repo = NetworkCategoryRepo(urlSessionProvider: urlSessionProvider)
     }
@@ -20,6 +21,7 @@ class NetworkCategoryRepoTest: XCTestCase {
         repo.getAll()
 
         expect(self.mockSession.url!.description).to(equal("http://testURL/categories/"))
+        expect(self.urlSessionProvider.getRequest_wasCalled).to(beTrue())
     }
 
     func test_getAll_responseHandling() {
@@ -42,6 +44,7 @@ class NetworkCategoryRepoTest: XCTestCase {
         repo.get(id: 1)
 
         expect(self.mockSession.url?.description).to(equal("http://testURL/categories/1"))
+        expect(self.urlSessionProvider.getRequest_wasCalled).to(beTrue())
     }
 
     func test_get_responseHandling() {
@@ -64,6 +67,7 @@ class NetworkCategoryRepoTest: XCTestCase {
         repo.create(newCategory: newCategory)
 
         expect(self.mockSession.url?.description).to(equal("http://testURL/categories/"))
+        expect(self.urlSessionProvider.postRequest_wasCalled).to(beTrue())
 
         let requestBody = try! JSONEncoder().encode(newCategory)
         expect(self.mockSession.body).to(equal(requestBody))
@@ -83,6 +87,23 @@ class NetworkCategoryRepoTest: XCTestCase {
         expect(resultValue).to(equal(1))
         expect(future.isSuccess).to(beTrue())
         expect(future.isCompleted).to(beTrue())
+        expect(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled).to(beTrue())
+    }
+
+    func test_delete_request() {
+        repo.delete(id: 1)
+
+        expect(self.mockSession.url?.description).to(equal("http://testURL/categories/1/"))
+        expect(self.urlSessionProvider.deleteRequest_wasCalled).to(beTrue())
+    }
+
+    func test_delete_responseHandling() {
+        let future = repo.delete(id: 1)
+        let httpResponse = HTTPURLResponse(url: URL(string: "http://www.example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+
+        mockSession.completionHandler!(nil, httpResponse, nil)
+
+        expect(future.result!.value).to(beVoid())
         expect(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled).to(beTrue())
     }
 }

@@ -55,7 +55,23 @@ class CategoryListViewController: UITableViewController {
         let selectedCategory = categories[indexPath.row]
         router.showCategoryDetailScreen(id: selectedCategory.id)
     }
-    
+
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            let selectedCategory = categories[indexPath.row]
+            repo.delete(id: selectedCategory.id)
+                .onSuccess { _ in
+                    print("success!")
+                    self.categories.remove(at: indexPath.row)
+                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                }
+        }
+    }
+
     @objc
     func addCategoryTapped() {
         router.showNewCategoryScreen()
