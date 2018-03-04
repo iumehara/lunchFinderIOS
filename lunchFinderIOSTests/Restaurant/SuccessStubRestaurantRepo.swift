@@ -17,26 +17,34 @@ class SuccessStubRestaurantRepo: RestaurantRepo {
         geolocation: Geolocation(lat: 1.0, long: 1.0)
     )
 
-    var get_responseFuture = Future<Restaurant, NSError>()
     func get(id: Int) -> Future<Restaurant, NSError> {
         let promise = Promise<Restaurant, NSError>()
         promise.success(stubRestaurant)
         
-        get_responseFuture = promise.future
-        return get_responseFuture
+        return promise.future
     }
 
     var create_wasCalledWith: NewRestaurant?
-    var create_responseFuture = Future<Int, NSError>()
     func create(newRestaurant: NewRestaurant) -> Future<Int, NSError> {
         create_wasCalledWith = newRestaurant
         let promise = Promise<Int, NSError>()
         promise.success(1)
-        create_responseFuture = promise.future
-        return create_responseFuture
+        return promise.future
     }
 
+    var update_wasCalledWith: (Int?, NewRestaurant?)
     func update(id: Int, newRestaurant: NewRestaurant) -> Future<Void, NSError> {
-        fatalError("update(id:newRestaurant:) has not been implemented")
+        update_wasCalledWith = (id, newRestaurant)
+        let promise = Promise<Void, NSError>()
+        promise.success(())
+        return promise.future
+    }
+    
+    var delete_wasCalledWith: Int?
+    func delete(id: Int) -> Future<Void, NSError> {
+        delete_wasCalledWith = id
+        let promise = Promise<Void, NSError>()
+        promise.success(())
+        return promise.future
     }
 }

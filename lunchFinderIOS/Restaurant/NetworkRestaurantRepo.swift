@@ -74,6 +74,24 @@ class NetworkRestaurantRepo: RestaurantRepo {
         return promise.future
     }
     
+    func delete(id: Int) -> Future<Void, NSError> {
+        let promise = Promise<Void, NSError>()
+
+        guard let urlRequest = urlSessionProvider.deleteRequest(path: "restaurants/\(id)") else {
+            promise.failure(NSError(domain: "could not generate urlRequest", code: 0, userInfo: nil))
+            return promise.future
+        }
+
+        session.dataTask(
+            with: urlRequest,
+            completionHandler: { (data, response, error) in
+                    CompletionHandlers.voidCompletionHandler(data: data, response: response, error: error, promise: promise)
+            }
+        ).resume()
+        
+        return promise.future
+    }
+    
     private func restaurantCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Restaurant, NSError>) {
         guard let nonNilData = CompletionHandlers.responsePreFilter(data: data, response: response, error: error) else {
             return promise.failure(NSError(domain: "completionHandler_responsePreFilterFailed", code: 0, userInfo: nil))

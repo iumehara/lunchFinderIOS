@@ -5,6 +5,7 @@ class EditRestaurantViewController: UIViewController {
     private let router: Router
     private let repo: RestaurantRepo
     private let form: RestaurantForm
+    private let deleteButton: UIButton
     
     init(
         router: Router,
@@ -16,6 +17,7 @@ class EditRestaurantViewController: UIViewController {
         self.repo = repo
         self.form = RestaurantForm(categoryRepo: categoryRepo)
         self.id = id
+        self.deleteButton = UIButton()
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -45,6 +47,12 @@ class EditRestaurantViewController: UIViewController {
         navigationItem.rightBarButtonItem = saveButton
         
         view.addSubview(form)
+        
+        deleteButton.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
+        deleteButton.setTitle("Delete Restaurant", for: .normal)
+        deleteButton.setTitleColor(.white, for: .normal)
+        deleteButton.backgroundColor = UIColor.red
+        view.addSubview(deleteButton)
     }
     
     func activateConstraints() {
@@ -54,12 +62,22 @@ class EditRestaurantViewController: UIViewController {
         form.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
         form.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
         form.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+        
+        deleteButton.translatesAutoresizingMaskIntoConstraints = false
+        deleteButton.topAnchor.constraint(equalTo: form.bottomAnchor).isActive = true
+        deleteButton.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
+        deleteButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+        deleteButton.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
     }
     
-    @objc
-    func saveTapped() {
+    @objc func saveTapped() {
         guard let newRestaurant = form.newRestaurant() else { return }
         repo.update(id: id, newRestaurant: newRestaurant)
             .onSuccess { _ in self.router.showRestaurantDetailScreen(id: self.id)}
+    }
+    
+    @objc func deleteTapped() {
+        repo.delete(id: id)
+            .onSuccess { _ in self.router.showCategoryListScreen()}
     }
 }

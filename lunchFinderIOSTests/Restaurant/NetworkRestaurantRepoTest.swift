@@ -109,4 +109,19 @@ class NetworkRestaurantRepoTest: XCTestCase {
         expect(future.result!.value).to(beVoid())
         expect(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled).to(beTrue())
     }
+    
+    func test_delete_request() {
+        repo.delete(id: 1)
+        
+        expect(self.mockSession.url!.description).to(equal("http://testURL/restaurants/1"))
+    }
+    
+    func test_delete_responseHandling() {
+        let future = repo.delete(id: 1)
+        
+        mockSession.completionHandler!(Data(), successfulHttpResponse, nil)
+        
+        expect(future.result!.value).to(beVoid())
+        expect(self.mockSession.urlSessionDataTaskSpy.resumeWasCalled).to(beTrue())
+    }
 }

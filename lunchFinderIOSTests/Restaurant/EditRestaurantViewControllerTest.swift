@@ -8,7 +8,6 @@ class EditRestaurantViewControllerTest: XCTestCase {
     var repo: SuccessStubRestaurantRepo!
     var categoryRepo: SuccessStubCategoryRepo!
     
-    
     override func setUp() {
         self.router = SpyRouter()
         self.repo = SuccessStubRestaurantRepo()
@@ -30,7 +29,31 @@ class EditRestaurantViewControllerTest: XCTestCase {
     
     func test_subviews() {
         let subviews = controller.view.subviews
-        expect(subviews.count).to(equal(1))
+        expect(subviews.count).to(equal(2))
         expect(String(describing: type(of: subviews[0]))).to(equal("RestaurantForm"))
+        expect(String(describing: type(of: subviews[1]))).to(equal("UIButton"))
+    }
+    
+    func test_formSubmission() {
+        let restaurantForm = controller.view.subviews[0] as! RestaurantForm
+        
+        let nameInputRow = restaurantForm.subviews[0] as! TextInputRow
+        let nameInputField = nameInputRow.subviews[1] as! UITextField
+        nameInputField.text = "new value"
+        
+        let saveButton = controller.navigationItem.rightBarButtonItem
+        UIApplication.shared.sendAction(saveButton!.action!, to: saveButton!.target, from: self, for: nil)
+        
+        expect(self.repo.update_wasCalledWith.0).to(equal(1))
+        expect(self.repo.update_wasCalledWith.1).to(equal(NewRestaurant(name: "new value")))
+        expect(self.router.showRestaurantDetailScreen_wasCalledWith).toEventually(equal(1))
+    }
+    
+    func test_delete() {
+        let deleteButton = controller.view.subviews[1] as! UIButton
+        deleteButton.sendActions(for: UIControlEvents.touchUpInside)
+        
+        expect(self.repo.delete_wasCalledWith).to(equal(1))
+        expect(self.router.showCategoryListScreen_wasCalled).toEventually(beTrue())
     }
 }

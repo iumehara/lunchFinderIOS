@@ -39,7 +39,7 @@ struct CompletionHandlers {
     }
 
     static func voidCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Void, NSError>) {
-        guard let nonNilData = responsePreFilter(data: data, response: response, error: error) else {
+        guard let _ = responsePreFilter(data: data, response: response, error: error) else {
             return promise.failure(NSError(domain: "completionHandler_responsePreFilterFailed", code: 0, userInfo: nil))
         }
 
