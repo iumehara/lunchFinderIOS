@@ -22,7 +22,7 @@
 		2453F2A7202D8C3F00322017 /* CategoryRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2453F2A6202D8C3F00322017 /* CategoryRepo.swift */; };
 		2453F2A9202D8C7300322017 /* NetworkCategoryRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2453F2A8202D8C7300322017 /* NetworkCategoryRepo.swift */; };
 		2453F2AB202D8D1300322017 /* SuccessStubCategoryRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2453F2AA202D8D1300322017 /* SuccessStubCategoryRepo.swift */; };
-		245CB0BA2039C7EB006A0B5F /* Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0B92039C7EB006A0B5F /* Map.swift */; };
+		245CB0BA2039C7EB006A0B5F /* GoogleMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0B92039C7EB006A0B5F /* GoogleMap.swift */; };
 		245CB0BD203A6142006A0B5F /* Geolocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0BC203A6142006A0B5F /* Geolocation.swift */; };
 		245CB0BF203A9488006A0B5F /* RestaurantBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0BE203A9488006A0B5F /* RestaurantBuilder.swift */; };
 		245CB0C2203AADB6006A0B5F /* NetworkRestaurantRepoTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 245CB0C1203AADB6006A0B5F /* NetworkRestaurantRepoTest.swift */; };
@@ -93,7 +93,7 @@
 		2453F2A6202D8C3F00322017 /* CategoryRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRepo.swift; sourceTree = "<group>"; };
 		2453F2A8202D8C7300322017 /* NetworkCategoryRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkCategoryRepo.swift; sourceTree = "<group>"; };
 		2453F2AA202D8D1300322017 /* SuccessStubCategoryRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SuccessStubCategoryRepo.swift; sourceTree = "<group>"; };
-		245CB0B92039C7EB006A0B5F /* Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map.swift; sourceTree = "<group>"; };
+		245CB0B92039C7EB006A0B5F /* GoogleMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleMap.swift; sourceTree = "<group>"; };
 		245CB0BC203A6142006A0B5F /* Geolocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Geolocation.swift; sourceTree = "<group>"; };
 		245CB0BE203A9488006A0B5F /* RestaurantBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantBuilder.swift; sourceTree = "<group>"; };
 		245CB0C1203AADB6006A0B5F /* NetworkRestaurantRepoTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRestaurantRepoTest.swift; sourceTree = "<group>"; };
@@ -210,7 +210,7 @@
 		245CB0BB203A612F006A0B5F /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				245CB0B92039C7EB006A0B5F /* Map.swift */,
+				245CB0B92039C7EB006A0B5F /* GoogleMap.swift */,
 				245CB0BC203A6142006A0B5F /* Geolocation.swift */,
 				245CB0C7203ABEB7006A0B5F /* MapService.swift */,
 				245CB0C9203ABF4E006A0B5F /* GoogleMapService.swift */,
@@ -635,7 +635,7 @@
 				24A435AE20366F38000EECAF /* NetworkRestaurantRepo.swift in Sources */,
 				24B152DC20414E440053C2C7 /* SelectOption.swift in Sources */,
 				2453F2A9202D8C7300322017 /* NetworkCategoryRepo.swift in Sources */,
-				245CB0BA2039C7EB006A0B5F /* Map.swift in Sources */,
+				245CB0BA2039C7EB006A0B5F /* GoogleMap.swift in Sources */,
 				24AFF186203FFDA500BC1EE5 /* RestaurantForm.swift in Sources */,
 				248D364A202D71F5000C4EF3 /* Category.swift in Sources */,
 				24AFF184203FA5A900BC1EE5 /* NewRestaurantViewController.swift in Sources */,

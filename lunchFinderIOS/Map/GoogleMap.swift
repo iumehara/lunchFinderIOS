@@ -1,7 +1,7 @@
 import UIKit
 import GoogleMaps
 
-class Map: UIView {
+class GoogleMap: UIView {
     var mapView: GMSMapView
     var map: UIView = UIView()
     var isSelectable = false
@@ -50,7 +50,7 @@ class Map: UIView {
     }
 }
 
-extension Map: GMSMapViewDelegate {
+extension GoogleMap: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         guard (self.isSelectable) else { return }
         

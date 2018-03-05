@@ -28,7 +28,7 @@ class CategoryDetailViewControllerTest: XCTestCase {
     func test_subviews() {
         let subviews = controller.view.subviews
         expect(subviews.count).to(equal(2))
-        expect(String(describing: type(of: subviews[0]))).to(equal("Map"))
+        expect(String(describing: type(of: subviews[0]))).to(equal("UIView"))
         expect(String(describing: type(of: subviews[1]))).to(equal("UITableView"))
     }
     

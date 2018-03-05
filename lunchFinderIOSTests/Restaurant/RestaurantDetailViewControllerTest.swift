@@ -34,7 +34,7 @@ class RestaurantDetailViewControllerTest: XCTestCase {
         }
 
         expect(subviewTypes.count).to(equal(2))
-        expect(subviewTypes).to(contain("Map"))
+        expect(subviewTypes).to(contain("UIView"))
         expect(subviewTypes).to(contain("UITableView"))
     }
     

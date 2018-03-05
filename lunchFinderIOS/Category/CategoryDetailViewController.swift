@@ -4,7 +4,7 @@ class CategoryDetailViewController: UIViewController {
     private let repo: CategoryRepo
     private let mapService: MapService
     private let id: Int
-    private let map: Map
+    private let map: UIView
     private let restaurantTable: UITableView
     private let restaurantTableViewProtocols: RestaurantTableViewProtocols
     

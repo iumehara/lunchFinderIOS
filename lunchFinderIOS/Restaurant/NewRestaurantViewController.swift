@@ -5,7 +5,7 @@ class NewRestaurantViewController: UIViewController {
     private let repo: RestaurantRepo
     private let form: RestaurantForm
     private let mapService: MapService
-    private let map: Map
+    private let map: UIView
 
     init(
             router: Router,
@@ -60,11 +60,7 @@ class NewRestaurantViewController: UIViewController {
     
     @objc
     func saveTapped() {
-        let position = map.marker?.position
-        var geolocation: Geolocation?
-        if let lat = position?.latitude, let long = position?.longitude {
-            geolocation = Geolocation(lat: lat, long: long)
-        }
+        let geolocation = mapService.getMarkerPosition()
     
         guard let newRestaurant = form.newRestaurant(geolocation: geolocation) else { return }
         repo.create(newRestaurant: newRestaurant)

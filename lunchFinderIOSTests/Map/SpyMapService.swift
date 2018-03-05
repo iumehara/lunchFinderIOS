@@ -4,15 +4,15 @@ import UIKit
 
 class SpyMapService: MapService {
     var createMap_wasCalled = false
-    func createMap() -> Map {
+    func createMap() -> UIView {
         createMap_wasCalled = true
-        return Map(frame: CGRect.zero)
+        return UIView()
     }
 
     var createMap_wasCalledWith = false
-    func createMap(isSelectable: Bool) -> Map {
+    func createMap(isSelectable: Bool) -> UIView {
         createMap_wasCalledWith = isSelectable
-        return Map(frame: CGRect.zero, isSelectable: true)
+        return UIView()
     }
 
     var setMarker_wasCalledWith: Restaurant? = nil
@@ -23,5 +23,11 @@ class SpyMapService: MapService {
     var setMarkers_wasCalledWith: [Restaurant] = []
     func setMarkers(restaurants: [Restaurant]) {
         setMarkers_wasCalledWith = restaurants
+    }
+
+    var getMarkerPosition_wasCalled = false
+    func getMarkerPosition() -> Geolocation? {
+        getMarkerPosition_wasCalled = true
+        return nil
     }
 }
