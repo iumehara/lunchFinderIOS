@@ -4,14 +4,24 @@ import GoogleMaps
 class Map: UIView {
     var mapView: GMSMapView
     var map: UIView = UIView()
+    var isSelectable = false
+    var marker: GMSMarker?
+
+    convenience init(frame: CGRect, isSelectable: Bool) {
+        self.init(frame: frame)
+        self.isSelectable = isSelectable
+    }
     
     override init(frame: CGRect) {
         let camera = GMSCameraPosition.camera(withLatitude: 35.660480, longitude: 139.729247, zoom: 16.0)
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         self.map = mapView
         
+        
         super.init(frame: frame)
         
+        mapView.delegate = self
+
         self.addSubview(map)
         
         let margins = self.safeAreaLayoutGuide
@@ -39,3 +49,21 @@ class Map: UIView {
         fatalError("error")
     }
 }
+
+extension Map: GMSMapViewDelegate {
+    func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
+        guard (self.isSelectable) else { return }
+        
+        if (self.marker != nil) {
+            self.marker!.map = nil
+        }
+        
+        marker = GMSMarker(position: coordinate)
+        
+        guard let unwrappedMarker = marker else { return }
+    
+        unwrappedMarker.isDraggable = true
+        unwrappedMarker.map = mapView
+    }
+}
+

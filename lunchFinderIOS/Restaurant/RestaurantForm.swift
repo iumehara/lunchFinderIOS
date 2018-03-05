@@ -126,4 +126,16 @@ class RestaurantForm: UIView {
             geolocation: geolocation
         )
     }
+
+    func newRestaurant(geolocation: Geolocation?) -> NewRestaurant? {
+        guard let name = nameInputRow.text() else { return nil }
+        
+        return NewRestaurant(
+            name: name,
+            nameJp: nameJpInputRow.text(),
+            website: websiteInputRow.text(),
+            categoryIds: categoriesInputRow.ids(),
+            geolocation: geolocation
+        )
+    }
 }

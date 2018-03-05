@@ -7,15 +7,18 @@ class NewRestaurantViewControllerTest: XCTestCase {
     var router: SpyRouter!
     var repo: SuccessStubRestaurantRepo!
     var categoryRepo: SuccessStubCategoryRepo!
+    var mapService: SpyMapService!
     
     override func setUp() {
         router = SpyRouter()
         repo = SuccessStubRestaurantRepo()
         categoryRepo = SuccessStubCategoryRepo()
+        mapService = SpyMapService()
         controller = NewRestaurantViewController(
             router: router,
             repo: repo,
-            categoryRepo: categoryRepo
+            categoryRepo: categoryRepo,
+            mapService: mapService
         )
         
         controller.viewDidLoad()
@@ -31,12 +34,17 @@ class NewRestaurantViewControllerTest: XCTestCase {
             return String(describing: type(of: view))
         }
 
-        expect(subviewTypes.count).to(equal(1))
+        expect(subviewTypes.count).to(equal(2))
+        expect(subviewTypes).to(contain("Map"))
         expect(subviewTypes).to(contain("RestaurantForm"))
     }
     
+    func test_map() {
+        expect(self.mapService.createMap_wasCalledWith).to(equal(true))
+    }
+    
     func test_formSubmission() {
-        let restaurantForm = controller.view.subviews[0] as! RestaurantForm
+        let restaurantForm = controller.view.subviews[1] as! RestaurantForm
         
         let nameInputRow = restaurantForm.subviews[0] as! TextInputRow
         let nameInputField = nameInputRow.subviews[1] as! UITextField

@@ -10,6 +10,11 @@ class GoogleMapService: MapService {
         map = Map(frame: CGRect.zero)
         return map
     }
+
+    func createMap(isSelectable: Bool) -> Map {
+        map = Map(frame: CGRect.zero, isSelectable: isSelectable)
+        return map
+    }
     
     func setMarker(restaurant: Restaurant) {
         map.setMarker(restaurant: restaurant)

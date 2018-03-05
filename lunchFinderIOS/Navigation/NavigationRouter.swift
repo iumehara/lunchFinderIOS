@@ -61,7 +61,8 @@ struct NavigationRouter: Router {
         let newRestaurantViewController = NewRestaurantViewController(
             router: self,
             repo: restaurantRepo,
-            categoryRepo: categoryRepo
+            categoryRepo: categoryRepo,
+            mapService: mapService
         )
         
         navigationController.pushViewController(newRestaurantViewController, animated: animated)

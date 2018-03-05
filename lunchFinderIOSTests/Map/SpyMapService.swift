@@ -9,6 +9,12 @@ class SpyMapService: MapService {
         return Map(frame: CGRect.zero)
     }
 
+    var createMap_wasCalledWith = false
+    func createMap(isSelectable: Bool) -> Map {
+        createMap_wasCalledWith = isSelectable
+        return Map(frame: CGRect.zero, isSelectable: true)
+    }
+
     var setMarker_wasCalledWith: Restaurant? = nil
     func setMarker(restaurant: Restaurant) {
         setMarker_wasCalledWith = restaurant
