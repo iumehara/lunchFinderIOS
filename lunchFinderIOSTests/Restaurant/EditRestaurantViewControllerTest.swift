@@ -54,6 +54,6 @@ class EditRestaurantViewControllerTest: XCTestCase {
         deleteButton.sendActions(for: UIControlEvents.touchUpInside)
         
         expect(self.repo.delete_wasCalledWith).to(equal(1))
-        expect(self.router.showCategoryListScreen_wasCalled).toEventually(beTrue())
+        expect(self.router.showRestaurantListScreen_wasCalled).toEventually(beTrue())
     }
 }

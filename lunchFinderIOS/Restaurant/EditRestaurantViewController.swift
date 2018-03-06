@@ -78,6 +78,6 @@ class EditRestaurantViewController: UIViewController {
     
     @objc func deleteTapped() {
         repo.delete(id: id)
-            .onSuccess { _ in self.router.showCategoryListScreen()}
+            .onSuccess { _ in self.router.showRestaurantListScreen()}
     }
 }
