@@ -5,6 +5,7 @@ class RestaurantListViewController: UIViewController {
     private let repo: RestaurantRepo
     private let table: UITableView
     private let tableViewProtocols: RestaurantTableViewProtocols
+    private var refreshControl: UIRefreshControl?
 
     init(router: Router, repo: RestaurantRepo) {
         self.router = router
@@ -56,6 +57,13 @@ class RestaurantListViewController: UIViewController {
         table.dataSource = tableViewProtocols
         table.delegate = tableViewProtocols
         table.register(UITableViewCell.self, forCellReuseIdentifier: RestaurantTableViewProtocols.cellIdentifier)
+
+        self.refreshControl = UIRefreshControl()
+        if let control = refreshControl {
+            table.refreshControl = control
+            control.addTarget(self, action: #selector(reloadData), for: .valueChanged)
+        }
+
     }
 
     private func activateConstraints() {
@@ -76,4 +84,15 @@ class RestaurantListViewController: UIViewController {
         router.showCategoryListScreen()
     }
 
+    @objc func reloadData() {
+        repo.getAll()
+                .onSuccess { restaurants in
+                    self.tableViewProtocols.setRestaurants(restaurants: restaurants)
+                }
+                .onFailure { error in print("failed \(error)") }
+                .onComplete { _ in
+                    self.table.reloadData()
+                    self.refreshControl!.endRefreshing()
+                }
+    }
 }
