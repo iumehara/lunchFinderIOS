@@ -5,7 +5,7 @@ class CategoryListViewController: UITableViewController {
     private let repo: CategoryRepo
     private let tableViewCellIdentifier: String = String(describing: UITableViewCell.self)
     private var categories: [BasicCategory] = []
-    
+
     init(router: Router, repo: CategoryRepo) {
         self.router = router
         self.repo = repo
@@ -19,6 +19,23 @@ class CategoryListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        setupNavigationBar()
+        
+        self.refreshControl = UIRefreshControl()
+        if let control = refreshControl {
+            tableView.refreshControl = control
+            control.addTarget(self, action: #selector(reloadData), for: .valueChanged)
+        }
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
+
+        repo.getAll()
+            .onSuccess { categories in self.categories = categories }
+            .onFailure { error in print("failed \(error)") }
+            .onComplete { _ in self.tableView.reloadData() }
+    }
+    
+    private func setupNavigationBar() {
         title = "LunchFinder"
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(
             title: "Add Category",
@@ -32,14 +49,8 @@ class CategoryListViewController: UITableViewController {
             target: self,
             action: #selector(addRestaurantTapped)
         )
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
-
-        repo.getAll()
-            .onSuccess { categories in self.categories = categories }
-            .onFailure { error in print("failed \(error)") }
-            .onComplete { _ in self.tableView.reloadData() }
     }
+    
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count
@@ -65,7 +76,6 @@ class CategoryListViewController: UITableViewController {
             let selectedCategory = categories[indexPath.row]
             repo.delete(id: selectedCategory.id)
                 .onSuccess { _ in
-                    print("success!")
                     self.categories.remove(at: indexPath.row)
                     self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 }
@@ -80,5 +90,16 @@ class CategoryListViewController: UITableViewController {
     @objc
     func addRestaurantTapped() {
         router.showNewRestaurantScreen()
+    }
+
+    @objc
+    func reloadData() {
+        repo.getAll()
+                .onSuccess { categories in self.categories = categories }
+                .onFailure { error in print("failed \(error)") }
+                .onComplete { _ in
+                    self.tableView.reloadData()
+                    self.refreshControl!.endRefreshing()
+                }
     }
 }
