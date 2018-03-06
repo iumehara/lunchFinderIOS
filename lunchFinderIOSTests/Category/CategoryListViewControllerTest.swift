@@ -18,8 +18,8 @@ class CategoryListViewControllerTest: XCTestCase {
 
     func test_navigationBar() {
         expect(self.controller.title).to(equal("Categories"))
-        expect(self.controller.navigationItem.leftBarButtonItem!.title).to(equal("Restaurants"))
         expect(self.controller.navigationItem.rightBarButtonItem).toNot(beNil())
+        expect(self.controller.navigationItem.leftBarButtonItem!.title).to(equal("Restaurants"))
     }
 
     func test_numberOfSections() {

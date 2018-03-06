@@ -23,21 +23,32 @@ class NewRestaurantViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        title = "New Restaurant"
-
+        setupNavigationBar()
         setupSubviews()
         activateConstraints()
     }
-    
-    func setupSubviews() {
-        view.backgroundColor = UIColor.white
-        let saveButton = UIBarButtonItem.init(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
-        navigationItem.rightBarButtonItem = saveButton
 
+    private func setupNavigationBar() {
+        title = "New Restaurant"
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(
+                barButtonSystemItem: .save,
+                target: self,
+                action: #selector(saveTapped)
+        )
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem.init(
+                barButtonSystemItem: .cancel,
+                target: self,
+                action: #selector(cancelTapped)
+        )
+    }
+
+    private func setupSubviews() {
         view.addSubview(form)
     }
-    
-    func activateConstraints() {
+
+    private func activateConstraints() {
         let margins = self.view.safeAreaLayoutGuide
 
         form.translatesAutoresizingMaskIntoConstraints = false
@@ -45,11 +56,14 @@ class NewRestaurantViewController: UIViewController {
         form.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
         form.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
     }
-    
-    @objc
-    func saveTapped() {
+
+    @objc func saveTapped() {
         guard let newRestaurant = form.newRestaurant() else { return }
         repo.create(newRestaurant: newRestaurant)
-            .onSuccess { restaurantId in self.router.showRestaurantDetailScreen(id: restaurantId) }
+                .onSuccess { restaurantId in self.router.showRestaurantDetailScreen(id: restaurantId) }
+    }
+
+    @objc func cancelTapped() {
+        router.showRestaurantListScreen()
     }
 }

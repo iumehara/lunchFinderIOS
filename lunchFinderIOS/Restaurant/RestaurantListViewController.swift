@@ -31,21 +31,21 @@ class RestaurantListViewController: UIViewController {
             .onSuccess { restaurants in
                 self.tableViewProtocols.setRestaurants(restaurants: restaurants)
             }
-                .onFailure { _ in print("failure")}
+            .onFailure { _ in print("failure")}
             .onComplete { _ in self.table.reloadData() }
     }
 
     private func setupNavigationBar() {
         title = "Restaurants"
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(
-                barButtonSystemItem: UIBarButtonSystemItem.add,
+                barButtonSystemItem: .add,
                 target: self,
                 action: #selector(addRestaurantTapped)
         )
 
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(
                 title: "Categories",
-                style: UIBarButtonItemStyle.plain,
+                style: .plain,
                 target: self,
                 action: #selector(categoriesTapped)
         )

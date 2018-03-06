@@ -28,6 +28,7 @@ class EditRestaurantViewControllerTest: XCTestCase {
     func test_navigationBar() {
         expect(self.controller.title).to(equal("Edit Restaurant"))
         expect(self.controller.navigationItem.rightBarButtonItem).toNot(beNil())
+        expect(self.controller.navigationItem.leftBarButtonItem).toNot(beNil())
     }
     
     func test_subviews() {

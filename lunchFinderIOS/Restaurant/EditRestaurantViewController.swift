@@ -30,9 +30,8 @@ class EditRestaurantViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        title = "Edit Restaurant"
-        
         fetchData()
+        setupNavigationBar()
         setupSubviews()
         activateConstraints()
     }
@@ -43,12 +42,26 @@ class EditRestaurantViewController: UIViewController {
                 self.form.setDefaultValues(restaurant: restaurant)
             }
     }
-    
-    func setupSubviews() {
+
+    private func setupNavigationBar() {
+        title = "Edit Restaurant"
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(
+                barButtonSystemItem: .save,
+                target: self,
+                action: #selector(saveTapped)
+        )
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem.init(
+                barButtonSystemItem: .cancel,
+                target: self,
+                action: #selector(cancelTapped)
+        )
+    }
+
+    private func setupSubviews() {
         view.backgroundColor = UIColor.white
-        let saveButton = UIBarButtonItem.init(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
-        navigationItem.rightBarButtonItem = saveButton
-        
+
         view.addSubview(form)
         
         deleteButton.addTarget(self, action: #selector(deleteTapped), for: .touchUpInside)
@@ -57,8 +70,8 @@ class EditRestaurantViewController: UIViewController {
         deleteButton.backgroundColor = UIColor.red
         view.addSubview(deleteButton)
     }
-    
-    func activateConstraints() {
+
+    private func activateConstraints() {
         let margins = self.view.safeAreaLayoutGuide
         
         form.translatesAutoresizingMaskIntoConstraints = false
@@ -82,5 +95,9 @@ class EditRestaurantViewController: UIViewController {
     @objc func deleteTapped() {
         repo.delete(id: id)
             .onSuccess { _ in self.router.showRestaurantListScreen()}
+    }
+
+    @objc func cancelTapped() {
+        router.showRestaurantDetailScreen(id: id)
     }
 }

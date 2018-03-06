@@ -23,6 +23,7 @@ class CategoryDetailViewControllerTest: XCTestCase {
     
     func test_navigationBar() {
         expect(self.controller.title).toEventually(equal("Category A"))
+        expect(self.controller.navigationItem.leftBarButtonItem!.title).to(equal("Categories"))
     }
 
     func test_subviews() {

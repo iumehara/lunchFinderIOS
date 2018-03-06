@@ -19,16 +19,28 @@ class NewCategoryViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        title = "New Category"
-        
+        setupNavigationBar()
         setupSubviews()
         activateConstraints()
     }
-    
+
+    private func setupNavigationBar() {
+        title = "New Category"
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(
+                barButtonSystemItem: .save,
+                target: self,
+                action: #selector(saveTapped)
+        )
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem.init(
+                barButtonSystemItem: .cancel,
+                target: self,
+                action: #selector(cancelTapped)
+        )
+    }
+
     private func setupSubviews() {
-        let saveButton = UIBarButtonItem.init(barButtonSystemItem: .save, target: self, action: #selector(saveTapped))
-        navigationItem.rightBarButtonItem = saveButton
-        
         view.backgroundColor = UIColor.white
         
         nameLabel.text = "Name"
@@ -57,8 +69,7 @@ class NewCategoryViewController: UIViewController {
         nameInput.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
     }
     
-    @objc
-    func saveTapped() {
+    @objc func saveTapped() {
         if let name = nameInput.text {
             let newCategory = NewCategory(name: name)
             repo.create(newCategory: newCategory)
@@ -66,5 +77,9 @@ class NewCategoryViewController: UIViewController {
                 .onFailure { error in }
                 .onComplete { value in }
         }
+    }
+
+    @objc func cancelTapped() {
+        router.showRestaurantListScreen()
     }
 }

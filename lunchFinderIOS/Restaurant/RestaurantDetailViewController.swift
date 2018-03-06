@@ -28,14 +28,7 @@ class RestaurantDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "LunchFinder"
-        navigationItem.rightBarButtonItem = UIBarButtonItem.init(
-                title: "Edit",
-                style: UIBarButtonItemStyle.plain,
-                target: self,
-                action: #selector(editTapped)
-        )
-
+        setupNavigationBar()
         setupSubviews()
         activateConstraints()
         
@@ -47,7 +40,23 @@ class RestaurantDetailViewController: UIViewController {
             }
             .onComplete { _ in self.categoryTable.reloadData() }
     }
-    
+
+    private func setupNavigationBar() {
+        title = "LunchFinder"
+        navigationItem.rightBarButtonItem = UIBarButtonItem.init(
+                barButtonSystemItem: .edit,
+                target: self,
+                action: #selector(editTapped)
+        )
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem.init(
+                title: "Restaurants",
+                style: .plain,
+                target: self,
+                action: #selector(restaurantsTapped)
+        )
+    }
+
     private func setupSubviews() {
         view.addSubview(map)
         view.addSubview(categoryTable)
@@ -76,8 +85,11 @@ class RestaurantDetailViewController: UIViewController {
         categoryTable.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
     }
 
-    @objc
-    private func editTapped() {
+    @objc private func editTapped() {
         router.showEditRestaurantScreen(id: id)
+    }
+
+    @objc private func restaurantsTapped() {
+        router.showRestaurantListScreen()
     }
 }
