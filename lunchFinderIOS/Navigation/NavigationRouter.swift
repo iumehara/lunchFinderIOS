@@ -45,7 +45,16 @@ struct NavigationRouter: Router {
         
         navigationController.pushViewController(newCategoryViewController, animated: animated)
     }
-    
+
+    func showRestaurantListScreen() {
+        let restaurantListViewController = RestaurantListViewController(
+                router: self,
+                repo: restaurantRepo
+        )
+
+        navigationController.pushViewController(restaurantListViewController, animated: animated)
+    }
+
     func showRestaurantDetailScreen(id: Int) {
         let restaurantDetailViewController = RestaurantDetailViewController(
             router: self,

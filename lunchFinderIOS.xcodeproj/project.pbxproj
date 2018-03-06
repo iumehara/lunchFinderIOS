@@ -58,12 +58,14 @@
 		24AFF18B20400B8E00BC1EE5 /* NewRestaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24AFF18A20400B8E00BC1EE5 /* NewRestaurant.swift */; };
 		24B152DC20414E440053C2C7 /* SelectOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B152DB20414E440053C2C7 /* SelectOption.swift */; };
 		24B2ECA7204A8BE200BCAFB2 /* EditRestaurantViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B2ECA6204A8BE200BCAFB2 /* EditRestaurantViewControllerTest.swift */; };
+		24B2ECAB204E7DEB00BCAFB2 /* RestaurantListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24B2ECAA204E7DEB00BCAFB2 /* RestaurantListViewController.swift */; };
 		24F99ADA2043AAA50060B526 /* MultipleSelectInputTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F99AD92043AAA50060B526 /* MultipleSelectInputTest.swift */; };
 		24F99ADC2043B5860060B526 /* NewRestaurantViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F99ADB2043B5860060B526 /* NewRestaurantViewControllerTest.swift */; };
 		24F99AE42043D6160060B526 /* RestaurantFormTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F99AE32043D6160060B526 /* RestaurantFormTest.swift */; };
 		24F99AE62043F0560060B526 /* EditRestaurantViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24F99AE52043F0560060B526 /* EditRestaurantViewController.swift */; };
 		4DAB728956909DE7B87300D5 /* libPods-lunchFinderIOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 56BCA54E45B9AFD14DC84A8C /* libPods-lunchFinderIOS.a */; };
 		7D6E30343FC3F255343C62CE /* Pods_lunchFinderIOSTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7176081F6896B73B89D093BA /* Pods_lunchFinderIOSTests.framework */; };
+		ECF950235797D5D429FF8B56 /* BasicRestaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF95CD6DB99B5B2183F5CE9 /* BasicRestaurant.swift */; };
 		ECF959852E3D4AA4C30CB549 /* CompletionHandlers.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF954EF7AD69EB9ABAF10FB /* CompletionHandlers.swift */; };
 /* End PBXBuildFile section */
 
@@ -132,6 +134,7 @@
 		24AFF18A20400B8E00BC1EE5 /* NewRestaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRestaurant.swift; sourceTree = "<group>"; };
 		24B152DB20414E440053C2C7 /* SelectOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectOption.swift; sourceTree = "<group>"; };
 		24B2ECA6204A8BE200BCAFB2 /* EditRestaurantViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRestaurantViewControllerTest.swift; sourceTree = "<group>"; };
+		24B2ECAA204E7DEB00BCAFB2 /* RestaurantListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantListViewController.swift; sourceTree = "<group>"; };
 		24F99AD92043AAA50060B526 /* MultipleSelectInputTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectInputTest.swift; sourceTree = "<group>"; };
 		24F99ADB2043B5860060B526 /* NewRestaurantViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRestaurantViewControllerTest.swift; sourceTree = "<group>"; };
 		24F99AE32043D6160060B526 /* RestaurantFormTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantFormTest.swift; sourceTree = "<group>"; };
@@ -142,6 +145,7 @@
 		8AC1775D4008FBA58192A7E5 /* Pods-lunchFinderIOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOSTests/Pods-lunchFinderIOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9962C523D0CB541DE2E8561E /* Pods-lunchFinderIOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOSTests/Pods-lunchFinderIOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		ECF954EF7AD69EB9ABAF10FB /* CompletionHandlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionHandlers.swift; sourceTree = "<group>"; };
+		ECF95CD6DB99B5B2183F5CE9 /* BasicRestaurant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicRestaurant.swift; sourceTree = "<group>"; };
 		ECF95CFC789FD048CCACAABC /* NewCategoryViewControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewCategoryViewControllerTest.swift; sourceTree = "<group>"; };
 		F7463B5A30A32CCC4B93FF27 /* Pods-lunchFinderIOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOS/Pods-lunchFinderIOS.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -203,6 +207,8 @@
 				24AFF185203FFDA500BC1EE5 /* RestaurantForm.swift */,
 				24A435AB20366EDF000EECAF /* RestaurantRepo.swift */,
 				2432517B20396BD4007CBEF9 /* RestaurantTableViewProtocols.swift */,
+				24B2ECAA204E7DEB00BCAFB2 /* RestaurantListViewController.swift */,
+				ECF95CD6DB99B5B2183F5CE9 /* BasicRestaurant.swift */,
 			);
 			path = Restaurant;
 			sourceTree = "<group>";
@@ -624,6 +630,7 @@
 				241197512036694100ABD10E /* RestaurantDetailViewController.swift in Sources */,
 				249DD928200F5327006031A1 /* NavigationRouter.swift in Sources */,
 				24F99AE62043F0560060B526 /* EditRestaurantViewController.swift in Sources */,
+				24B2ECAB204E7DEB00BCAFB2 /* RestaurantListViewController.swift in Sources */,
 				2421A5F92041516500CEF84A /* SingleSelectInput.swift in Sources */,
 				2432517E20398544007CBEF9 /* CategoryTableViewProtocols.swift in Sources */,
 				249DD905200F5263006031A1 /* AppDelegate.swift in Sources */,
@@ -646,6 +653,7 @@
 				240B7AE1203410A0005959AB /* Restaurant.swift in Sources */,
 				245CB0BF203A9488006A0B5F /* RestaurantBuilder.swift in Sources */,
 				ECF959852E3D4AA4C30CB549 /* CompletionHandlers.swift in Sources */,
+				ECF950235797D5D429FF8B56 /* BasicRestaurant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

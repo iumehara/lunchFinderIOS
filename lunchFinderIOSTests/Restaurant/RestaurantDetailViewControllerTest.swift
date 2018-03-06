@@ -40,7 +40,7 @@ class RestaurantDetailViewControllerTest: XCTestCase {
     
     func test_map() {
         expect(self.mapService.createMap_wasCalled).to(beTrue())
-        expect(self.mapService.setMarker_wasCalledWith).toEventually(equal(self.repo.stubRestaurant))
+        expect(self.mapService.setMarker_wasCalledWith).toEventually(equal(BasicRestaurant(restaurant: self.repo.stubRestaurant)))
     }
     
     func test_tableData() {

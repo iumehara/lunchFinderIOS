@@ -32,7 +32,7 @@ class GoogleMap: UIView {
         map.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
     }
     
-    func setMarker(restaurant: Restaurant) {
+    func setMarker(restaurant: BasicRestaurant) {
         if let geolocation = restaurant.geolocation {
             let marker = GMSMarker()
             marker.position = CLLocationCoordinate2D(

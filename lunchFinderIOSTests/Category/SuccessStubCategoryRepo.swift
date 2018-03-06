@@ -5,6 +5,16 @@ import Foundation
 @testable import lunchFinderIOS
 
 class SuccessStubCategoryRepo: CategoryRepo {
+    func getAll() -> Future<[lunchFinderIOS.BasicCategory], NSError> {
+        let promise = Promise<[lunchFinderIOS.BasicCategory], NSError>()
+        promise.success([
+            lunchFinderIOS.BasicCategory(id: 1, name: "Category A"),
+            lunchFinderIOS.BasicCategory(id: 2, name: "Category B")
+        ])
+
+        return promise.future
+    }
+
     func get(id: Int) -> Future<lunchFinderIOS.Category, NSError> {
         let promise = Promise<lunchFinderIOS.Category, NSError>()
         promise.success(
@@ -12,24 +22,14 @@ class SuccessStubCategoryRepo: CategoryRepo {
                 id: 1,
                 name: "Category A",
                 restaurants: [
-                    Restaurant(id: 1, name: "Restaurant A"),
-                    Restaurant(id: 2, name: "Restaurant B")
+                    lunchFinderIOS.BasicRestaurant(id: 1, name: "Restaurant A"),
+                    lunchFinderIOS.BasicRestaurant(id: 2, name: "Restaurant B")
                 ]
             )
         )
         return promise.future
     }
-    
-    func getAll() -> Future<[lunchFinderIOS.BasicCategory], NSError> {
-        let promise = Promise<[lunchFinderIOS.BasicCategory], NSError>()
-        promise.success([
-            lunchFinderIOS.BasicCategory(id: 1, name: "Category A"),
-            lunchFinderIOS.BasicCategory(id: 2, name: "Category B")
-        ])
-        
-        return promise.future
-    }
-    
+
     var create_wasCalledWith: NewCategory?
     func create(newCategory: NewCategory) -> Future<Int, NSError> {
         create_wasCalledWith = newCategory

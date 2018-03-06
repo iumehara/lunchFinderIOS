@@ -15,13 +15,13 @@ class SpyMapService: MapService {
         return UIView()
     }
 
-    var setMarker_wasCalledWith: Restaurant? = nil
-    func setMarker(restaurant: Restaurant) {
+    var setMarker_wasCalledWith: BasicRestaurant? = nil
+    func setMarker(restaurant: BasicRestaurant) {
         setMarker_wasCalledWith = restaurant
     }
 
-    var setMarkers_wasCalledWith: [Restaurant] = []
-    func setMarkers(restaurants: [Restaurant]) {
+    var setMarkers_wasCalledWith: [BasicRestaurant] = []
+    func setMarkers(restaurants: [BasicRestaurant]) {
         setMarkers_wasCalledWith = restaurants
     }
 

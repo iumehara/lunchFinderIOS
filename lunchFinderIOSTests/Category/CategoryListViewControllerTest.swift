@@ -17,9 +17,9 @@ class CategoryListViewControllerTest: XCTestCase {
     }
 
     func test_navigationBar() {
-        expect(self.controller.title).to(equal("LunchFinder"))
-        expect(self.controller.navigationItem.leftBarButtonItem!.title).to(equal("Add Restaurant"))
-        expect(self.controller.navigationItem.rightBarButtonItem!.title).to(equal("Add Category"))
+        expect(self.controller.title).to(equal("Categories"))
+        expect(self.controller.navigationItem.leftBarButtonItem!.title).to(equal("Restaurants"))
+        expect(self.controller.navigationItem.rightBarButtonItem).toNot(beNil())
     }
 
     func test_numberOfSections() {

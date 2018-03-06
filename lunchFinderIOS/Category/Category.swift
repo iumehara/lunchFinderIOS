@@ -3,9 +3,9 @@ import Foundation
 struct Category: Codable {
     var id = 0
     var name = ""
-    var restaurants: [Restaurant] = []
+    var restaurants: [BasicRestaurant] = []
     
-    init(id: Int, name: String, restaurants: [Restaurant] = []) {
+    init(id: Int, name: String, restaurants: [BasicRestaurant] = []) {
         self.id = id
         self.name = name
         self.restaurants = restaurants

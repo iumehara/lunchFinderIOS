@@ -9,7 +9,25 @@ class NetworkRestaurantRepo: RestaurantRepo {
         self.urlSessionProvider = urlSessionProvider
         self.session = urlSessionProvider.urlSession
     }
-    
+
+    func getAll() -> Future<[BasicRestaurant], NSError> {
+        let promise = Promise<[BasicRestaurant], NSError>()
+
+        guard let urlRequest = urlSessionProvider.getRequest(path: "restaurants/") else {
+            promise.failure(NSError(domain: "could not generate urlRequest", code: 0, userInfo: nil))
+            return promise.future
+        }
+
+        session.dataTask(
+                with: urlRequest,
+                completionHandler: { (data, response, error) in
+                    self.restaurantListCompletionHandler(data: data, response: response, error: error, promise: promise)
+                }
+        ).resume()
+
+        return promise.future
+    }
+
     func get(id: Int) -> Future<Restaurant, NSError> {
         let promise = Promise<Restaurant, NSError>()
 
@@ -90,6 +108,18 @@ class NetworkRestaurantRepo: RestaurantRepo {
         ).resume()
         
         return promise.future
+    }
+
+    private func restaurantListCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<[BasicRestaurant], NSError>) {
+        guard let nonNilData = CompletionHandlers.responsePreFilter(data: data, response: response, error: error) else {
+            return promise.failure(NSError(domain: "completionHandler_responsePreFilterFailed", code: 0, userInfo: nil))
+        }
+
+        guard let restaurants = try? JSONDecoder().decode([BasicRestaurant].self, from: nonNilData) else {
+            return promise.failure(NSError(domain: "urlSession_handler", code: 0, userInfo: nil))
+        }
+
+        return promise.success(restaurants)
     }
     
     private func restaurantCompletionHandler(data: Data?, response: URLResponse?, error: Error?, promise: Promise<Restaurant, NSError>) {

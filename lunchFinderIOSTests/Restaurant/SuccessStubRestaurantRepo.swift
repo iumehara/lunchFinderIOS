@@ -17,6 +17,13 @@ class SuccessStubRestaurantRepo: RestaurantRepo {
         geolocation: Geolocation(lat: 1.0, long: 1.0)
     )
 
+    func getAll() -> Future<[BasicRestaurant], NSError> {
+        let promise = Promise<[BasicRestaurant], NSError>()
+        promise.success([BasicRestaurant(restaurant: stubRestaurant)])
+
+        return promise.future
+    }
+
     func get(id: Int) -> Future<Restaurant, NSError> {
         let promise = Promise<Restaurant, NSError>()
         promise.success(stubRestaurant)

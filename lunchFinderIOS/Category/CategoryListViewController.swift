@@ -36,18 +36,18 @@ class CategoryListViewController: UITableViewController {
     }
     
     private func setupNavigationBar() {
-        title = "LunchFinder"
+        title = "Categories"
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(
-            title: "Add Category",
-            style: UIBarButtonItemStyle.plain,
-            target: self,
-            action: #selector(addCategoryTapped)
+                barButtonSystemItem: UIBarButtonSystemItem.add,
+                target: self,
+                action: #selector(addCategoryTapped)
         )
+
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(
-            title: "Add Restaurant",
+            title: "Restaurants",
             style: UIBarButtonItemStyle.plain,
             target: self,
-            action: #selector(addRestaurantTapped)
+            action: #selector(restaurantsTapped)
         )
     }
     
@@ -82,18 +82,15 @@ class CategoryListViewController: UITableViewController {
         }
     }
 
-    @objc
-    func addCategoryTapped() {
+    @objc func addCategoryTapped() {
         router.showNewCategoryScreen()
     }
 
-    @objc
-    func addRestaurantTapped() {
-        router.showNewRestaurantScreen()
+    @objc func restaurantsTapped() {
+        router.showRestaurantListScreen()
     }
 
-    @objc
-    func reloadData() {
+    @objc func reloadData() {
         repo.getAll()
                 .onSuccess { categories in self.categories = categories }
                 .onFailure { error in print("failed \(error)") }

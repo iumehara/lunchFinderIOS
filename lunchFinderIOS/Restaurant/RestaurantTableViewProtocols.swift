@@ -2,7 +2,7 @@ import UIKit
 
 class RestaurantTableViewProtocols: NSObject {
     static let cellIdentifier: String = String(describing: UITableViewCell.self)
-    private var restaurants: [Restaurant] = []
+    private var restaurants: [BasicRestaurant] = []
     private let router: Router
 
     init(router: Router) {
@@ -13,7 +13,7 @@ class RestaurantTableViewProtocols: NSObject {
         fatalError("error")
     }
     
-    func setRestaurants(restaurants: [Restaurant]) {
+    func setRestaurants(restaurants: [BasicRestaurant]) {
         self.restaurants = restaurants
     }
 }

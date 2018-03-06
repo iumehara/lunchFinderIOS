@@ -35,8 +35,8 @@ class CategoryDetailViewControllerTest: XCTestCase {
     func test_map() {
         expect(self.mapService.createMap_wasCalled).to(beTrue())
         let stubRestaurants = [
-            Restaurant(id: 1, name: "Restaurant A"),
-            Restaurant(id: 2, name: "Restaurant B")
+            BasicRestaurant(id: 1, name: "Restaurant A"),
+            BasicRestaurant(id: 2, name: "Restaurant B")
         ]
         expect(self.mapService.setMarkers_wasCalledWith).toEventually(equal(stubRestaurants))
     }

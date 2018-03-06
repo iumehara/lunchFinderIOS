@@ -43,7 +43,7 @@ class RestaurantDetailViewController: UIViewController {
             .onSuccess { restaurant in
                 self.title = restaurant.name
                 self.categoryTableViewProtocols.setCategories(categories: restaurant.categories)
-                self.mapService.setMarker(restaurant: restaurant)
+                self.mapService.setMarker(restaurant: BasicRestaurant(restaurant: restaurant))
             }
             .onComplete { _ in self.categoryTable.reloadData() }
     }

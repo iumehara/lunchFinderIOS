@@ -21,11 +21,11 @@ class GoogleMapService: MapService {
         return mapContainer
     }
 
-    func setMarker(restaurant: Restaurant) {
+    func setMarker(restaurant: BasicRestaurant) {
         map.setMarker(restaurant: restaurant)
     }
     
-    func setMarkers(restaurants: [Restaurant]) {
+    func setMarkers(restaurants: [BasicRestaurant]) {
         for restaurant in restaurants {
             map.setMarker(restaurant: restaurant)
         }
