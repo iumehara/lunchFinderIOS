@@ -7,15 +7,18 @@ class EditRestaurantViewControllerTest: XCTestCase {
     var router: SpyRouter!
     var repo: SuccessStubRestaurantRepo!
     var categoryRepo: SuccessStubCategoryRepo!
-    
+    var mapService: SpyMapService!
+
     override func setUp() {
         self.router = SpyRouter()
         self.repo = SuccessStubRestaurantRepo()
         self.categoryRepo = SuccessStubCategoryRepo()
+        self.mapService = SpyMapService()
         self.controller = EditRestaurantViewController(
             router: router,
             repo: repo,
             categoryRepo: categoryRepo,
+            mapService: mapService,
             id: 1
         )
         
@@ -37,7 +40,7 @@ class EditRestaurantViewControllerTest: XCTestCase {
     func test_formSubmission() {
         let restaurantForm = controller.view.subviews[0] as! RestaurantForm
         
-        let nameInputRow = restaurantForm.subviews[0] as! TextInputRow
+        let nameInputRow = restaurantForm.subviews[1] as! TextInputRow
         let nameInputField = nameInputRow.subviews[1] as! UITextField
         nameInputField.text = "new value"
         

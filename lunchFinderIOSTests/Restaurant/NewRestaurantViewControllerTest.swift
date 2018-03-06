@@ -34,8 +34,7 @@ class NewRestaurantViewControllerTest: XCTestCase {
             return String(describing: type(of: view))
         }
 
-        expect(subviewTypes.count).to(equal(2))
-        expect(subviewTypes).to(contain("UIView"))
+        expect(subviewTypes.count).to(equal(1))
         expect(subviewTypes).to(contain("RestaurantForm"))
     }
     
@@ -44,9 +43,9 @@ class NewRestaurantViewControllerTest: XCTestCase {
     }
     
     func test_formSubmission() {
-        let restaurantForm = controller.view.subviews[1] as! RestaurantForm
+        let restaurantForm = controller.view.subviews[0] as! RestaurantForm
         
-        let nameInputRow = restaurantForm.subviews[0] as! TextInputRow
+        let nameInputRow = restaurantForm.subviews[1] as! TextInputRow
         let nameInputField = nameInputRow.subviews[1] as! UITextField
         nameInputField.text = "new value"
         

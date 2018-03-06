@@ -34,14 +34,16 @@ class GoogleMap: UIView {
     
     func setMarker(restaurant: BasicRestaurant) {
         if let geolocation = restaurant.geolocation {
-            let marker = GMSMarker()
-            marker.position = CLLocationCoordinate2D(
-                latitude: geolocation.lat,
-                longitude: geolocation.long
-            )
-            marker.title = restaurant.nameJp ?? restaurant.name
-            marker.snippet = restaurant.name
-            marker.map = self.mapView
+            marker = GMSMarker()
+            if (self.marker != nil) {
+                marker!.position = CLLocationCoordinate2D(
+                    latitude: geolocation.lat,
+                    longitude: geolocation.long
+                )
+                marker!.title = restaurant.nameJp ?? restaurant.name
+                marker!.snippet = restaurant.name
+                marker!.map = self.mapView
+            }
         }
     }
     

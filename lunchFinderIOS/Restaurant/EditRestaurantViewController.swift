@@ -5,17 +5,20 @@ class EditRestaurantViewController: UIViewController {
     private let router: Router
     private let repo: RestaurantRepo
     private let form: RestaurantForm
+    private let mapService: MapService
     private let deleteButton: UIButton
     
     init(
         router: Router,
         repo: RestaurantRepo,
         categoryRepo: CategoryRepo,
+        mapService: MapService,
         id: Int
     ) {
         self.router = router
         self.repo = repo
-        self.form = RestaurantForm(categoryRepo: categoryRepo)
+        self.mapService = mapService
+        self.form = RestaurantForm(categoryRepo: categoryRepo, mapService: mapService)
         self.id = id
         self.deleteButton = UIButton()
         

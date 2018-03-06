@@ -6,7 +6,7 @@ struct NavigationRouter: Router {
     let animated: Bool!
     let categoryRepo: CategoryRepo!
     let restaurantRepo: RestaurantRepo!
-    let mapService: GoogleMapService!
+    let mapService: MapService!
     
     init(navigationController: UINavigationController, animated: Bool) {
         self.navigationController = navigationController
@@ -82,6 +82,7 @@ struct NavigationRouter: Router {
             router: self,
             repo: restaurantRepo,
             categoryRepo: categoryRepo,
+            mapService: mapService,
             id: id
         )
         
