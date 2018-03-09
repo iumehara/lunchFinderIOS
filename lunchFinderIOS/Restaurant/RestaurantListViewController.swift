@@ -56,14 +56,16 @@ class RestaurantListViewController: UIViewController {
 
         table.dataSource = tableViewProtocols
         table.delegate = tableViewProtocols
-        table.register(UITableViewCell.self, forCellReuseIdentifier: RestaurantTableViewProtocols.cellIdentifier)
+        table.register(
+            UITableViewCell.self,
+            forCellReuseIdentifier: RestaurantTableViewProtocols.cellIdentifier
+        )
 
         self.refreshControl = UIRefreshControl()
         if let control = refreshControl {
             table.refreshControl = control
             control.addTarget(self, action: #selector(reloadData), for: .valueChanged)
         }
-
     }
 
     private func activateConstraints() {
@@ -77,7 +79,7 @@ class RestaurantListViewController: UIViewController {
     }
 
     @objc func addRestaurantTapped() {
-        router.showNewRestaurantScreen()
+        router.showNewRestaurantModal()
     }
 
     @objc func categoriesTapped() {
@@ -86,13 +88,13 @@ class RestaurantListViewController: UIViewController {
 
     @objc func reloadData() {
         repo.getAll()
-                .onSuccess { restaurants in
-                    self.tableViewProtocols.setRestaurants(restaurants: restaurants)
-                }
-                .onFailure { error in print("failed \(error)") }
-                .onComplete { _ in
-                    self.table.reloadData()
-                    self.refreshControl!.endRefreshing()
-                }
+            .onSuccess { restaurants in
+                self.tableViewProtocols.setRestaurants(restaurants: restaurants)
+            }
+            .onFailure { error in print("failed \(error)") }
+            .onComplete { _ in
+                self.table.reloadData()
+                self.refreshControl!.endRefreshing()
+        }
     }
 }

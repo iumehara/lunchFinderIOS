@@ -36,25 +36,16 @@ struct NavigationRouter: Router {
         
         navigationController.pushViewController(categoryDetailViewController, animated: animated)
     }
-    
-    func showNewCategoryScreen() {
-        let newCategoryViewController = NewCategoryViewController(
-            router: self,
-            repo: categoryRepo
-        )
-        
-        navigationController.pushViewController(newCategoryViewController, animated: animated)
-    }
 
     func showRestaurantListScreen() {
         let restaurantListViewController = RestaurantListViewController(
-                router: self,
-                repo: restaurantRepo
+            router: self,
+            repo: restaurantRepo
         )
-
+        
         navigationController.pushViewController(restaurantListViewController, animated: animated)
     }
-
+    
     func showRestaurantDetailScreen(id: Int) {
         let restaurantDetailViewController = RestaurantDetailViewController(
             router: self,
@@ -66,26 +57,41 @@ struct NavigationRouter: Router {
         navigationController.pushViewController(restaurantDetailViewController, animated: animated)
     }
     
-    func showNewRestaurantScreen() {
-        let newRestaurantViewController = NewRestaurantViewController(
-            router: self,
-            repo: restaurantRepo,
-            categoryRepo: categoryRepo,
-            mapService: mapService
+    func showNewCategoryModal() {
+        let newCategoryModal = UINavigationController(
+            rootViewController: NewCategoryViewController(router: self, repo: categoryRepo)
         )
-        
-        navigationController.pushViewController(newRestaurantViewController, animated: animated)
+        navigationController.present(newCategoryModal, animated: animated, completion: nil)
     }
     
-    func showEditRestaurantScreen(id: Int) {
-        let editRestaurantViewController = EditRestaurantViewController(
-            router: self,
-            repo: restaurantRepo,
-            categoryRepo: categoryRepo,
-            mapService: mapService,
-            id: id
+    func showNewRestaurantModal() {
+        let newRestaurantModal = UINavigationController(
+            rootViewController: NewRestaurantViewController(
+                router: self,
+                repo: restaurantRepo,
+                categoryRepo: categoryRepo,
+                mapService: mapService
+            )
         )
         
-        navigationController.pushViewController(editRestaurantViewController, animated: animated)
+        navigationController.present(newRestaurantModal, animated: animated, completion: nil)
+    }
+    
+    func showEditRestaurantModal(id: Int) {
+        let editRestaurantModal = UINavigationController(
+            rootViewController: EditRestaurantViewController(
+                router: self,
+                repo: restaurantRepo,
+                categoryRepo: categoryRepo,
+                mapService: mapService,
+                id: id
+            )
+        )
+
+        navigationController.present(editRestaurantModal, animated: animated, completion: nil)
+    }
+
+    func dismissModal() {
+        navigationController.dismiss(animated: animated, completion: nil)
     }
 }

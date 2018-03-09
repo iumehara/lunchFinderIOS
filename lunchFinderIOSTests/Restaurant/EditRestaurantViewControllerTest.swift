@@ -8,7 +8,7 @@ class EditRestaurantViewControllerTest: XCTestCase {
     var repo: SuccessStubRestaurantRepo!
     var categoryRepo: SuccessStubCategoryRepo!
     var mapService: SpyMapService!
-
+    
     override func setUp() {
         self.router = SpyRouter()
         self.repo = SuccessStubRestaurantRepo()
@@ -27,8 +27,13 @@ class EditRestaurantViewControllerTest: XCTestCase {
     
     func test_navigationBar() {
         expect(self.controller.title).to(equal("Edit Restaurant"))
-        expect(self.controller.navigationItem.rightBarButtonItem).toNot(beNil())
-        expect(self.controller.navigationItem.leftBarButtonItem).toNot(beNil())
+        
+        let leftBarButton = controller.navigationItem.leftBarButtonItem
+        UIApplication.shared.sendAction(leftBarButton!.action!, to: leftBarButton!.target, from: self, for: nil)
+        expect(self.router.dismissModal_wasCalled).to(beTrue())
+
+        let rightBarButton = controller.navigationItem.rightBarButtonItem
+        expect(rightBarButton).toNot(beNil())
     }
     
     func test_subviews() {
@@ -50,7 +55,7 @@ class EditRestaurantViewControllerTest: XCTestCase {
         
         expect(self.repo.update_wasCalledWith.0).to(equal(1))
         expect(self.repo.update_wasCalledWith.1).to(equal(NewRestaurant(name: "new value")))
-        expect(self.router.showRestaurantDetailScreen_wasCalledWith).toEventually(equal(1))
+        expect(self.router.dismissModal_wasCalled).toEventually(beTrue())
     }
     
     func test_delete() {
@@ -59,5 +64,6 @@ class EditRestaurantViewControllerTest: XCTestCase {
         
         expect(self.repo.delete_wasCalledWith).to(equal(1))
         expect(self.router.showRestaurantListScreen_wasCalled).toEventually(beTrue())
+        expect(self.router.dismissModal_wasCalled).toEventually(beTrue())
     }
 }

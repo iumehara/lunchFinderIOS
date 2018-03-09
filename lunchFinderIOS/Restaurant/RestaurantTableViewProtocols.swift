@@ -2,7 +2,7 @@ import UIKit
 
 class RestaurantTableViewProtocols: NSObject {
     static let cellIdentifier: String = String(describing: UITableViewCell.self)
-    private var restaurants: [BasicRestaurant] = []
+    var restaurants: [BasicRestaurant] = []
     private let router: Router
 
     init(router: Router) {

@@ -38,9 +38,7 @@ class EditRestaurantViewController: UIViewController {
 
     func fetchData() {
         repo.get(id: id)
-            .onSuccess { restaurant in
-                self.form.setDefaultValues(restaurant: restaurant)
-            }
+            .onSuccess { restaurant in self.form.setDefaultValues(restaurant: restaurant) }
     }
 
     private func setupNavigationBar() {
@@ -55,7 +53,7 @@ class EditRestaurantViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(
                 barButtonSystemItem: .cancel,
                 target: self,
-                action: #selector(cancelTapped)
+                action: #selector(dismissModal)
         )
     }
 
@@ -89,15 +87,19 @@ class EditRestaurantViewController: UIViewController {
     @objc func saveTapped() {
         guard let newRestaurant = form.newRestaurant() else { return }
         repo.update(id: id, newRestaurant: newRestaurant)
-            .onSuccess { _ in self.router.showRestaurantDetailScreen(id: self.id)}
+            .onSuccess { _ in self.dismissModal() }
     }
     
     @objc func deleteTapped() {
         repo.delete(id: id)
-            .onSuccess { _ in self.router.showRestaurantListScreen()}
+            .onSuccess { _ in
+                self.router.showRestaurantListScreen()
+                self.dismissModal()
+            }
     }
 
-    @objc func cancelTapped() {
-        router.showRestaurantDetailScreen(id: id)
+    @objc func dismissModal() {
+        NotificationCenter.default.post(name: NSNotification.Name("modalWasDismissed"), object: nil)
+        router.dismissModal()
     }
 }

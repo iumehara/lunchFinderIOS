@@ -38,6 +38,14 @@ class SuccessStubCategoryRepo: CategoryRepo {
         return promise.future
     }
 
+    var removeRestaurant_wasCalledWith: (id: Int?, restaurantId: Int?)
+    func removeRestaurant(id: Int, restaurantId: Int) -> Future<Void, NSError> {
+        removeRestaurant_wasCalledWith = (id, restaurantId)
+        let promise = Promise<Void, NSError>()
+        promise.success(())
+        return promise.future
+    }
+    
     var delete_wasCalledWith: Int?
     func delete(id: Int) -> Future<Void, NSError> {
         delete_wasCalledWith = id

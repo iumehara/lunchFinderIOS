@@ -5,8 +5,9 @@ class GoogleMap: UIView {
     var mapView: GMSMapView
     var map: UIView = UIView()
     var isSelectable = false
-    var marker: GMSMarker?
-
+    var addedMarker: GMSMarker?
+    var markers: [GMSMarker]
+    
     convenience init(frame: CGRect, isSelectable: Bool) {
         self.init(frame: frame)
         self.isSelectable = isSelectable
@@ -16,7 +17,7 @@ class GoogleMap: UIView {
         let camera = GMSCameraPosition.camera(withLatitude: 35.660480, longitude: 139.729247, zoom: 16.0)
         mapView = GMSMapView.map(withFrame: CGRect.zero, camera: camera)
         self.map = mapView
-        
+        self.markers = []
         
         super.init(frame: frame)
         
@@ -32,19 +33,25 @@ class GoogleMap: UIView {
         map.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
     }
     
-    func setMarker(restaurant: BasicRestaurant) {
-        if let geolocation = restaurant.geolocation {
-            marker = GMSMarker()
-            if (self.marker != nil) {
-                marker!.position = CLLocationCoordinate2D(
-                    latitude: geolocation.lat,
-                    longitude: geolocation.long
-                )
-                marker!.title = restaurant.nameJp ?? restaurant.name
-                marker!.snippet = restaurant.name
-                marker!.map = self.mapView
-            }
-        }
+    func setMarker(geolocation: Geolocation, title: String?, snippet: String?) {
+        let marker = GMSMarker()
+        marker.position = CLLocationCoordinate2D(
+            latitude: geolocation.lat,
+            longitude: geolocation.long
+        )
+        marker.title = title
+        marker.snippet = snippet
+        marker.map = self.mapView
+        markers.append(marker)
+    }
+    
+    func removeMarker(geolocation: Geolocation) {
+        let positionToRemove = CLLocationCoordinate2D(
+            latitude: geolocation.lat,
+            longitude: geolocation.long
+        )
+        let markerToRemove = markers.first(where: {$0.position.equals(positionToRemove)})
+        markerToRemove?.map = nil
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -56,16 +63,22 @@ extension GoogleMap: GMSMapViewDelegate {
     func mapView(_ mapView: GMSMapView, didTapAt coordinate: CLLocationCoordinate2D) {
         guard (self.isSelectable) else { return }
         
-        if (self.marker != nil) {
-            self.marker!.map = nil
+        if (self.addedMarker != nil) {
+            self.addedMarker!.map = nil
+            markers = markers.filter { $0 != addedMarker }
         }
         
-        marker = GMSMarker(position: coordinate)
-        
-        guard let unwrappedMarker = marker else { return }
-    
+        addedMarker = GMSMarker(position: coordinate)
+        guard let unwrappedMarker = addedMarker else { return }
         unwrappedMarker.isDraggable = true
         unwrappedMarker.map = mapView
+        markers.append(unwrappedMarker)
+    }
+}
+
+extension CLLocationCoordinate2D {
+    func equals(_ comparator: CLLocationCoordinate2D) -> Bool {
+        return self.latitude == comparator.latitude && self.longitude == comparator.longitude
     }
 }
 

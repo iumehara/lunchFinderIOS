@@ -26,8 +26,12 @@ class NewRestaurantViewControllerTest: XCTestCase {
     
     func test_navigationBar() {
         expect(self.controller.title).to(equal("New Restaurant"))
+
+        let leftBarButton = self.controller.navigationItem.leftBarButtonItem
+        UIApplication.shared.sendAction(leftBarButton!.action!, to: leftBarButton!.target, from: self, for: nil)
+        expect(self.router.dismissModal_wasCalled).to(beTrue())
+
         expect(self.controller.navigationItem.rightBarButtonItem).toNot(beNil())
-        expect(self.controller.navigationItem.leftBarButtonItem).toNot(beNil())
     }
     
     func test_subviews() {
@@ -55,5 +59,6 @@ class NewRestaurantViewControllerTest: XCTestCase {
 
         expect(self.repo.create_wasCalledWith).to(equal(NewRestaurant(name: "new value")))
         expect(self.router.showRestaurantDetailScreen_wasCalledWith).toEventually(equal(1))
+        expect(self.router.dismissModal_wasCalled).toEventually(beTrue())
     }
 }

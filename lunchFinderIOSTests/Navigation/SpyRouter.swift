@@ -11,30 +11,37 @@ class SpyRouter: Router {
         showCategoryDetailScreen_wasCalledWith = id
     }
 
-    var showNewCategoryScreen_wasCalled = false
-    func showNewCategoryScreen() {
-        showNewCategoryScreen_wasCalled = true
+    var showNewCategoryModal_wasCalled = false
+    func showNewCategoryModal() {
+        showNewCategoryModal_wasCalled = true
     }
 
+    
+    
     var showRestaurantListScreen_wasCalled = false
     func showRestaurantListScreen() {
         showRestaurantListScreen_wasCalled = true
     }
 
-
-
     var showRestaurantDetailScreen_wasCalledWith: Int?
     func showRestaurantDetailScreen(id: Int) {
         showRestaurantDetailScreen_wasCalledWith = id
     }
-    
-    var showNewRestaurantScreen_wasCalled = false
-    func showNewRestaurantScreen() {
-        showNewRestaurantScreen_wasCalled = true
+
+    var showNewRestaurantModal_wasCalled = false
+    func showNewRestaurantModal() {
+        showNewRestaurantModal_wasCalled = true
     }
     
-    var showEditRestaurantScreen_wasCalledWith: Int?
-    func showEditRestaurantScreen(id: Int) {
-        showEditRestaurantScreen_wasCalledWith = id
+    var showEditRestaurantModal_wasCalledWith: Int?
+    func showEditRestaurantModal(id: Int) {
+        showEditRestaurantModal_wasCalledWith = id
+    }
+
+
+    
+    var dismissModal_wasCalled = false
+    func dismissModal() {
+        dismissModal_wasCalled = true
     }
 }

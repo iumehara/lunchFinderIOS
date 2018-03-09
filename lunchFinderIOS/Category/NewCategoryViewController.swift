@@ -26,7 +26,7 @@ class NewCategoryViewController: UIViewController {
 
     private func setupNavigationBar() {
         title = "New Category"
-
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(
                 barButtonSystemItem: .save,
                 target: self,
@@ -36,7 +36,7 @@ class NewCategoryViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(
                 barButtonSystemItem: .cancel,
                 target: self,
-                action: #selector(cancelTapped)
+                action: #selector(dismissModal)
         )
     }
 
@@ -73,13 +73,14 @@ class NewCategoryViewController: UIViewController {
         if let name = nameInput.text {
             let newCategory = NewCategory(name: name)
             repo.create(newCategory: newCategory)
-                .onSuccess { categoryId in self.router.showCategoryDetailScreen(id: categoryId) }
-                .onFailure { error in }
-                .onComplete { value in }
+                .onSuccess { categoryId in
+                    self.router.showCategoryDetailScreen(id: categoryId)
+                    self.dismissModal()
+                }
         }
     }
 
-    @objc func cancelTapped() {
-        router.showRestaurantListScreen()
+    @objc func dismissModal() {
+        router.dismissModal()
     }
 }

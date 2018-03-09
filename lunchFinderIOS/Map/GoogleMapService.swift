@@ -22,17 +22,27 @@ class GoogleMapService: MapService {
     }
 
     func setMarker(restaurant: BasicRestaurant) {
-        map.setMarker(restaurant: restaurant)
+        if let geolocation = restaurant.geolocation {
+            map.setMarker(geolocation: geolocation, title: restaurant.nameJp, snippet: restaurant.name)
+        }
     }
     
     func setMarkers(restaurants: [BasicRestaurant]) {
         for restaurant in restaurants {
-            map.setMarker(restaurant: restaurant)
+            if let geolocation = restaurant.geolocation {
+                map.setMarker(geolocation: geolocation, title: restaurant.nameJp, snippet: restaurant.name)
+            }
         }
     }
 
+    func removeMarker(restaurant: BasicRestaurant) {
+        if let geolocation = restaurant.geolocation {
+            map.removeMarker(geolocation: geolocation)
+        }
+    }
+    
     func getMarkerPosition() -> Geolocation? {
-        let position = map.marker?.position
+        let position = map.addedMarker?.position
         var geolocation: Geolocation?
         if let lat = position?.latitude, let long = position?.longitude {
             geolocation = Geolocation(lat: lat, long: long)

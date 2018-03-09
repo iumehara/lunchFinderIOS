@@ -1,4 +1,5 @@
 import UIKit
+import BrightFutures
 
 class CategoryDetailViewController: UIViewController {
     private let router: Router
@@ -7,8 +8,9 @@ class CategoryDetailViewController: UIViewController {
     private let id: Int
     private let map: UIView
     private let restaurantTable: UITableView
-    private let restaurantTableViewProtocols: RestaurantTableViewProtocols
-    
+    private let restaurantTableViewProtocols: EditableRestaurantTableViewProtocols
+    private var restaurants: [BasicRestaurant] = []
+
     init(router: Router, repo: CategoryRepo, mapService: MapService, id: Int) {
         self.router = router
         self.repo = repo
@@ -16,8 +18,7 @@ class CategoryDetailViewController: UIViewController {
         self.id = id
         self.map = mapService.createMap()
         self.restaurantTable = UITableView()
-        self.restaurantTableViewProtocols = RestaurantTableViewProtocols(router: router)
-        
+        self.restaurantTableViewProtocols = EditableRestaurantTableViewProtocols(router: router)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -32,23 +33,29 @@ class CategoryDetailViewController: UIViewController {
         setupSubviews()
         activateConstraints()
 
+        self.restaurantTableViewProtocols.setEditingCallback { (restaurantId) -> Future<Void, NSError> in
+                self.repo.removeRestaurant(id: self.id, restaurantId: restaurantId)
+                    .onSuccess { _ in
+                        guard let restaurantToRemove = self.restaurants.first(where: { $0.id == restaurantId }) else { return }
+                        let remainingRestaurants = self.restaurants.filter { $0.id != restaurantId}
+                        self.restaurantTableViewProtocols.setRestaurants(restaurants: remainingRestaurants)
+                        self.mapService.removeMarker(restaurant: restaurantToRemove)
+                    }
+                    .onComplete { _ in self.restaurantTable.reloadData() }
+        }
+        
         repo.get(id: self.id)
             .onSuccess { category in
                 self.title = category.name
-                self.restaurantTableViewProtocols.setRestaurants(restaurants: category.restaurants)
-                self.mapService.setMarkers(restaurants: category.restaurants)
+                self.restaurants = category.restaurants
+                self.restaurantTableViewProtocols.setRestaurants(restaurants: self.restaurants)
+                self.mapService.setMarkers(restaurants: self.restaurants)
             }
             .onComplete { _ in self.restaurantTable.reloadData() }
     }
 
     private func setupNavigationBar() {
         title = "LunchFinder"
-        navigationItem.leftBarButtonItem = UIBarButtonItem.init(
-                title: "Categories",
-                style: .plain,
-                target: self,
-                action: #selector(categoriesTapped)
-        )
     }
 
     private func setupSubviews() {
@@ -59,7 +66,7 @@ class CategoryDetailViewController: UIViewController {
         restaurantTable.delegate = restaurantTableViewProtocols
         restaurantTable.register(
             UITableViewCell.self,
-            forCellReuseIdentifier: RestaurantTableViewProtocols.cellIdentifier
+            forCellReuseIdentifier: EditableRestaurantTableViewProtocols.cellIdentifier
         )
     }
     

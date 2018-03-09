@@ -28,6 +28,13 @@ extension CategoryTableViewProtocols: UITableViewDataSource {
         cell.textLabel?.text = categories[indexPath.row].name
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section == 0 {
+            return "Categories"
+        }
+        return nil
+    }
 }
 
 extension CategoryTableViewProtocols: UITableViewDelegate {

@@ -26,15 +26,15 @@ class RestaurantDetailViewControllerTest: XCTestCase {
     func test_navigationBar() {
         expect(self.controller.title).toEventually(equal("Restaurant A"))
         expect(self.controller.navigationItem.rightBarButtonItem).toNot(beNil())
-        expect(self.controller.navigationItem.leftBarButtonItem!.title).to(equal("Restaurants"))
     }
     
     func test_subviews() {
         let subviewTypes = controller.view.subviews.map { view in
             return String(describing: type(of: view))
         }
-
-        expect(subviewTypes.count).to(equal(2))
+ 
+        expect(subviewTypes.count).to(equal(3))
+        expect(subviewTypes).to(contain("RestaurantCard"))
         expect(subviewTypes).to(contain("UIView"))
         expect(subviewTypes).to(contain("UITableView"))
     }
@@ -45,17 +45,16 @@ class RestaurantDetailViewControllerTest: XCTestCase {
     }
     
     func test_tableData() {
-        let table = self.controller.view.subviews[1] as! UITableView
-        expect(table.numberOfRows(inSection: 0)).toEventually(equal(2))
+        let table = self.controller.view.subviews[2] as! UITableView
         
-        let firstTableRow = table.cellForRow(at: IndexPath(row: 0, section: 0))!
-        expect(firstTableRow.textLabel?.text).toEventually(equal("Category A"))
+        expect(table.numberOfSections).toEventually(equal(1))
+        expect(table.numberOfRows(inSection: 0)).toEventually(equal(2))
     }
     
     func test_editButtonAction() {
         let editButton = controller.navigationItem.rightBarButtonItem
         UIApplication.shared.sendAction(editButton!.action!, to: editButton!.target, from: self, for: nil)
         
-        expect(self.router.showEditRestaurantScreen_wasCalledWith).toEventually(equal(1))
+        expect(self.router.showEditRestaurantModal_wasCalledWith).toEventually(equal(1))
     }
 }

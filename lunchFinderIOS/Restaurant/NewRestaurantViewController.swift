@@ -40,11 +40,13 @@ class NewRestaurantViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(
                 barButtonSystemItem: .cancel,
                 target: self,
-                action: #selector(cancelTapped)
+                action: #selector(dismissModal)
         )
     }
 
     private func setupSubviews() {
+        view.backgroundColor = UIColor.white
+
         view.addSubview(form)
     }
 
@@ -60,10 +62,13 @@ class NewRestaurantViewController: UIViewController {
     @objc func saveTapped() {
         guard let newRestaurant = form.newRestaurant() else { return }
         repo.create(newRestaurant: newRestaurant)
-                .onSuccess { restaurantId in self.router.showRestaurantDetailScreen(id: restaurantId) }
+                .onSuccess { restaurantId in
+                    self.router.showRestaurantDetailScreen(id: restaurantId)
+                    self.dismissModal()
+                }
     }
 
-    @objc func cancelTapped() {
-        router.showRestaurantListScreen()
+    @objc func dismissModal() {
+        router.dismissModal()
     }
 }

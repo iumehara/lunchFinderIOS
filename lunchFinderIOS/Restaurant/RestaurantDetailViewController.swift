@@ -3,15 +3,18 @@ import UIKit
 class RestaurantDetailViewController: UIViewController {
     private let router: Router
     private let repo: RestaurantRepo
+    private let restaurantCard: RestaurantCard
     private let mapService: MapService
     private let id: Int
     private let map: UIView
     private let categoryTable: UITableView
     private let categoryTableViewProtocols: CategoryTableViewProtocols
-
+    private let webView: UIWebView = UIWebView()
+    
     init(router: Router, repo: RestaurantRepo, mapService: MapService, id: Int) {
         self.router = router
         self.repo = repo
+        self.restaurantCard = RestaurantCard()
         self.mapService = mapService
         self.id = id
         self.map = mapService.createMap()
@@ -28,6 +31,15 @@ class RestaurantDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.reloadView),
+            name: NSNotification.Name("modalWasDismissed"),
+            object: nil
+        )
+        
+        self.webView.delegate = self
+        
         setupNavigationBar()
         setupSubviews()
         activateConstraints()
@@ -35,12 +47,13 @@ class RestaurantDetailViewController: UIViewController {
         repo.get(id: self.id)
             .onSuccess { restaurant in
                 self.title = restaurant.name
-                self.categoryTableViewProtocols.setCategories(categories: restaurant.categories)
+                self.restaurantCard.set(restaurant: restaurant)
                 self.mapService.setMarker(restaurant: BasicRestaurant(restaurant: restaurant))
+                self.categoryTableViewProtocols.setCategories(categories: restaurant.categories)
             }
             .onComplete { _ in self.categoryTable.reloadData() }
     }
-
+    
     private func setupNavigationBar() {
         title = "LunchFinder"
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(
@@ -48,16 +61,10 @@ class RestaurantDetailViewController: UIViewController {
                 target: self,
                 action: #selector(editTapped)
         )
-
-        navigationItem.leftBarButtonItem = UIBarButtonItem.init(
-                title: "Restaurants",
-                style: .plain,
-                target: self,
-                action: #selector(restaurantsTapped)
-        )
     }
 
     private func setupSubviews() {
+        view.addSubview(restaurantCard)
         view.addSubview(map)
         view.addSubview(categoryTable)
         
@@ -72,8 +79,13 @@ class RestaurantDetailViewController: UIViewController {
     private func activateConstraints() {
         let margins = self.view.safeAreaLayoutGuide
         
+        restaurantCard.translatesAutoresizingMaskIntoConstraints = false
+        restaurantCard.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
+        restaurantCard.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
+        restaurantCard.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+
         map.translatesAutoresizingMaskIntoConstraints = false
-        map.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
+        map.topAnchor.constraint(equalTo: restaurantCard.bottomAnchor).isActive = true
         map.heightAnchor.constraint(equalToConstant: CGFloat(300)).isActive = true
         map.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
         map.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
@@ -86,10 +98,16 @@ class RestaurantDetailViewController: UIViewController {
     }
 
     @objc private func editTapped() {
-        router.showEditRestaurantScreen(id: id)
+        router.showEditRestaurantModal(id: id)
     }
 
     @objc private func restaurantsTapped() {
         router.showRestaurantListScreen()
     }
+    
+    @objc func reloadView() {
+        viewDidLoad()
+    }
 }
+
+extension RestaurantDetailViewController: UIWebViewDelegate {}

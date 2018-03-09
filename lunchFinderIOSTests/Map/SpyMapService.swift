@@ -25,6 +25,11 @@ class SpyMapService: MapService {
         setMarkers_wasCalledWith = restaurants
     }
 
+    var removeMarker_wasCalledWith: BasicRestaurant? = nil
+    func removeMarker(restaurant: BasicRestaurant) {
+        removeMarker_wasCalledWith = restaurant
+    }
+
     var getMarkerPosition_wasCalled = false
     func getMarkerPosition() -> Geolocation? {
         getMarkerPosition_wasCalled = true

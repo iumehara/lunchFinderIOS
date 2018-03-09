@@ -83,7 +83,7 @@ class CategoryListViewController: UITableViewController {
     }
 
     @objc func addCategoryTapped() {
-        router.showNewCategoryScreen()
+        router.showNewCategoryModal()
     }
 
     @objc func restaurantsTapped() {

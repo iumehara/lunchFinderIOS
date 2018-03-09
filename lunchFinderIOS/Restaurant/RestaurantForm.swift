@@ -36,7 +36,7 @@ class RestaurantForm: UIView {
     }
     
     func setDefaultValues(restaurant: Restaurant) {
-        if let geolocation = restaurant.geolocation {
+        if let _ = restaurant.geolocation {
             self.mapService.setMarker(restaurant: BasicRestaurant(restaurant: restaurant))
         }
 

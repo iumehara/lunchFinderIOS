@@ -4,15 +4,17 @@ import Result
 @testable import lunchFinderIOS
 
 class CategoryDetailViewControllerTest: XCTestCase {
+    var router: SpyRouter!
     var controller: CategoryDetailViewController!
     var repo: SuccessStubCategoryRepo!
     var mapService: SpyMapService!
     
     override func setUp() {
+        router = SpyRouter()
         repo = SuccessStubCategoryRepo()
         mapService = SpyMapService()
         controller = CategoryDetailViewController(
-            router: SpyRouter(),
+            router: router,
             repo: repo,
             mapService: mapService,
             id: 1
@@ -23,7 +25,6 @@ class CategoryDetailViewControllerTest: XCTestCase {
     
     func test_navigationBar() {
         expect(self.controller.title).toEventually(equal("Category A"))
-        expect(self.controller.navigationItem.leftBarButtonItem!.title).to(equal("Categories"))
     }
 
     func test_subviews() {
@@ -45,5 +46,12 @@ class CategoryDetailViewControllerTest: XCTestCase {
     func test_tableData() {
         let table = self.controller.view.subviews[1] as! UITableView
         expect(table.cellForRow(at: IndexPath(row: 0, section: 0))!.textLabel!.text!).toEventually(equal("Restaurant A"))
+    }
+    
+    func test_tableRowClick() {
+        let table = self.controller.view.subviews[1] as! UITableView
+        expect(table.numberOfRows(inSection: 0)).toEventually(equal(2))
+        table.delegate!.tableView!(table, didSelectRowAt: IndexPath(row: 0, section: 0))
+        expect(self.router.showRestaurantDetailScreen_wasCalledWith).to(equal(1))
     }
 }
