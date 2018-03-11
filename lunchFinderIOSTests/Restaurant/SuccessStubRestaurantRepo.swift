@@ -46,7 +46,15 @@ class SuccessStubRestaurantRepo: RestaurantRepo {
         promise.success(())
         return promise.future
     }
-    
+
+    var removeCategory_wasCalledWith: (Int?, categoryId: Int?)
+    func removeCategory(id: Int, categoryId: Int) -> Future<Void, NSError> {
+        removeCategory_wasCalledWith = (id, categoryId)
+        let promise = Promise<Void, NSError>()
+        promise.success(())
+        return promise.future
+    }
+
     var delete_wasCalledWith: Int?
     func delete(id: Int) -> Future<Void, NSError> {
         delete_wasCalledWith = id

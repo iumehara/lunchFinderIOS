@@ -1,4 +1,5 @@
 import UIKit
+import BrightFutures
 
 class RestaurantDetailViewController: UIViewController {
     private let router: Router
@@ -8,8 +9,9 @@ class RestaurantDetailViewController: UIViewController {
     private let id: Int
     private let map: UIView
     private let categoryTable: UITableView
-    private let categoryTableViewProtocols: CategoryTableViewProtocols
+    private let categoryTableViewProtocols: EditableCategoryTableViewProtocols
     private let webView: UIWebView = UIWebView()
+    private var categories: [BasicCategory] = []
     
     init(router: Router, repo: RestaurantRepo, mapService: MapService, id: Int) {
         self.router = router
@@ -19,7 +21,7 @@ class RestaurantDetailViewController: UIViewController {
         self.id = id
         self.map = mapService.createMap()
         self.categoryTable = UITableView()
-        self.categoryTableViewProtocols = CategoryTableViewProtocols(router: router)
+        self.categoryTableViewProtocols = EditableCategoryTableViewProtocols(router: router)
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -44,18 +46,28 @@ class RestaurantDetailViewController: UIViewController {
         setupSubviews()
         activateConstraints()
         
+        self.categoryTableViewProtocols.setEditingCallback { categoryId -> Future<Void, NSError> in
+            self.repo.removeCategory(id: self.id, categoryId: categoryId)
+                .onSuccess { _ in
+                    let remainingCategories = self.categories.filter { $0.id != categoryId }
+                    self.categoryTableViewProtocols.setCategories(categories: remainingCategories)
+                }
+                .onComplete { _ in self.categoryTable.reloadData() }
+        }
+        
         repo.get(id: self.id)
             .onSuccess { restaurant in
                 self.title = restaurant.name
                 self.restaurantCard.set(restaurant: restaurant)
                 self.mapService.setMarker(restaurant: BasicRestaurant(restaurant: restaurant))
-                self.categoryTableViewProtocols.setCategories(categories: restaurant.categories)
+                self.categories = restaurant.categories
+                self.categoryTableViewProtocols.setCategories(categories: self.categories)
             }
             .onComplete { _ in self.categoryTable.reloadData() }
     }
     
     private func setupNavigationBar() {
-        title = "LunchFinder"
+        title = "Restaurant"
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(
                 barButtonSystemItem: .edit,
                 target: self,

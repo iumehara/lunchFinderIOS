@@ -2,7 +2,7 @@ import UIKit
 
 class CategoryTableViewProtocols: NSObject {
     static let cellIdentifier: String = String(describing: UITableViewCell.self)
-    private var categories: [BasicCategory] = []
+    var categories: [BasicCategory] = []
     private let router: Router
     
     init(router: Router) {

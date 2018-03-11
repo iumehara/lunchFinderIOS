@@ -19,6 +19,7 @@ class CategoryDetailViewController: UIViewController {
         self.map = mapService.createMap()
         self.restaurantTable = UITableView()
         self.restaurantTableViewProtocols = EditableRestaurantTableViewProtocols(router: router)
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,7 +56,7 @@ class CategoryDetailViewController: UIViewController {
     }
 
     private func setupNavigationBar() {
-        title = "LunchFinder"
+        title = "Category"
     }
 
     private func setupSubviews() {
