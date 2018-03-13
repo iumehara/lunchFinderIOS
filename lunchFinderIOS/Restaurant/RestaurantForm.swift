@@ -8,12 +8,14 @@ class RestaurantForm: UIView {
     private let nameJpInputRow: TextInputRow = TextInputRow(labelText: "店名")
     private let websiteInputRow: TextInputRow = TextInputRow(labelText: "website")
     private let categoriesInputRow: MultipleSelectInput = MultipleSelectInput(labelText: "categories")
+    private var scrollView: UIScrollView
 
     init(categoryRepo: CategoryRepo, mapService: MapService) {
         self.categoryRepo = categoryRepo
         self.mapService = mapService
         self.map = mapService.createMap(isSelectable: true)
-
+        self.scrollView = UIScrollView()
+        
         super.init(frame: CGRect.zero)
 
         fetchData()
@@ -54,45 +56,68 @@ class RestaurantForm: UIView {
     }
 
     func setupSubviews() {
-        self.backgroundColor = UIColor.white
-        addSubview(map)
-        addSubview(nameInputRow)
-        addSubview(nameJpInputRow)	
-        addSubview(websiteInputRow)
-        addSubview(categoriesInputRow)
+        scrollView.frame = self.bounds
+        scrollView.contentSize = CGSize(width: self.bounds.width, height: self.bounds.height)
+
+        addSubview(scrollView)
+        scrollView.addSubview(map)
+        scrollView.addSubview(nameInputRow)
+        scrollView.addSubview(nameJpInputRow)
+        scrollView.addSubview(websiteInputRow)
+        scrollView.addSubview(categoriesInputRow)
+    }
+
+    func updateScrollViewContentView() {
+        let pickerViewHeight = CGFloat(300)
+        scrollView.contentSize.height = map.frame.height
+            + nameInputRow.frame.height
+            + nameJpInputRow.frame.height
+            + websiteInputRow.frame.height
+            + categoriesInputRow.frame.height
+            + pickerViewHeight
+
+        let initialCategoriesInputRowHeight = CGFloat(50)
+        if categoriesInputRow.frame.height > initialCategoriesInputRowHeight {
+            let offsetToBottom = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
+            scrollView.setContentOffset(offsetToBottom, animated: true)
+        }
     }
     
     func activateConstraints() {
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+
         map.translatesAutoresizingMaskIntoConstraints = false
-        map.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        map.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         map.heightAnchor.constraint(equalToConstant: CGFloat(300)).isActive = true
-        map.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        map.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         map.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
 
         nameInputRow.translatesAutoresizingMaskIntoConstraints = false
         nameInputRow.topAnchor.constraint(equalTo: map.bottomAnchor).isActive = true
         nameInputRow.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
-        nameInputRow.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        nameInputRow.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         nameInputRow.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
 
         nameJpInputRow.translatesAutoresizingMaskIntoConstraints = false
         nameJpInputRow.topAnchor.constraint(equalTo: nameInputRow.bottomAnchor).isActive = true
         nameJpInputRow.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
-        nameJpInputRow.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        nameJpInputRow.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         nameJpInputRow.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
 
         websiteInputRow.translatesAutoresizingMaskIntoConstraints = false
         websiteInputRow.topAnchor.constraint(equalTo: nameJpInputRow.bottomAnchor).isActive = true
         websiteInputRow.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
-        websiteInputRow.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        websiteInputRow.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         websiteInputRow.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
 
         categoriesInputRow.translatesAutoresizingMaskIntoConstraints = false
         categoriesInputRow.topAnchor.constraint(equalTo: websiteInputRow.bottomAnchor).isActive = true
-        categoriesInputRow.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        categoriesInputRow.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         categoriesInputRow.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-
-        self.bottomAnchor.constraint(equalTo: categoriesInputRow.bottomAnchor).isActive = true
     }
 
     func newRestaurant() -> NewRestaurant? {

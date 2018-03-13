@@ -6,10 +6,10 @@ class NewRestaurantViewController: UIViewController {
     private let form: RestaurantForm
 
     init(
-            router: Router,
-            repo: RestaurantRepo,
-            categoryRepo: CategoryRepo,
-            mapService: MapService
+        router: Router,
+        repo: RestaurantRepo,
+        categoryRepo: CategoryRepo,
+        mapService: MapService
     ) {
         self.router = router
         self.repo = repo
@@ -28,6 +28,10 @@ class NewRestaurantViewController: UIViewController {
         activateConstraints()
     }
 
+    override func viewDidLayoutSubviews() {
+        self.form.updateScrollViewContentView()
+    }
+    
     private func setupNavigationBar() {
         title = "New Restaurant"
 
@@ -57,6 +61,7 @@ class NewRestaurantViewController: UIViewController {
         form.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
         form.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
         form.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+        form.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
     }
 
     @objc func saveTapped() {

@@ -82,6 +82,7 @@ class EditRestaurantViewController: UIViewController {
         deleteButton.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
         deleteButton.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
         deleteButton.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
+        deleteButton.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
     }
     
     @objc func saveTapped() {

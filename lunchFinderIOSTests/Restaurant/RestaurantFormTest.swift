@@ -1,4 +1,5 @@
 import XCTest
+import Nimble
 @testable import lunchFinderIOS
 
 class RestaurantFormTest: XCTestCase {
@@ -14,12 +15,19 @@ class RestaurantFormTest: XCTestCase {
     
     func test_subviews() {
         let subviews = form.subviews
-        let subviewTypes = form.subviews.map { view in
+        
+        expect(self.form.subviews.count).to(equal(1))
+        guard let scrollview = self.form.subviews.first as? UIScrollView else {
+            expect(fail())
+            return
+        }
+
+        let scrollViewSubviewTypes = scrollview.subviews.map { view in
             return String(describing: type(of: view))
         }
-        
-        XCTAssertEqual(subviews.count, 5)
-        XCTAssertTrue(subviewTypes.contains("TextInputRow"))
-        XCTAssertTrue(subviewTypes.contains("MultipleSelectInput"))
+
+        expect(scrollViewSubviewTypes).to(contain("UIView"))
+        expect(scrollViewSubviewTypes).to(contain("TextInputRow"))
+        expect(scrollViewSubviewTypes).to(contain("MultipleSelectInput"))
     }
 }

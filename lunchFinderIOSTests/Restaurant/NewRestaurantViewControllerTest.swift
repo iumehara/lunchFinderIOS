@@ -49,9 +49,7 @@ class NewRestaurantViewControllerTest: XCTestCase {
     
     func test_formSubmission() {
         let restaurantForm = controller.view.subviews[0] as! RestaurantForm
-        
-        let nameInputRow = restaurantForm.subviews[1] as! TextInputRow
-        let nameInputField = nameInputRow.subviews[1] as! UITextField
+        let nameInputField = restaurantForm.getNameInputField()
         nameInputField.text = "new value"
         
         let saveButton = controller.navigationItem.rightBarButtonItem
