@@ -2,17 +2,21 @@ import UIKit
 import BrightFutures
 
 class RestaurantDetailViewController: UIViewController {
+    // MARK: - Properties
     private let router: Router
     private let repo: RestaurantRepo
-    private let restaurantCard: RestaurantCard
     private let mapService: MapService
-    private let id: Int
-    private let map: UIView
-    private let categoryTable: UITableView
     private let categoryTableViewProtocols: EditableCategoryTableViewProtocols
-    private let webView: UIWebView = UIWebView()
+    
+    private let id: Int
     private var categories: [BasicCategory] = []
     
+    private let restaurantCard: RestaurantCard
+    private let map: UIView
+    private let categoryTable: UITableView
+    private let webView: UIWebView = UIWebView()
+    
+    // MARK: - Constructors
     init(router: Router, repo: RestaurantRepo, mapService: MapService, id: Int) {
         self.router = router
         self.repo = repo
@@ -30,42 +34,27 @@ class RestaurantDetailViewController: UIViewController {
         fatalError("error")
     }
 
+    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(self.reloadView),
-            name: NSNotification.Name("modalWasDismissed"),
-            object: nil
-        )
-        
-        self.webView.delegate = self
-        
         setupNavigationBar()
         setupSubviews()
         activateConstraints()
-        
-        self.categoryTableViewProtocols.setEditingCallback { categoryId -> Future<Void, NSError> in
-            self.repo.removeCategory(id: self.id, categoryId: categoryId)
-                .onSuccess { _ in
-                    let remainingCategories = self.categories.filter { $0.id != categoryId }
-                    self.categoryTableViewProtocols.setCategories(categories: remainingCategories)
-                }
-                .onComplete { _ in self.categoryTable.reloadData() }
-        }
-        
-        repo.get(id: self.id)
-            .onSuccess { restaurant in
-                self.title = restaurant.name
-                self.restaurantCard.set(restaurant: restaurant)
-                self.mapService.setMarker(restaurant: BasicRestaurant(restaurant: restaurant))
-                self.categories = restaurant.categories
-                self.categoryTableViewProtocols.setCategories(categories: self.categories)
-            }
-            .onComplete { _ in self.categoryTable.reloadData() }
+        setupNotifications()
+        fetchData()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        let returningToPreviousViewController = self.isMovingFromParentViewController
+        
+        if (returningToPreviousViewController) {
+            guard let previousViewController = self.router.navigationController.viewControllers.last else { return }
+            previousViewController.viewDidLoad()
+        }
+    }
+
+    // MARK: - Private Methods
     private func setupNavigationBar() {
         title = "Restaurant"
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(
@@ -80,12 +69,23 @@ class RestaurantDetailViewController: UIViewController {
         view.addSubview(map)
         view.addSubview(categoryTable)
         
+        self.webView.delegate = self
+
         categoryTable.dataSource = categoryTableViewProtocols
         categoryTable.delegate = categoryTableViewProtocols
         categoryTable.register(
             UITableViewCell.self,
             forCellReuseIdentifier: CategoryTableViewProtocols.cellIdentifier
         )
+        
+        self.categoryTableViewProtocols.setEditingCallback { categoryId -> Future<Void, NSError> in
+            self.repo.removeCategory(id: self.id, categoryId: categoryId)
+                .onSuccess { _ in
+                    let remainingCategories = self.categories.filter { $0.id != categoryId }
+                    self.categoryTableViewProtocols.setCategories(categories: remainingCategories)
+                }
+                .onComplete { _ in self.categoryTable.reloadData() }
+        }
     }
     
     private func activateConstraints() {
@@ -109,17 +109,35 @@ class RestaurantDetailViewController: UIViewController {
         categoryTable.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
     }
 
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.reloadView),
+            name: NSNotification.Name("modalWasDismissed"),
+            object: nil
+        )
+    }
+    
+    private func fetchData() {
+        repo.get(id: self.id)
+            .onSuccess { restaurant in
+                self.title = restaurant.name
+                self.restaurantCard.set(restaurant: restaurant)
+                self.mapService.setMarker(restaurant: BasicRestaurant(restaurant: restaurant))
+                self.categories = restaurant.categories
+                self.categoryTableViewProtocols.setCategories(categories: self.categories)
+            }
+            .onComplete { _ in self.categoryTable.reloadData() }
+    }
+
     @objc private func editTapped() {
         router.showEditRestaurantModal(id: id)
     }
 
-    @objc private func restaurantsTapped() {
-        router.showRestaurantListScreen()
-    }
-    
-    @objc func reloadView() {
+    @objc private func reloadView() {
         viewDidLoad()
     }
 }
 
+// MARK: - Extension: UIWebViewDelegate
 extension RestaurantDetailViewController: UIWebViewDelegate {}

@@ -1,6 +1,14 @@
+import UIKit
+
 @testable import lunchFinderIOS
 
 class SpyRouter: Router {
+    let navigationController: UINavigationController!
+
+    init() {
+        self.navigationController = UINavigationController()
+    }
+
     var showCategoryListScreen_wasCalled = false
     func showCategoryListScreen() {
         showCategoryListScreen_wasCalled = true

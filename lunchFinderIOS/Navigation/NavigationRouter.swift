@@ -23,7 +23,7 @@ struct NavigationRouter: Router {
             repo: categoryRepo
         )
 
-        navigationController.setViewControllers([categoryListViewController], animated: animated)
+        navigationController.pushViewController(categoryListViewController, animated: animated)
     }
     
     func showCategoryDetailScreen(id: Int) {

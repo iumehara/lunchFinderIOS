@@ -2,15 +2,19 @@ import UIKit
 import BrightFutures
 
 class CategoryDetailViewController: UIViewController {
+    // MARK: - Properties
     private let router: Router
     private let repo: CategoryRepo
     private let mapService: MapService
+    private let restaurantTableViewProtocols: EditableRestaurantTableViewProtocols
+
     private let id: Int
+    private var restaurants: [BasicRestaurant] = []
+    
     private let map: UIView
     private let restaurantTable: UITableView
-    private let restaurantTableViewProtocols: EditableRestaurantTableViewProtocols
-    private var restaurants: [BasicRestaurant] = []
 
+    // MARK: - Constructors
     init(router: Router, repo: CategoryRepo, mapService: MapService, id: Int) {
         self.router = router
         self.repo = repo
@@ -27,34 +31,26 @@ class CategoryDetailViewController: UIViewController {
         fatalError("error")
     }
     
+    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavigationBar()
         setupSubviews()
         activateConstraints()
-
-        self.restaurantTableViewProtocols.setEditingCallback { (restaurantId) -> Future<Void, NSError> in
-                self.repo.removeRestaurant(id: self.id, restaurantId: restaurantId)
-                    .onSuccess { _ in
-                        guard let restaurantToRemove = self.restaurants.first(where: { $0.id == restaurantId }) else { return }
-                        let remainingRestaurants = self.restaurants.filter { $0.id != restaurantId}
-                        self.restaurantTableViewProtocols.setRestaurants(restaurants: remainingRestaurants)
-                        self.mapService.removeMarker(restaurant: restaurantToRemove)
-                    }
-                    .onComplete { _ in self.restaurantTable.reloadData() }
-        }
+        fetchData()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        let returningToPreviousViewController = self.isMovingFromParentViewController
         
-        repo.get(id: self.id)
-            .onSuccess { category in
-                self.title = category.name
-                self.restaurants = category.restaurants
-                self.restaurantTableViewProtocols.setRestaurants(restaurants: self.restaurants)
-                self.mapService.setMarkers(restaurants: self.restaurants)
-            }
-            .onComplete { _ in self.restaurantTable.reloadData() }
+        if (returningToPreviousViewController) {
+            guard let previousViewController = self.router.navigationController.viewControllers.last else { return }
+            previousViewController.viewDidLoad()
+        }
     }
 
+    // MARK: - Private Methods
     private func setupNavigationBar() {
         title = "Category"
     }
@@ -69,6 +65,16 @@ class CategoryDetailViewController: UIViewController {
             UITableViewCell.self,
             forCellReuseIdentifier: EditableRestaurantTableViewProtocols.cellIdentifier
         )
+        self.restaurantTableViewProtocols.setEditingCallback { (restaurantId) -> Future<Void, NSError> in
+            self.repo.removeRestaurant(id: self.id, restaurantId: restaurantId)
+                .onSuccess { _ in
+                    guard let restaurantToRemove = self.restaurants.first(where: { $0.id == restaurantId }) else { return }
+                    let remainingRestaurants = self.restaurants.filter { $0.id != restaurantId}
+                    self.restaurantTableViewProtocols.setRestaurants(restaurants: remainingRestaurants)
+                    self.mapService.removeMarker(restaurant: restaurantToRemove)
+                }
+                .onComplete { _ in self.restaurantTable.reloadData() }
+        }
     }
     
     private func activateConstraints() {
@@ -85,6 +91,17 @@ class CategoryDetailViewController: UIViewController {
         restaurantTable.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
         restaurantTable.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
         restaurantTable.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
+    }
+    
+    private func fetchData() {
+        repo.get(id: self.id)
+            .onSuccess { category in
+                self.title = category.name
+                self.restaurants = category.restaurants
+                self.restaurantTableViewProtocols.setRestaurants(restaurants: self.restaurants)
+                self.mapService.setMarkers(restaurants: self.restaurants)
+            }
+            .onComplete { _ in self.restaurantTable.reloadData() }
     }
 
     @objc private func categoriesTapped() {

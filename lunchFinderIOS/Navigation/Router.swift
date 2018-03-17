@@ -1,4 +1,8 @@
+import UIKit
+
 protocol Router {
+    var navigationController: UINavigationController! { get }
+
     func showCategoryListScreen()
     func showCategoryDetailScreen(id: Int)
     func showNewCategoryModal()
