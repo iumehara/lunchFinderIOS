@@ -20,6 +20,8 @@ class SpyMapService: MapService {
         setMarker_wasCalledWith = restaurant
     }
 
+    func setDraggableMarker(restaurant: BasicRestaurant) { }
+    
     var setMarkers_wasCalledWith: [BasicRestaurant] = []
     func setMarkers(restaurants: [BasicRestaurant]) {
         setMarkers_wasCalledWith = restaurants

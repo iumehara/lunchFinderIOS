@@ -1,47 +1,41 @@
 import UIKit
 
 class RestaurantForm: UIView {
+    // MARK: - Properties
     private let categoryRepo: CategoryRepo
     private let mapService: MapService
+
+    private let mapLabel: UILabel
     private let map: UIView
+    private var scrollView: UIScrollView
     private let nameInputRow: TextInputRow = TextInputRow(labelText: "name")
     private let nameJpInputRow: TextInputRow = TextInputRow(labelText: "店名")
     private let websiteInputRow: TextInputRow = TextInputRow(labelText: "website")
     private let categoriesInputRow: MultipleSelectInput = MultipleSelectInput(labelText: "categories")
-    private var scrollView: UIScrollView
 
+    // MARK: - Constructors
     init(categoryRepo: CategoryRepo, mapService: MapService) {
         self.categoryRepo = categoryRepo
         self.mapService = mapService
+        self.mapLabel = UILabel()
         self.map = mapService.createMap(isSelectable: true)
         self.scrollView = UIScrollView()
         
         super.init(frame: CGRect.zero)
-
-        fetchData()
-        setupSubviews()
-        activateConstraints()
+        
+        viewDidLoad()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("error")
     }
 
-    func fetchData() {
-        categoryRepo.getAll()
-            .onSuccess { categories in
-                let options = categories.map { category in
-                    return SelectOption(id: category.id, name: category.name)
-                }
-                self.categoriesInputRow.setOptions(selectOptions: options)
-            }
-    }
-    
+    // MARK: - Public Methods
     func setDefaultValues(restaurant: Restaurant) {
         if let _ = restaurant.geolocation {
-            self.mapService.setMarker(restaurant: BasicRestaurant(restaurant: restaurant))
+            self.mapService.setDraggableMarker(restaurant: BasicRestaurant(restaurant: restaurant))
         }
-
+        
         nameInputRow.setDefaultValue(defaultValue: restaurant.name)
         if let nameJp = restaurant.nameJp {
             nameJpInputRow.setDefaultValue(defaultValue: nameJp)
@@ -49,22 +43,10 @@ class RestaurantForm: UIView {
         if let website = restaurant.website {
             websiteInputRow.setDefaultValue(defaultValue: website)
         }
-
+        
         categoriesInputRow.setDefaultValues(
-                options: restaurant.categories.map { cat in SelectOption(id: cat.id, name: cat.name) }
+            options: restaurant.categories.map { cat in SelectOption(id: cat.id, name: cat.name) }
         )
-    }
-
-    func setupSubviews() {
-        scrollView.frame = self.bounds
-        scrollView.contentSize = CGSize(width: self.bounds.width, height: self.bounds.height)
-
-        addSubview(scrollView)
-        scrollView.addSubview(map)
-        scrollView.addSubview(nameInputRow)
-        scrollView.addSubview(nameJpInputRow)
-        scrollView.addSubview(websiteInputRow)
-        scrollView.addSubview(categoriesInputRow)
     }
 
     func updateScrollViewContentView() {
@@ -75,7 +57,7 @@ class RestaurantForm: UIView {
             + websiteInputRow.frame.height
             + categoriesInputRow.frame.height
             + pickerViewHeight
-
+        
         let initialCategoriesInputRowHeight = CGFloat(50)
         if categoriesInputRow.frame.height > initialCategoriesInputRowHeight {
             let offsetToBottom = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
@@ -83,15 +65,56 @@ class RestaurantForm: UIView {
         }
     }
     
-    func activateConstraints() {
+    func newRestaurant() -> NewRestaurant? {
+        guard let name = nameInputRow.text() else { return nil }
+        let geolocation = mapService.getMarkerPosition()
+        
+        return NewRestaurant(
+            name: name,
+            nameJp: nameJpInputRow.text(),
+            website: websiteInputRow.text(),
+            categoryIds: categoriesInputRow.ids(),
+            geolocation: geolocation
+        )
+    }
+
+
+    // MARK: - Private Lifecycle Methods
+    private func viewDidLoad() {
+        setupSubviews()
+        activateConstraints()
+        fetchData()
+    }
+    
+    // MARK: - Private Methods
+    private func setupSubviews() {
+        scrollView.frame = self.bounds
+        scrollView.contentSize = CGSize(width: self.bounds.width, height: self.bounds.height)
+        addSubview(scrollView)
+        
+        mapLabel.text = "Add a marker by tapping the restaurant location on the map"
+        scrollView.addSubview(mapLabel)
+        scrollView.addSubview(map)
+        scrollView.addSubview(nameInputRow)
+        scrollView.addSubview(nameJpInputRow)
+        scrollView.addSubview(websiteInputRow)
+        scrollView.addSubview(categoriesInputRow)
+    }
+    
+    private func activateConstraints() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         scrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         scrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
 
+        mapLabel.translatesAutoresizingMaskIntoConstraints = false
+        mapLabel.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        mapLabel.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
+        mapLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+
         map.translatesAutoresizingMaskIntoConstraints = false
-        map.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        map.topAnchor.constraint(equalTo: mapLabel.bottomAnchor).isActive = true
         map.heightAnchor.constraint(equalToConstant: CGFloat(300)).isActive = true
         map.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         map.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
@@ -120,16 +143,13 @@ class RestaurantForm: UIView {
         categoriesInputRow.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
     }
 
-    func newRestaurant() -> NewRestaurant? {
-        guard let name = nameInputRow.text() else { return nil }
-        let geolocation = mapService.getMarkerPosition()
-
-        return NewRestaurant(
-            name: name,
-            nameJp: nameJpInputRow.text(),
-            website: websiteInputRow.text(),
-            categoryIds: categoriesInputRow.ids(),
-            geolocation: geolocation
-        )
+    private func fetchData() {
+        categoryRepo.getAll()
+            .onSuccess { categories in
+                let options = categories.map { category in
+                    return SelectOption(id: category.id, name: category.name)
+                }
+                self.categoriesInputRow.setOptions(selectOptions: options)
+        }
     }
 }

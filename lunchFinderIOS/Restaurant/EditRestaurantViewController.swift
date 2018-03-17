@@ -1,13 +1,17 @@
 import UIKit
 
 class EditRestaurantViewController: UIViewController {
-    private let id: Int
+    // MARK: - Properties
     private let router: Router
     private let repo: RestaurantRepo
-    private let form: RestaurantForm
     private let mapService: MapService
-    private let deleteButton: UIButton
+
+    private let id: Int
     
+    private let form: RestaurantForm
+    private let deleteButton: UIButton
+
+    // MARK: - Constructors
     init(
         router: Router,
         repo: RestaurantRepo,
@@ -29,18 +33,15 @@ class EditRestaurantViewController: UIViewController {
         fatalError("error")
     }
     
+    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
-        fetchData()
         setupNavigationBar()
         setupSubviews()
         activateConstraints()
+        fetchData()
     }
 
-    func fetchData() {
-        repo.get(id: id)
-            .onSuccess { restaurant in self.form.setDefaultValues(restaurant: restaurant) }
-    }
-
+    // MARK: - Private Methods
     private func setupNavigationBar() {
         title = "Edit Restaurant"
 
@@ -85,13 +86,18 @@ class EditRestaurantViewController: UIViewController {
         deleteButton.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
     }
     
-    @objc func saveTapped() {
+    private func fetchData() {
+        repo.get(id: id)
+            .onSuccess { restaurant in self.form.setDefaultValues(restaurant: restaurant) }
+    }
+
+    @objc private func saveTapped() {
         guard let newRestaurant = form.newRestaurant() else { return }
         repo.update(id: id, newRestaurant: newRestaurant)
             .onSuccess { _ in self.dismissModal() }
     }
     
-    @objc func deleteTapped() {
+    @objc private func deleteTapped() {
         repo.delete(id: id)
             .onSuccess { _ in
                 self.router.showRestaurantListScreen()
@@ -99,7 +105,7 @@ class EditRestaurantViewController: UIViewController {
             }
     }
 
-    @objc func dismissModal() {
+    @objc private func dismissModal() {
         NotificationCenter.default.post(name: NSNotification.Name("modalWasDismissed"), object: nil)
         router.dismissModal()
     }

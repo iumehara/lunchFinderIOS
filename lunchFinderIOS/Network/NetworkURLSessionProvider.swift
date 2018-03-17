@@ -1,10 +1,10 @@
-import Foundation
+import UIKit
 
 struct NetworkURLSessionProvider: URLSessionProvider {
-    var baseURL = "http://localhost:8080/"
+    let baseURL = AppDelegate.baseURL
 
     var urlSession = URLSession.shared
-
+    
     func getRequest(path: String) -> URLRequest? {
         guard let url = URL(string: "\(baseURL)\(path)") else {
             return nil
