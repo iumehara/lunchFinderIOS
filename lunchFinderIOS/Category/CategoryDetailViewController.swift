@@ -53,6 +53,11 @@ class CategoryDetailViewController: UIViewController {
     // MARK: - Private Methods
     private func setupNavigationBar() {
         title = "Category"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .edit,
+            target: self,
+            action: #selector(editTapped)
+        )
     }
 
     private func setupSubviews() {
@@ -106,5 +111,10 @@ class CategoryDetailViewController: UIViewController {
 
     @objc private func categoriesTapped() {
         router.showCategoryListScreen()
+    }
+    
+    
+    @objc private func editTapped() {
+        router.showEditCategoryModal(id: id)
     }
 }

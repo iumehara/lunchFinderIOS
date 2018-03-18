@@ -24,7 +24,10 @@ class SpyRouter: Router {
         showNewCategoryModal_wasCalled = true
     }
 
-    
+    var showEditCategoryModal_wasCalled = false
+    func showEditCategoryModal(id: Int) {
+        showEditCategoryModal_wasCalled = true
+    }
     
     var showRestaurantListScreen_wasCalled = false
     func showRestaurantListScreen() {

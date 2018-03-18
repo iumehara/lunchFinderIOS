@@ -15,6 +15,9 @@
 		240B7AE1203410A0005959AB /* Restaurant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240B7AE0203410A0005959AB /* Restaurant.swift */; };
 		241197512036694100ABD10E /* RestaurantDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241197502036694100ABD10E /* RestaurantDetailViewController.swift */; };
 		241B4E4220463A19000EEE36 /* BasicCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241B4E4120463A19000EEE36 /* BasicCategory.swift */; };
+		242061B1205E102000334215 /* EditCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242061B0205E102000334215 /* EditCategoryViewController.swift */; };
+		242061B3205E125800334215 /* CategoryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242061B2205E125800334215 /* CategoryForm.swift */; };
+		242061B5205EB36100334215 /* EditCategoryViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242061B4205EB36100334215 /* EditCategoryViewControllerTest.swift */; };
 		2421A5F92041516500CEF84A /* SingleSelectInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2421A5F82041516500CEF84A /* SingleSelectInput.swift */; };
 		2421A5FB2041571F00CEF84A /* MultilpeSelectInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2421A5FA2041571F00CEF84A /* MultilpeSelectInput.swift */; };
 		2432517C20396BD4007CBEF9 /* RestaurantTableViewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2432517B20396BD4007CBEF9 /* RestaurantTableViewProtocols.swift */; };
@@ -92,6 +95,9 @@
 		240B7AE0203410A0005959AB /* Restaurant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Restaurant.swift; sourceTree = "<group>"; };
 		241197502036694100ABD10E /* RestaurantDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantDetailViewController.swift; sourceTree = "<group>"; };
 		241B4E4120463A19000EEE36 /* BasicCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicCategory.swift; sourceTree = "<group>"; };
+		242061B0205E102000334215 /* EditCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategoryViewController.swift; sourceTree = "<group>"; };
+		242061B2205E125800334215 /* CategoryForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryForm.swift; sourceTree = "<group>"; };
+		242061B4205EB36100334215 /* EditCategoryViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategoryViewControllerTest.swift; sourceTree = "<group>"; };
 		2421A5F82041516500CEF84A /* SingleSelectInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleSelectInput.swift; sourceTree = "<group>"; };
 		2421A5FA2041571F00CEF84A /* MultilpeSelectInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilpeSelectInput.swift; sourceTree = "<group>"; };
 		2432517B20396BD4007CBEF9 /* RestaurantTableViewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewProtocols.swift; sourceTree = "<group>"; };
@@ -283,6 +289,7 @@
 				24A435AF20368420000EECAF /* CategoryDetailViewControllerTest.swift */,
 				24A435B1203698F8000EECAF /* NetworkCategoryRepoTest.swift */,
 				ECF95CFC789FD048CCACAABC /* NewCategoryViewControllerTest.swift */,
+				242061B4205EB36100334215 /* EditCategoryViewControllerTest.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -373,6 +380,8 @@
 				245CB0DA203D3EFB006A0B5F /* NewCategory.swift */,
 				245CB0D8203BFB52006A0B5F /* NewCategoryViewController.swift */,
 				24B990262055171200DE5F3B /* EditableCategoryTableViewProtocols.swift */,
+				242061B0205E102000334215 /* EditCategoryViewController.swift */,
+				242061B2205E125800334215 /* CategoryForm.swift */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -661,6 +670,8 @@
 				24AFF184203FA5A900BC1EE5 /* NewRestaurantViewController.swift in Sources */,
 				2432517C20396BD4007CBEF9 /* RestaurantTableViewProtocols.swift in Sources */,
 				24B990272055171200DE5F3B /* EditableCategoryTableViewProtocols.swift in Sources */,
+				242061B1205E102000334215 /* EditCategoryViewController.swift in Sources */,
+				242061B3205E125800334215 /* CategoryForm.swift in Sources */,
 				245CB0D2203BCC1D006A0B5F /* NetworkURLSessionProvider.swift in Sources */,
 				24AFF18B20400B8E00BC1EE5 /* NewRestaurant.swift in Sources */,
 				2453F2A7202D8C3F00322017 /* CategoryRepo.swift in Sources */,
@@ -689,6 +700,7 @@
 				248D3650202D7F5D000C4EF3 /* CategoryListViewControllerTest.swift in Sources */,
 				24F99AE42043D6160060B526 /* RestaurantFormTest.swift in Sources */,
 				245CB0C6203AB485006A0B5F /* SuccessStubRestaurantRepo.swift in Sources */,
+				242061B5205EB36100334215 /* EditCategoryViewControllerTest.swift in Sources */,
 				24F99ADA2043AAA50060B526 /* MultipleSelectInputTest.swift in Sources */,
 				245CB0C2203AADB6006A0B5F /* NetworkRestaurantRepoTest.swift in Sources */,
 				245CB0C4203AB33A006A0B5F /* RestaurantDetailViewControllerTest.swift in Sources */,

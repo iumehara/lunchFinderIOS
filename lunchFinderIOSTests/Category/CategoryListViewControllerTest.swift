@@ -22,18 +22,18 @@ class CategoryListViewControllerTest: XCTestCase {
         expect(self.controller.navigationItem.leftBarButtonItem!.title).to(equal("Restaurants"))
     }
 
-    func test_numberOfSections() {
-        let numberOfSections = controller.numberOfSections(
-            in: controller.tableView
-        )
-
-        XCTAssertEqual(numberOfSections, 1)
+    func test_subviews() {
+        let subviewTypes = controller.view.subviews.map { view in
+            return String(describing: type(of: view))
+        }
+        
+        expect(subviewTypes.count).to(equal(1))
+        expect(subviewTypes).to(contain("UITableView"))
     }
 
     func test_tableData() {
-        let table = self.controller.tableView!
-
+        let table = self.controller.view.subviews[0] as! UITableView
+        
         expect(table.cellForRow(at: IndexPath(row: 0, section: 0))!.textLabel!.text!).toEventually(equal("Category A"))
-        expect(table.cellForRow(at: IndexPath(row: 1, section: 0))!.textLabel!.text!).toEventually(equal("Category B"))
     }
 }

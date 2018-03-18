@@ -64,6 +64,13 @@ struct NavigationRouter: Router {
         navigationController.present(newCategoryModal, animated: animated, completion: nil)
     }
     
+    func showEditCategoryModal(id: Int) {
+        let editCategoryModal = UINavigationController(
+            rootViewController: EditCategoryViewController(router: self, repo: categoryRepo, id: id)
+        )
+        navigationController.present(editCategoryModal, animated: animated, completion: nil)
+    }
+    
     func showNewRestaurantModal() {
         let newRestaurantModal = UINavigationController(
             rootViewController: NewRestaurantViewController(

@@ -25,6 +25,19 @@ class CategoryDetailViewControllerTest: XCTestCase {
     
     func test_navigationBar() {
         expect(self.controller.title).toEventually(equal("Category A"))
+        expect(self.controller.navigationItem.rightBarButtonItem).toNot(beNil())
+    }
+
+    func test_navigationBar_editClick() {
+        let rightBarButtonItem = self.controller.navigationItem.rightBarButtonItem!
+        UIApplication.shared.sendAction(
+            rightBarButtonItem.action!,
+            to: rightBarButtonItem.target,
+            from: self,
+            for: nil
+        )
+        
+        expect(self.router.showEditCategoryModal_wasCalled).to(beTrue())
     }
 
     func test_subviews() {
@@ -43,12 +56,12 @@ class CategoryDetailViewControllerTest: XCTestCase {
         expect(self.mapService.setMarkers_wasCalledWith).toEventually(equal(stubRestaurants))
     }
     
-    func test_tableData() {
+    func test_table_data() {
         let table = self.controller.view.subviews[1] as! UITableView
         expect(table.cellForRow(at: IndexPath(row: 0, section: 0))!.textLabel!.text!).toEventually(equal("Restaurant A"))
     }
     
-    func test_tableRowClick() {
+    func test_table_RowClick() {
         let table = self.controller.view.subviews[1] as! UITableView
         expect(table.numberOfRows(inSection: 0)).toEventually(equal(2))
         table.delegate!.tableView!(table, didSelectRowAt: IndexPath(row: 0, section: 0))

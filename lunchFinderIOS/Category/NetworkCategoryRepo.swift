@@ -68,6 +68,29 @@ class NetworkCategoryRepo: CategoryRepo {
         
         return promise.future
     }
+    
+    func update(id: Int, newCategory: NewCategory) -> Future<Void, NSError> {
+        let promise = Promise<Void, NSError>()
+        
+        guard let httpBody = try? JSONEncoder().encode(newCategory) else {
+            promise.failure(NSError(domain: "could not encode category", code: 0, userInfo: nil))
+            return promise.future
+        }
+        
+        guard let urlRequest = urlSessionProvider.putRequest(path: "categories/\(id)", body: httpBody) else {
+            promise.failure(NSError(domain: "could not generate urlRequest", code: 0, userInfo: nil))
+            return promise.future
+        }
+        
+        session.dataTask(
+            with: urlRequest,
+            completionHandler: { (data, response, error) in
+                CompletionHandlers.voidCompletionHandler(data: data, response: response, error: error, promise: promise)
+            }
+        ).resume()
+        
+        return promise.future
+    }
 
     func removeRestaurant(id: Int, restaurantId: Int) -> Future<Void, NSError> {
         let promise = Promise<Void, NSError>()

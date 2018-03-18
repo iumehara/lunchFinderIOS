@@ -45,7 +45,9 @@ class RestaurantForm: UIView {
         }
         
         categoriesInputRow.setDefaultValues(
-            options: restaurant.categories.map { cat in SelectOption(id: cat.id, name: cat.name) }
+            options: restaurant.categories.map { category in
+                SelectOption(id: category.id, name: category.name)
+            }
         )
     }
 
@@ -77,7 +79,6 @@ class RestaurantForm: UIView {
             geolocation: geolocation
         )
     }
-
 
     // MARK: - Private Lifecycle Methods
     private func viewDidLoad() {
