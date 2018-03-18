@@ -123,6 +123,7 @@ class RestaurantDetailViewController: UIViewController {
             .onSuccess { restaurant in
                 self.title = restaurant.name
                 self.restaurantCard.set(restaurant: restaurant)
+                self.mapService.removeMarkers()
                 self.mapService.setMarker(restaurant: BasicRestaurant(restaurant: restaurant))
                 self.categories = restaurant.categories
                 self.categoryTableViewProtocols.setCategories(categories: self.categories)

@@ -35,8 +35,7 @@ class GoogleMapService: MapService {
         }
     }
 
-    func setDraggableMarker(restaurant: BasicRestaurant) {
-        guard let geolocation = restaurant.geolocation else { return }
+    func setDraggableMarker(geolocation: Geolocation) {
         let tapLocation = CLLocationCoordinate2D(latitude: geolocation.lat, longitude: geolocation.long)
         map.mapView(map.mapView, didTapAt: tapLocation)
     }
@@ -45,6 +44,10 @@ class GoogleMapService: MapService {
         if let geolocation = restaurant.geolocation {
             map.removeMarker(geolocation: geolocation)
         }
+    }
+    
+    func removeMarkers() {
+        map.removeMarkers()
     }
     
     func getMarkerPosition() -> Geolocation? {

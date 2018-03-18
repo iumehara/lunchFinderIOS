@@ -20,7 +20,7 @@ class SpyMapService: MapService {
         setMarker_wasCalledWith = restaurant
     }
 
-    func setDraggableMarker(restaurant: BasicRestaurant) { }
+    func setDraggableMarker(geolocation: Geolocation) { }
     
     var setMarkers_wasCalledWith: [BasicRestaurant] = []
     func setMarkers(restaurants: [BasicRestaurant]) {
@@ -31,6 +31,8 @@ class SpyMapService: MapService {
     func removeMarker(restaurant: BasicRestaurant) {
         removeMarker_wasCalledWith = restaurant
     }
+
+    func removeMarkers() {}
 
     var getMarkerPosition_wasCalled = false
     func getMarkerPosition() -> Geolocation? {

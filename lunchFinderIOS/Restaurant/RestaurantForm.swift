@@ -32,8 +32,8 @@ class RestaurantForm: UIView {
 
     // MARK: - Public Methods
     func setDefaultValues(restaurant: Restaurant) {
-        if let _ = restaurant.geolocation {
-            self.mapService.setDraggableMarker(restaurant: BasicRestaurant(restaurant: restaurant))
+        if let geolocation = restaurant.geolocation {
+            self.mapService.setDraggableMarker(geolocation: geolocation)
         }
         
         nameInputRow.setDefaultValue(defaultValue: restaurant.name)

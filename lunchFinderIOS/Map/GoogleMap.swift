@@ -54,6 +54,10 @@ class GoogleMap: UIView {
         markerToRemove?.map = nil
     }
     
+    func removeMarkers() {
+        mapView.clear()
+    }
+    
     required init?(coder aDecoder: NSCoder) {
         fatalError("error")
     }
