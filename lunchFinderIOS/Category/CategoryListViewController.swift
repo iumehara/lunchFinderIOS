@@ -1,14 +1,21 @@
 import UIKit
 
-class CategoryListViewController: UITableViewController {
+class CategoryListViewController: UIViewController {
+    // MARK: - Properties
     private let router: Router
     private let repo: CategoryRepo
-    private let tableViewCellIdentifier: String = String(describing: UITableViewCell.self)
-    private var categories: [BasicCategory] = []
+    private let tableViewProtocols: CategoryTableViewProtocols
+    private var refreshControl: UIRefreshControl?
+    
+    private let table: UITableView
 
+    // MARK: - Constructors
     init(router: Router, repo: CategoryRepo) {
         self.router = router
         self.repo = repo
+        self.table = UITableView()
+        self.tableViewProtocols = CategoryTableViewProtocols(router: router)
+        
         super.init(nibName: nil, bundle:  nil)
     }
 
@@ -16,25 +23,17 @@ class CategoryListViewController: UITableViewController {
         fatalError("error")
     }
     
+    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
         setupNavigationBar()
-        
-        self.refreshControl = UIRefreshControl()
-        if let control = refreshControl {
-            tableView.refreshControl = control
-            control.addTarget(self, action: #selector(reloadData), for: .valueChanged)
-        }
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: tableViewCellIdentifier)
-
-        repo.getAll()
-            .onSuccess { categories in self.categories = categories }
-            .onFailure { error in print("failed \(error)") }
-            .onComplete { _ in self.tableView.reloadData() }
+        setupSubviews()
+        activateConstraints()
+        fetchData()
     }
     
+    // MARK: - Private Methods
     private func setupNavigationBar() {
         title = "Categories"
         navigationItem.rightBarButtonItem = UIBarButtonItem.init(
@@ -51,35 +50,38 @@ class CategoryListViewController: UITableViewController {
         )
     }
     
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+    private func setupSubviews() {
+        view.addSubview(table)
+        
+        table.dataSource = tableViewProtocols
+        table.delegate = tableViewProtocols
+        table.register(UITableViewCell.self,
+                       forCellReuseIdentifier: CategoryTableViewProtocols.cellIdentifier)
+        
+        self.refreshControl = UIRefreshControl()
+        if let control = refreshControl {
+            table.refreshControl = control
+            control.addTarget(self, action: #selector(reloadData), for: .valueChanged)
+        }
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: tableViewCellIdentifier, for: indexPath)
-        cell.textLabel?.text = categories[indexPath.row].name
-        return cell
+    private func activateConstraints() {
+        let margins = self.view.safeAreaLayoutGuide
+        
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.topAnchor.constraint(equalTo: margins.topAnchor).isActive = true
+        table.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
+        table.leadingAnchor.constraint(equalTo: margins.leadingAnchor).isActive = true
+        table.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
     }
     
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedCategory = categories[indexPath.row]
-        router.showCategoryDetailScreen(id: selectedCategory.id)
-    }
-
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if (editingStyle == UITableViewCellEditingStyle.delete) {
-            let selectedCategory = categories[indexPath.row]
-            repo.delete(id: selectedCategory.id)
-                .onSuccess { _ in
-                    self.categories.remove(at: indexPath.row)
-                    self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                }
-        }
+    private func fetchData() {
+        repo.getAll()
+            .onSuccess { categories in
+                self.tableViewProtocols.setCategories(categories: categories)
+            }
+            .onFailure { error in print("failed \(error)") }
+            .onComplete { _ in self.table.reloadData() }
     }
 
     @objc func addCategoryTapped() {
@@ -92,11 +94,13 @@ class CategoryListViewController: UITableViewController {
 
     @objc func reloadData() {
         repo.getAll()
-                .onSuccess { categories in self.categories = categories }
-                .onFailure { error in print("failed \(error)") }
-                .onComplete { _ in
-                    self.tableView.reloadData()
-                    self.refreshControl!.endRefreshing()
-                }
+            .onSuccess { categories in
+                self.tableViewProtocols.setCategories(categories: categories)
+            }
+            .onFailure { error in print("failed \(error)") }
+            .onComplete { _ in
+                self.table.reloadData()
+                self.refreshControl!.endRefreshing()
+            }
     }
 }

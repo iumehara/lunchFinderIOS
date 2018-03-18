@@ -1,10 +1,14 @@
 import UIKit
 
 class CategoryTableViewProtocols: NSObject {
+    // MARK: - Properties
     static let cellIdentifier: String = String(describing: UITableViewCell.self)
-    var categories: [BasicCategory] = []
+    
     private let router: Router
     
+    var categories: [BasicCategory] = []
+    
+    // MARK: - Constructors
     init(router: Router) {
         self.router = router
     }
@@ -12,12 +16,14 @@ class CategoryTableViewProtocols: NSObject {
     required init?(coder aDecoder: NSCoder) {
         fatalError("error")
     }
-    
+
+    // MARK: - Public Methods
     func setCategories(categories: [BasicCategory]) {
         self.categories = categories
     }
 }
 
+// MARK: - Extension: UITableViewDataSource
 extension CategoryTableViewProtocols: UITableViewDataSource {
     public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count
@@ -27,13 +33,6 @@ extension CategoryTableViewProtocols: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewProtocols.cellIdentifier, for: indexPath)
         cell.textLabel?.text = categories[indexPath.row].name
         return cell
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if section == 0 {
-            return "Categories"
-        }
-        return nil
     }
 }
 
