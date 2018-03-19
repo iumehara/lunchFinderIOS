@@ -22,8 +22,8 @@ class EditRestaurantViewController: UIViewController {
         self.router = router
         self.repo = repo
         self.mapService = mapService
-        self.form = RestaurantForm(categoryRepo: categoryRepo, mapService: mapService)
         self.id = id
+        self.form = RestaurantForm(categoryRepo: categoryRepo, mapService: mapService)
         self.deleteButton = UIButton()
         
         super.init(nibName: nil, bundle: nil)
@@ -41,7 +41,11 @@ class EditRestaurantViewController: UIViewController {
         fetchData()
     }
 
-    // MARK: - Private Methods
+    override func viewDidLayoutSubviews() {
+        self.form.updateScrollViewContentView()
+    }
+    
+    // MARK: - Setup Methods
     private func setupNavigationBar() {
         title = "Edit Restaurant"
 
@@ -86,11 +90,21 @@ class EditRestaurantViewController: UIViewController {
         deleteButton.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
     }
     
+    // MARK: - Request Methods
     private func fetchData() {
         repo.get(id: id)
             .onSuccess { restaurant in self.form.setDefaultValues(restaurant: restaurant) }
     }
 
+    private func deleteRestaurant() {
+        repo.delete(id: id)
+            .onSuccess { _ in
+                self.router.showRestaurantListScreen()
+                self.dismissModal()
+            }
+    }
+
+    // MARK: - Action Methods
     @objc private func saveTapped() {
         guard let newRestaurant = form.newRestaurant() else { return }
         repo.update(id: id, newRestaurant: newRestaurant)
@@ -98,11 +112,16 @@ class EditRestaurantViewController: UIViewController {
     }
     
     @objc private func deleteTapped() {
-        repo.delete(id: id)
-            .onSuccess { _ in
-                self.router.showRestaurantListScreen()
-                self.dismissModal()
-            }
+        let alertController = UIAlertController(title: nil,
+                                                message: nil,
+                                                preferredStyle: UIAlertControllerStyle.actionSheet)
+        alertController.addAction(UIAlertAction(title: "Delete Restaurant",
+                                                style: UIAlertActionStyle.destructive,
+                                                handler: { _ in self.deleteRestaurant() }))
+        alertController.addAction(UIAlertAction(title: "Cancel",
+                                                style: UIAlertActionStyle.cancel,
+                                                handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
 
     @objc private func dismissModal() {

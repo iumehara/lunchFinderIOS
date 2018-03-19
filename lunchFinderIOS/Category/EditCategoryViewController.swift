@@ -33,7 +33,7 @@ class EditCategoryViewController: UIViewController {
         fetchData()
     }
     
-    // MARK: - Private Methods
+    // MARK: - Setup Methods
     private func setupNavigationBar() {
         title = "Edit Category"
 
@@ -78,11 +78,21 @@ class EditCategoryViewController: UIViewController {
         deleteButton.bottomAnchor.constraint(equalTo: margins.bottomAnchor).isActive = true
     }
     
+    // MARK: - Request Methods
     private func fetchData() {
         repo.get(id: id)
             .onSuccess { category in self.form.setDefaultValues(category: category) }
     }
 
+    private func deleteCategory() {
+        repo.delete(id: id)
+            .onSuccess { _ in
+                self.router.showCategoryListScreen()
+                self.dismissModal()
+        }
+    }
+    
+    // MARK: - Action Methods
     @objc private func saveTapped() {
         guard let newCategory = form.newCategory() else { return }
         repo.update(id: id, newCategory: newCategory)
@@ -90,11 +100,16 @@ class EditCategoryViewController: UIViewController {
     }
     
     @objc private func deleteTapped() {
-        repo.delete(id: id)
-            .onSuccess { _ in
-                self.router.showCategoryListScreen()
-                self.dismissModal()
-        }
+        let alertController = UIAlertController(title: nil,
+                                                message: nil,
+                                                preferredStyle: UIAlertControllerStyle.actionSheet)
+        alertController.addAction(UIAlertAction(title: "Delete Category",
+                                                style: UIAlertActionStyle.destructive,
+                                                handler: { _ in self.deleteCategory() }))
+        alertController.addAction(UIAlertAction(title: "Cancel",
+                                                style: UIAlertActionStyle.cancel,
+                                                handler: nil))
+        self.present(alertController, animated: true, completion: nil)
     }
     
     @objc private func dismissModal() {

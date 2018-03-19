@@ -1,10 +1,13 @@
 import UIKit
 
 class NewRestaurantViewController: UIViewController {
+    // MARk: - Properties
     private let router: Router
     private let repo: RestaurantRepo
+    
     private let form: RestaurantForm
 
+    // MARK: - Constructors
     init(
         router: Router,
         repo: RestaurantRepo,
@@ -22,6 +25,7 @@ class NewRestaurantViewController: UIViewController {
         fatalError("error")
     }
     
+    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         setupNavigationBar()
         setupSubviews()
@@ -31,7 +35,8 @@ class NewRestaurantViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         self.form.updateScrollViewContentView()
     }
-    
+
+    // MARK: - Private Methods
     private func setupNavigationBar() {
         title = "New Restaurant"
 
