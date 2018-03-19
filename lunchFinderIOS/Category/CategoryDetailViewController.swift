@@ -38,6 +38,7 @@ class CategoryDetailViewController: UIViewController {
         setupNavigationBar()
         setupSubviews()
         activateConstraints()
+        setupNotifications()
         fetchData()
     }
     
@@ -98,6 +99,15 @@ class CategoryDetailViewController: UIViewController {
         restaurantTable.trailingAnchor.constraint(equalTo: margins.trailingAnchor).isActive = true
     }
     
+    private func setupNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.reloadView),
+            name: NSNotification.Name("modalWasDismissed"),
+            object: nil
+        )
+    }
+    
     private func fetchData() {
         repo.get(id: self.id)
             .onSuccess { category in
@@ -116,5 +126,9 @@ class CategoryDetailViewController: UIViewController {
     
     @objc private func editTapped() {
         router.showEditCategoryModal(id: id)
+    }
+    
+    @objc private func reloadView() {
+        viewDidLoad()
     }
 }
