@@ -2,7 +2,7 @@ import UIKit
 
 class TextInputRow: UIView {
     private let textLabel: UILabel = UILabel()
-    private let textInput: UITextField = UITextField()
+    let textInput: UITextField = UITextField()
     private let labelWidth: CGFloat
     private let defaultValue: String?
     

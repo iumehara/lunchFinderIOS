@@ -18,6 +18,7 @@
 		242061B1205E102000334215 /* EditCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242061B0205E102000334215 /* EditCategoryViewController.swift */; };
 		242061B3205E125800334215 /* CategoryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242061B2205E125800334215 /* CategoryForm.swift */; };
 		242061B5205EB36100334215 /* EditCategoryViewControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242061B4205EB36100334215 /* EditCategoryViewControllerTest.swift */; };
+		242061B7205EBB2200334215 /* UrlInputRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 242061B6205EBB2200334215 /* UrlInputRow.swift */; };
 		2421A5F92041516500CEF84A /* SingleSelectInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2421A5F82041516500CEF84A /* SingleSelectInput.swift */; };
 		2421A5FB2041571F00CEF84A /* MultilpeSelectInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2421A5FA2041571F00CEF84A /* MultilpeSelectInput.swift */; };
 		2432517C20396BD4007CBEF9 /* RestaurantTableViewProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2432517B20396BD4007CBEF9 /* RestaurantTableViewProtocols.swift */; };
@@ -98,6 +99,7 @@
 		242061B0205E102000334215 /* EditCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategoryViewController.swift; sourceTree = "<group>"; };
 		242061B2205E125800334215 /* CategoryForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryForm.swift; sourceTree = "<group>"; };
 		242061B4205EB36100334215 /* EditCategoryViewControllerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategoryViewControllerTest.swift; sourceTree = "<group>"; };
+		242061B6205EBB2200334215 /* UrlInputRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UrlInputRow.swift; sourceTree = "<group>"; };
 		2421A5F82041516500CEF84A /* SingleSelectInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleSelectInput.swift; sourceTree = "<group>"; };
 		2421A5FA2041571F00CEF84A /* MultilpeSelectInput.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultilpeSelectInput.swift; sourceTree = "<group>"; };
 		2432517B20396BD4007CBEF9 /* RestaurantTableViewProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestaurantTableViewProtocols.swift; sourceTree = "<group>"; };
@@ -393,6 +395,7 @@
 				24B152DB20414E440053C2C7 /* SelectOption.swift */,
 				2421A5F82041516500CEF84A /* SingleSelectInput.swift */,
 				2421A5FA2041571F00CEF84A /* MultilpeSelectInput.swift */,
+				242061B6205EBB2200334215 /* UrlInputRow.swift */,
 			);
 			path = Form;
 			sourceTree = "<group>";
@@ -644,6 +647,7 @@
 				245CB0CA203ABF4E006A0B5F /* GoogleMapService.swift in Sources */,
 				245CB0BD203A6142006A0B5F /* Geolocation.swift in Sources */,
 				249DD92B200F53DB006031A1 /* CategoryListViewController.swift in Sources */,
+				242061B7205EBB2200334215 /* UrlInputRow.swift in Sources */,
 				245CB0DB203D3EFB006A0B5F /* NewCategory.swift in Sources */,
 				249DD926200F52E1006031A1 /* Router.swift in Sources */,
 				2421A5FB2041571F00CEF84A /* MultilpeSelectInput.swift in Sources */,

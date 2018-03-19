@@ -10,7 +10,7 @@ class RestaurantForm: UIView {
     private var scrollView: UIScrollView
     private let nameInputRow: TextInputRow = TextInputRow(labelText: "name")
     private let nameJpInputRow: TextInputRow = TextInputRow(labelText: "店名")
-    private let websiteInputRow: TextInputRow = TextInputRow(labelText: "website")
+    private let websiteInputRow: UrlInputRow = UrlInputRow(labelText: "website")
     private let categoriesInputRow: MultipleSelectInput = MultipleSelectInput(labelText: "categories")
 
     // MARK: - Constructors
