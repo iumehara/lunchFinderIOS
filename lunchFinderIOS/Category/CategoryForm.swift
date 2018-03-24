@@ -11,7 +11,7 @@ class CategoryForm: UIView {
     }
     
     required init?(coder aDecoder: NSCoder) {
-        fatalError("error")
+        fatalError("error") 
     }
     
     // MARK: - Public Methods

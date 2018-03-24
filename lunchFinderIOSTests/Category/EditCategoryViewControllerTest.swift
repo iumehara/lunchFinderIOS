@@ -23,7 +23,10 @@ class EditCategoryViewControllerTest: XCTestCase {
         expect(self.controller.title).to(equal("Edit Category"))
         
         let leftBarButton = controller.navigationItem.leftBarButtonItem
-        UIApplication.shared.sendAction(leftBarButton!.action!, to: leftBarButton!.target, from: self, for: nil)
+        UIApplication.shared.sendAction(leftBarButton!.action!,
+                                        to: leftBarButton!.target,
+                                        from: self,
+                                        for: nil)
         expect(self.router.dismissModal_wasCalled).to(beTrue())
         
         let rightBarButton = controller.navigationItem.rightBarButtonItem
@@ -43,7 +46,10 @@ class EditCategoryViewControllerTest: XCTestCase {
         nameInputField.text = "new value"
         
         let saveButton = controller.navigationItem.rightBarButtonItem
-        UIApplication.shared.sendAction(saveButton!.action!, to: saveButton!.target, from: self, for: nil)
+        UIApplication.shared.sendAction(saveButton!.action!,
+                                        to: saveButton!.target,
+                                        from: self,
+                                        for: nil)
         
         expect(self.repo.update_wasCalledWith.0).to(equal(1))
         expect(self.repo.update_wasCalledWith.1).to(equal(NewCategory(name: "new value")))
@@ -51,12 +57,21 @@ class EditCategoryViewControllerTest: XCTestCase {
     }
     
     func test_delete() {
+        UIApplication.shared.keyWindow?.rootViewController = controller
+
         let deleteButton = controller.view.subviews[1] as! UIButton
         deleteButton.sendActions(for: UIControlEvents.touchUpInside)
         
-        expect(self.repo.delete_wasCalledWith).to(equal(1))
-        expect(self.router.showCategoryListScreen_wasCalled).toEventually(beTrue())
-        expect(self.router.dismissModal_wasCalled).toEventually(beTrue())
+        let alertController = controller.presentedViewController as! UIAlertController
+        
+        let firstAction = alertController.actions[0]
+        expect(firstAction.title).to(equal("Delete Category"))
+        expect(firstAction.style).to(equal(UIAlertActionStyle.destructive))
+        
+        let secondAction = alertController.actions[1]
+        expect(secondAction.title).to(equal("Cancel"))
+        expect(secondAction.style).to(equal(UIAlertActionStyle.cancel))
+
     }
 }
 

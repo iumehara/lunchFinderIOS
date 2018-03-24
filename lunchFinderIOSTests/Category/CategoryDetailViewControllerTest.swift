@@ -36,7 +36,7 @@ class CategoryDetailViewControllerTest: XCTestCase {
             from: self,
             for: nil
         )
-        
+
         expect(self.router.showEditCategoryModal_wasCalled).to(beTrue())
     }
 
@@ -46,7 +46,7 @@ class CategoryDetailViewControllerTest: XCTestCase {
         expect(String(describing: type(of: subviews[0]))).to(equal("UIView"))
         expect(String(describing: type(of: subviews[1]))).to(equal("UITableView"))
     }
-    
+
     func test_map() {
         expect(self.mapService.createMap_wasCalled).to(beTrue())
         let stubRestaurants = [
@@ -58,7 +58,12 @@ class CategoryDetailViewControllerTest: XCTestCase {
     
     func test_table_data() {
         let table = self.controller.view.subviews[1] as! UITableView
-        expect(table.cellForRow(at: IndexPath(row: 0, section: 0))!.textLabel!.text!).toEventually(equal("Restaurant A"))
+        expect(table.numberOfSections).toEventually(equal(1))
+        expect(table.numberOfRows(inSection: 0)).toEventually(equal(2))
+        let firstRow = table.dataSource!.tableView(table,
+                                                   cellForRowAt: IndexPath(row: 0, section: 0))
+        
+        expect(firstRow.textLabel!.text!).toEventually(equal("Restaurant A"))
     }
     
     func test_table_RowClick() {

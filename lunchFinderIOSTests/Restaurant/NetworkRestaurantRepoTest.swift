@@ -31,7 +31,7 @@ class NetworkRestaurantRepoTest: XCTestCase {
             "name": "Restaurant A",
             "nameJp": "レストラン A",
             "website": "www.example.com",
-            "categories": [["id": 1, "name": "Category A"]],
+            "categories": [["id": 1, "name": "Category A", "restaurantCount": 0]],
             "geolocation": ["lat": 1.0, "long": 1.0]
         ]
 

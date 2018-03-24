@@ -7,7 +7,10 @@ class NetworkCategoryRepoTest: XCTestCase {
     var repo: NetworkCategoryRepo!
     var urlSessionProvider: MockURLSessionProvider!
     var mockSession: MockSession!
-    let successfulHttpResponse = HTTPURLResponse(url: URL(string: "http://www.example.com")!, statusCode: 200, httpVersion: nil, headerFields: nil)
+    let successfulHttpResponse = HTTPURLResponse(url: URL(string: "http://www.example.com")!,
+                                                 statusCode: 200,
+                                                 httpVersion: nil,
+                                                 headerFields: nil)
 
     override func setUp() {
         super.setUp()
@@ -28,11 +31,13 @@ class NetworkCategoryRepoTest: XCTestCase {
     func test_getAll_responseHandling() {
         let future = repo.getAll()
 
-        let responseCategoriesJSON: [[String: Any]] = [["id": 1, "name": "Category A"], ["id": 2, "name": "Category B"]]
-        let responseCategoriesData = try! JSONSerialization.data(withJSONObject: responseCategoriesJSON)
+        let responseJSON: [[String: Any]] = [["id": 1, "name": "Category A", "restaurantCount": 0],
+                                             ["id": 2, "name": "Category B", "restaurantCount": 0]]
+        let responseCategoriesData = try! JSONSerialization.data(withJSONObject: responseJSON)
         mockSession.completionHandler!(responseCategoriesData, successfulHttpResponse, nil)
 
-        let expectedCategories = [BasicCategory(id: 1, name: "Category A"), BasicCategory(id: 2, name: "Category B")]
+        let expectedCategories = [BasicCategory(id: 1, name: "Category A", restaurantCount: 0),
+                                  BasicCategory(id: 2, name: "Category B", restaurantCount: 0)]
         expect(future.result!.value!).to(equal(expectedCategories))
 
 
@@ -51,8 +56,8 @@ class NetworkCategoryRepoTest: XCTestCase {
     func test_get_responseHandling() {
         let future = repo.get(id: 1)
         
-        let responseCategoryJSON: [String: Any] = ["id": 1, "name": "Category A", "restaurants": []]
-        let responseCategoryData = try! JSONSerialization.data(withJSONObject: responseCategoryJSON)
+        let responseJSON: [String: Any] = ["id": 1, "name": "Category A", "restaurants": []]
+        let responseCategoryData = try! JSONSerialization.data(withJSONObject: responseJSON)
         mockSession.completionHandler!(responseCategoryData, successfulHttpResponse, nil)
         
         let resultValue = future.result!.value!

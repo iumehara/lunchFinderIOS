@@ -30,8 +30,14 @@ extension CategoryTableViewProtocols: UITableViewDataSource {
     }
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewProtocols.cellIdentifier, for: indexPath)
-        cell.textLabel?.text = categories[indexPath.row].name
+        var cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewProtocols.cellIdentifier, for: indexPath)
+        if cell.detailTextLabel == nil {
+            cell = UITableViewCell(style: .subtitle, reuseIdentifier: CategoryTableViewProtocols.cellIdentifier)
+        }
+ 
+        let category = categories[indexPath.row]
+        cell.textLabel?.text = category.name
+        cell.detailTextLabel?.text = "\(category.restaurantCount) restaurants"
         return cell
     }
 }
