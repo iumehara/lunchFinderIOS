@@ -7,3 +7,13 @@ struct SelectOption {
         self.name = name
     }
 }
+
+extension SelectOption: Equatable {
+    static func ==(lhs: SelectOption, rhs: SelectOption) -> Bool {
+        return lhs.id == rhs.id && lhs.name == rhs.name
+    }
+    
+    static func !=(lhs: SelectOption, rhs: SelectOption) -> Bool {
+        return !(lhs == rhs)
+    }
+}

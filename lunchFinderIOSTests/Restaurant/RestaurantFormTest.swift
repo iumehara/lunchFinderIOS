@@ -12,7 +12,7 @@ class RestaurantFormTest: XCTestCase {
         mapService = SpyMapService()
         form = RestaurantForm(categoryRepo: categoryRepo, mapService: mapService)
     }
-    
+
     func test_subviews() {
         let subviews = form.subviews
         

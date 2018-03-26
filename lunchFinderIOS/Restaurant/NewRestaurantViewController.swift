@@ -32,10 +32,6 @@ class NewRestaurantViewController: UIViewController {
         activateConstraints()
     }
 
-    override func viewDidLayoutSubviews() {
-        self.form.updateScrollViewContentView()
-    }
-
     // MARK: - Private Methods
     private func setupNavigationBar() {
         title = "New Restaurant"

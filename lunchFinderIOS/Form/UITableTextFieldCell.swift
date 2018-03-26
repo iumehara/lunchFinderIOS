@@ -1,15 +1,18 @@
 import UIKit
 
-class SingleSelectInput: UIView {
-    private var options: [SelectOption]
-    private var input: UITextField
+class UITableTextFieldCell: UITableViewCell {
+    // MARK: - Properties
+    var options: [SelectOption]
     
+    var input: UITextField
+    
+    // MARK: - Constructors
     init(options: [SelectOption]) {
-        self.input = UITextField()
         self.options = options
-
-        super.init(frame: CGRect.zero)
-
+        self.input = UITextField()
+        
+        super.init(style: .subtitle, reuseIdentifier: "UITableTextFieldCell")
+        
         setupSubviews()
         activateConstraints()
     }
@@ -17,18 +20,16 @@ class SingleSelectInput: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("error")
     }
-
+    
+    // MARK: - Setup Methods
     func setupSubviews() {
         let pickerView = UIPickerView()
         pickerView.delegate = self
         pickerView.dataSource = self
-        
         input.inputView = pickerView
-
+        input.text = "Click to Add"
+        input.textColor = UIColor.gray
         input.backgroundColor = UIColor.white
-        input.layer.borderColor = UIColor.black.cgColor
-        input.layer.borderWidth = 1.0
-        
         addSubview(input)
     }
     
@@ -38,16 +39,12 @@ class SingleSelectInput: UIView {
         input.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
         input.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
         input.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-        
-        self.bottomAnchor.constraint(equalTo: input.bottomAnchor).isActive = true
-    }
-    
-    func text() -> String? {
-        return input.text
+        input.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
 }
 
-extension SingleSelectInput: UIPickerViewDataSource {
+// MARK: - UIPickerViewDataSource
+extension UITableTextFieldCell: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 1
     }
@@ -57,12 +54,23 @@ extension SingleSelectInput: UIPickerViewDataSource {
     }
 }
 
-extension SingleSelectInput: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+// MARK: - UIPickerViewDelegate
+extension UITableTextFieldCell: UIPickerViewDelegate {
+    func pickerView(_ pickerView: UIPickerView,
+                    titleForRow row: Int,
+                    forComponent component: Int
+        ) -> String? {
         return options[row].name
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        input.text = options[row].name
+        self.updateSelectedOptions(option: options[row])
+    }
+    
+    func updateSelectedOptions(option: SelectOption) {
+        guard let selectInputTable = self.superview as? UITableView else { return }
+        guard let multipleSelectInput = selectInputTable.superview as? MultipleSelectInput else { return }
+        
+        multipleSelectInput.addSelectedOption(option: option)
     }
 }

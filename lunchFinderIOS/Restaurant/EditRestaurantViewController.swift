@@ -41,10 +41,6 @@ class EditRestaurantViewController: UIViewController {
         fetchData()
     }
 
-    override func viewDidLayoutSubviews() {
-        self.form.updateScrollViewContentView()
-    }
-    
     // MARK: - Setup Methods
     private func setupNavigationBar() {
         title = "Edit Restaurant"
