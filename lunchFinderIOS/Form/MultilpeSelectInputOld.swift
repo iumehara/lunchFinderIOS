@@ -1,6 +1,6 @@
 import UIKit
 
-class MultipleSelectInput: UIView {
+class MultipleSelectInputOld: UIView {
     private var options: [SelectOption] = []
     private let selectLabel: UILabel
     private var selectInputCollection: UIView

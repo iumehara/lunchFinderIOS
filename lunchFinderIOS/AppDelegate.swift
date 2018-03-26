@@ -6,7 +6,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let router: NavigationRouter
     static let baseURL = "http://localhost:8080/"
-    var googleApiKey = "<GOOGLE_API_KEY>"
+//    static let baseURL = "http://tokyo-lunch-finder-server.herokuapp.com/"
+    var googleApiKey = "AIzaSyCkWAEnfTTvx-iV_2vo2Ba6kWvOS5rd7s8"
+//    var googleApiKey = "<GOOGLE_API_KEY>"
 
     convenience override init() {
         let navigationController = UINavigationController()

@@ -22,6 +22,7 @@ class SingleSelectInput: UIView {
         let pickerView = UIPickerView()
         pickerView.delegate = self
         pickerView.dataSource = self
+        
         input.inputView = pickerView
 
         input.backgroundColor = UIColor.white

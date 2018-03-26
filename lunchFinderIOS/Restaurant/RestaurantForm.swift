@@ -52,19 +52,19 @@ class RestaurantForm: UIView {
     }
 
     func updateScrollViewContentView() {
-        let pickerViewHeight = CGFloat(300)
-        scrollView.contentSize.height = map.frame.height
-            + nameInputRow.frame.height
-            + nameJpInputRow.frame.height
-            + websiteInputRow.frame.height
-            + categoriesInputRow.frame.height
-            + pickerViewHeight
-        
-        let initialCategoriesInputRowHeight = CGFloat(50)
-        if categoriesInputRow.frame.height > initialCategoriesInputRowHeight {
-            let offsetToBottom = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
-            scrollView.setContentOffset(offsetToBottom, animated: true)
-        }
+//        let pickerViewHeight = CGFloat(300)
+//        scrollView.contentSize.height = map.frame.height
+//            + nameInputRow.frame.height
+//            + nameJpInputRow.frame.height
+//            + websiteInputRow.frame.height
+//            + categoriesInputRow.frame.height
+//            + pickerViewHeight
+//
+//        let initialCategoriesInputRowHeight = CGFloat(50)
+//        if categoriesInputRow.frame.height > initialCategoriesInputRowHeight {
+//            let offsetToBottom = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
+//            scrollView.setContentOffset(offsetToBottom, animated: true)
+//        }
     }
     
     func newRestaurant() -> NewRestaurant? {
@@ -142,6 +142,7 @@ class RestaurantForm: UIView {
         categoriesInputRow.topAnchor.constraint(equalTo: websiteInputRow.bottomAnchor).isActive = true
         categoriesInputRow.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         categoriesInputRow.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        categoriesInputRow.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
 
     private func fetchData() {
@@ -151,6 +152,7 @@ class RestaurantForm: UIView {
                     return SelectOption(id: category.id, name: category.name)
                 }
                 self.categoriesInputRow.setOptions(selectOptions: options)
-        }
+            }
+            .onComplete { _ in self.categoriesInputRow.reloadInputViews()}
     }
 }
