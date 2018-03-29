@@ -50,22 +50,6 @@ class RestaurantForm: UIView {
             }
         )
     }
-
-    func updateScrollViewContentView() {
-//        let pickerViewHeight = CGFloat(300)
-//        scrollView.contentSize.height = map.frame.height
-//            + nameInputRow.frame.height
-//            + nameJpInputRow.frame.height
-//            + websiteInputRow.frame.height
-//            + categoriesInputRow.frame.height
-//            + pickerViewHeight
-//
-//        let initialCategoriesInputRowHeight = CGFloat(50)
-//        if categoriesInputRow.frame.height > initialCategoriesInputRowHeight {
-//            let offsetToBottom = CGPoint(x: 0, y: scrollView.contentSize.height - scrollView.bounds.size.height)
-//            scrollView.setContentOffset(offsetToBottom, animated: true)
-//        }
-    }
     
     func newRestaurant() -> NewRestaurant? {
         guard let name = nameInputRow.text() else { return nil }
@@ -80,14 +64,14 @@ class RestaurantForm: UIView {
         )
     }
 
-    // MARK: - Private Lifecycle Methods
+    // MARK: - Lifecycle Methods
     private func viewDidLoad() {
         setupSubviews()
         activateConstraints()
         fetchData()
     }
     
-    // MARK: - Private Methods
+    // MARK: - Setup Methods
     private func setupSubviews() {
         scrollView.frame = self.bounds
         scrollView.contentSize = CGSize(width: self.bounds.width, height: self.bounds.height)
@@ -145,6 +129,7 @@ class RestaurantForm: UIView {
         categoriesInputRow.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
     }
 
+    // MARK: - Request Methods
     private func fetchData() {
         categoryRepo.getAll()
             .onSuccess { categories in

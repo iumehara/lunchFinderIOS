@@ -24,6 +24,7 @@ class MultipleSelectInput: UIView {
         fatalError("error")
     }
     
+    // MARK: - Setup Methods
     func setupSubviews() {
         selectLabel.backgroundColor = UIColor.white
         addSubview(selectLabel)
@@ -31,7 +32,9 @@ class MultipleSelectInput: UIView {
         selectInputTable.dataSource = self
         selectInputTable.delegate = self
         selectInputTable.register(UITableViewCell.self,
-                                  forCellReuseIdentifier: MultipleSelectInput.cellIdentifier)
+                                  forCellReuseIdentifier: MultipleSelectInput.dataCellIdentifier)
+        selectInputTable.register(UITableTextFieldCell.self,
+                                  forCellReuseIdentifier: MultipleSelectInput.pickerCellIdentifier)
         selectInputTable.separatorStyle = UITableViewCellSeparatorStyle.none
         addSubview(selectInputTable)
     }
@@ -51,9 +54,10 @@ class MultipleSelectInput: UIView {
         self.bottomAnchor.constraint(equalTo: selectInputTable.bottomAnchor).isActive = true
     }
     
-    func ids() -> [Int] { return [] }
-    
-    func names() -> [String] { return [] }
+    // MARK: - Accessor Methods
+    func ids() -> [Int] {
+        return selectedOptions.map { $0.id }
+    }
     
     func setOptions(selectOptions: [SelectOption]) {
         self.options = selectOptions
@@ -64,149 +68,74 @@ class MultipleSelectInput: UIView {
         self.selectInputTable.reloadData()
     }
     
-    func addDefaultValue(option: SelectOption) {
+    func addSelectedOption(option: SelectOption) {
         self.selectedOptions.append(option)
+        
+        let updatedOptions = options.filter { $0 != option }
+        setOptions(selectOptions: updatedOptions)
+        
+        self.selectInputTable.reloadData()
     }
 }
 
+// MARK: - UITableViewDelegate
 extension MultipleSelectInput: UITableViewDelegate {
-    static let cellIdentifier: String = String(describing: UITableViewCell.self)
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("--didSelectRowAt: ", indexPath)
-    }
+    static let dataCellIdentifier: String = String(describing: UITableViewCell.self)
+    static let pickerCellIdentifier: String = String(describing: UITableTextFieldCell.self)
     
-    func tableView(
-        _ tableView: UITableView,
-        titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath
-    ) -> String? {
+    func tableView(_ tableView: UITableView,
+                   titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath
+        ) -> String? {
+        guard indexPath.section == 0 else { return nil }
+
         return "Remove"
     }
+    
+    func tableView(_ tableView: UITableView,
+                   commit editingStyle: UITableViewCellEditingStyle,
+                   forRowAt indexPath: IndexPath
+        ) {
+        guard indexPath.section == 0 else { return }
+        
+        if (editingStyle == UITableViewCellEditingStyle.delete) {
+            selectedOptions.remove(at: indexPath.row)
+            tableView.reloadData()
+        }
+    }
 }
 
+// MARK: - UITableViewDataSource
 extension MultipleSelectInput: UITableViewDataSource {
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return selectedOptions.count + 1
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCell(withIdentifier: MultipleSelectInput.cellIdentifier,
-                                                 for: indexPath)
-        if cell.detailTextLabel == nil {
-            cell = UITableTextFieldCell(options: self.options)
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0:
+            return selectedOptions.count
+        case 1:
+            return 1
+        default:
+            return 0
         }
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let section = indexPath.section
         
-        return cell
-    }
-}
-
-class UITableTextFieldCell: UITableViewCell {
-    // MARK: - Properties
-    var options: [SelectOption]
-    
-    var deleteButton: UIButton
-    var input: UITextField
-    
-    // MARK: - Constructors
-    init(options: [SelectOption]) {
-        self.options = options
-        self.deleteButton = UIButton()
-        self.input = UITextField()
-        
-        super.init(style: .subtitle,
-                   reuseIdentifier: MultipleSelectInput.cellIdentifier)
-        
-        setupSubviews()
-        activateConstraints()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("error")
-    }
-    
-    func setupSubviews() {
-        deleteButton.backgroundColor = UIColor.white
-        addSubview(deleteButton)
-        
-        let pickerView = UIPickerView()
-        pickerView.delegate = self
-        pickerView.dataSource = self
-        input.inputView = pickerView
-        input.text = "Add Category"
-        input.textColor = UIColor.gray
-        input.backgroundColor = UIColor.white
-        addSubview(input)
-    }
-    
-    func activateConstraints() {
-        deleteButton.translatesAutoresizingMaskIntoConstraints = false
-        deleteButton.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        deleteButton.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
-        deleteButton.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        deleteButton.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        deleteButton.widthAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
-
-        input.translatesAutoresizingMaskIntoConstraints = false
-        input.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        input.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
-        input.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
-        input.leadingAnchor.constraint(equalTo: deleteButton.trailingAnchor).isActive = true
-        input.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
-    }
-    
-    func text() -> String? {
-        return input.text
-    }
-    
-    func updateSelectedOptions(option: SelectOption) {
-        guard let selectInputTable = self.superview as? UITableView else { return }
-        guard let multipleSelectInput = selectInputTable.superview as? MultipleSelectInput else { return }
-        
-        multipleSelectInput.addDefaultValue(option: option)
-        selectInputTable.reloadData()
-    }
-    
-    @objc func deleteOption(sender: UIButton) {
-        print("---delete option tapped", sender.tag)
-    }
-}
-
-extension UITableTextFieldCell: UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return options.count
-    }
-}
-
-extension UITableTextFieldCell: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView,
-                    titleForRow row: Int,
-                    forComponent component: Int
-        ) -> String? {
-        return options[row].name
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        var newCategory = false
-        if input.text == "Add Category" {
-            newCategory = true
-        }
-        input.text = options[row].name
-        deleteButton.tag = row
-        
-        if newCategory {
-            input.textColor = UIColor.black
-            input.layer.borderColor = UIColor.black.cgColor
-            input.layer.borderWidth = 1.0
-
-            deleteButton.layer.borderColor = UIColor.black.cgColor
-            deleteButton.layer.borderWidth = 1.0
-            deleteButton.setTitle("-", for: .normal)
-            deleteButton.setTitleColor(UIColor.red, for: .normal)
-            deleteButton.addTarget(self, action: #selector(deleteOption), for: .touchUpInside)
-            self.updateSelectedOptions(option: options[row])
+        if section == 1 {
+            return UITableTextFieldCell(options: options)
+        } else {
+            var cell = tableView.dequeueReusableCell(withIdentifier: MultipleSelectInput.dataCellIdentifier,
+                                                     for: indexPath)
+            if (cell.detailTextLabel == nil) {
+                cell = UITableViewCell(style: .subtitle,
+                                       reuseIdentifier: MultipleSelectInput.dataCellIdentifier)
+            }
+            let title = selectedOptions[indexPath.row].name
+            cell.textLabel?.text = title
+            return cell
         }
     }
 }

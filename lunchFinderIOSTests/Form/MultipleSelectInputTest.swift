@@ -1,4 +1,5 @@
 import XCTest
+import Nimble
 @testable import lunchFinderIOS
 
 class MultipleSelectInputTest: XCTestCase {
@@ -16,40 +17,57 @@ class MultipleSelectInputTest: XCTestCase {
         
         multipleSelectInput.setOptions(selectOptions: options)
     }
+
+    func test_displaysBothSections() {
+        let selectInputTable = multipleSelectInput.subviews[1] as! UITableView
+        expect(selectInputTable.numberOfSections).to(be(2))
+    }
     
-    func test_AddingNewSelectInputRow() {
-        let selectInputCollection = multipleSelectInput.subviews[1]
-        XCTAssertEqual(selectInputCollection.subviews.count, 0)
+    func test_uiTableTextFieldCellIsDisplayed() {
+        let selectInputTable = multipleSelectInput.subviews[1] as! UITableView
+        selectInputTable.reloadData()
         
-        let addButton = multipleSelectInput.subviews[2] as! UIButton
-        addButton.sendActions(for: .touchUpInside)
+        let pickerCell = selectInputTable.cellForRow(at: IndexPath(row: 0, section: 1))
         
-        XCTAssertEqual(selectInputCollection.subviews.count, 1)
+        expect(pickerCell).to(beAKindOf(UITableTextFieldCell.self))
     }
 
-    func test_selectingCategory() {
-        let addButton = multipleSelectInput.subviews[2] as! UIButton
-        addButton.sendActions(for: .touchUpInside)
+    func test_settingSelectedOption() {
+        let selectInputTable = multipleSelectInput.subviews[1] as! UITableView
+        selectInputTable.reloadData()
+        expect(selectInputTable.numberOfRows(inSection: 0)).to(be(0))
+
+        multipleSelectInput.setDefaultValues(options: [SelectOption(id: 12, name: "Spicy")])
         
-        let selectInputCollection = multipleSelectInput.subviews[1]
-        let singleSelectInput = selectInputCollection.subviews[0] as! SingleSelectInput
-        
-        singleSelectInput.pickerView(singleSelectInput.subviews[0].inputView as! UIPickerView, didSelectRow: 1, inComponent: 0)
-        XCTAssertEqual(multipleSelectInput.ids(), [33])
+        expect(selectInputTable.numberOfRows(inSection: 0)).to(be(1))
+        expect(selectInputTable.cellForRow(at: IndexPath(row: 0, section: 0))?.textLabel?.text!).to(equal("Spicy"))
     }
 
-    func test_selectingMultipleCategories() {
-        let selectInputCollection = multipleSelectInput.subviews[1]
-        let addButton = multipleSelectInput.subviews[2] as! UIButton
+    func test_pickingNewOption() {
+        let selectInputTable = multipleSelectInput.subviews[1] as! UITableView
+        selectInputTable.reloadData()
+        expect(selectInputTable.numberOfRows(inSection: 0)).to(be(0))
         
-        addButton.sendActions(for: .touchUpInside)
-        let firstSingleSelectInput = selectInputCollection.subviews[0] as! SingleSelectInput
-        firstSingleSelectInput.pickerView(firstSingleSelectInput.subviews[0].inputView as! UIPickerView, didSelectRow: 1, inComponent: 0)
-        XCTAssertEqual(multipleSelectInput.ids(), [33])
+        let pickerCell = selectInputTable.cellForRow(at: IndexPath(row: 0, section: 1)) as! UITableTextFieldCell
+        let pickerView = pickerCell.input.inputView as! UIPickerView
         
-        addButton.sendActions(for: .touchUpInside)
-        let secondSelectInput = selectInputCollection.subviews[1] as! SingleSelectInput
-        secondSelectInput.pickerView(secondSelectInput.subviews[0].inputView as! UIPickerView, didSelectRow: 0, inComponent: 0)
-        XCTAssertEqual(multipleSelectInput.ids(), [33, 12])
+        pickerCell.pickerView(pickerView, didSelectRow: 0, inComponent: 0)
+        
+        expect(selectInputTable.numberOfRows(inSection: 0)).to(be(1))
+    }
+
+    func test_pickingMultipleOption() {
+        let selectInputTable = multipleSelectInput.subviews[1] as! UITableView
+        selectInputTable.reloadData()
+        expect(selectInputTable.numberOfRows(inSection: 0)).to(be(0))
+        
+        let pickerCell = selectInputTable.cellForRow(at: IndexPath(row: 0, section: 1)) as! UITableTextFieldCell
+        let pickerView = pickerCell.input.inputView as! UIPickerView
+        
+        pickerCell.pickerView(pickerView, didSelectRow: 0, inComponent: 0)
+        pickerCell.pickerView(pickerView, didSelectRow: 1, inComponent: 0)
+
+        expect(selectInputTable.numberOfRows(inSection: 0)).to(be(2))
     }
 }
+
