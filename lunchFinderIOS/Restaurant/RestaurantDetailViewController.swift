@@ -44,15 +44,6 @@ class RestaurantDetailViewController: UIViewController {
         setupNotifications()
         fetchData()
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        let returningToPreviousViewController = self.isMovingFromParentViewController
-        
-        if (returningToPreviousViewController) {
-            guard let previousViewController = self.router.navigationController.viewControllers.last else { return }
-            previousViewController.viewDidLoad()
-        }
-    }
 
     // MARK: - Private Methods
     private func setupNavigationBar() {

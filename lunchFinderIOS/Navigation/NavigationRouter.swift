@@ -2,21 +2,22 @@ import UIKit
 import Foundation
 
 struct NavigationRouter: Router {
+    // MARK: - Properties
     let navigationController: UINavigationController!
     let animated: Bool!
     let categoryRepo: CategoryRepo!
     let restaurantRepo: RestaurantRepo!
-    let mapService: MapService!
     
+    // MARK: - Constructors
     init(navigationController: UINavigationController, animated: Bool) {
         self.navigationController = navigationController
         self.animated = animated
         let urlSessionProvider = NetworkURLSessionProvider()
         self.categoryRepo = NetworkCategoryRepo(urlSessionProvider: urlSessionProvider)
         self.restaurantRepo = NetworkRestaurantRepo(urlSessionProvider: urlSessionProvider)
-        self.mapService = GoogleMapService()
     }
 
+    // MARK: - Push Methods
     func showCategoryListScreen() {
         let categoryListViewController = CategoryListViewController(
             router: self,
@@ -30,7 +31,7 @@ struct NavigationRouter: Router {
         let categoryDetailViewController = CategoryDetailViewController(
             router: self,
             repo: categoryRepo,
-            mapService: mapService,
+            mapService: GoogleMapService(),
             id: id
         )
         
@@ -50,13 +51,14 @@ struct NavigationRouter: Router {
         let restaurantDetailViewController = RestaurantDetailViewController(
             router: self,
             repo: restaurantRepo,
-            mapService: mapService,
+            mapService: GoogleMapService(),
             id: id
         )
         
         navigationController.pushViewController(restaurantDetailViewController, animated: animated)
     }
     
+    // MARK: - Present Methods
     func showNewCategoryModal() {
         let newCategoryModal = UINavigationController(
             rootViewController: NewCategoryViewController(router: self, repo: categoryRepo)
@@ -77,7 +79,7 @@ struct NavigationRouter: Router {
                 router: self,
                 repo: restaurantRepo,
                 categoryRepo: categoryRepo,
-                mapService: mapService
+                mapService: GoogleMapService()
             )
         )
         
@@ -90,7 +92,7 @@ struct NavigationRouter: Router {
                 router: self,
                 repo: restaurantRepo,
                 categoryRepo: categoryRepo,
-                mapService: mapService,
+                mapService: GoogleMapService(),
                 id: id
             )
         )
@@ -98,6 +100,7 @@ struct NavigationRouter: Router {
         navigationController.present(editRestaurantModal, animated: animated, completion: nil)
     }
 
+    // MARK: - Dismiss Methods
     func dismissModal() {
         navigationController.dismiss(animated: animated, completion: nil)
     }
