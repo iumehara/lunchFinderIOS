@@ -3,6 +3,7 @@ os: osx
 
 before_install:
   - brew install carthage
+  - gem install cocoapods
   - pod install
 
 before_script:
