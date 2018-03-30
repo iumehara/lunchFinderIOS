@@ -4,7 +4,7 @@ os: osx
 before_install:
   - brew install carthage
   - gem install cocoapods
-  - pod install
+  - pod install --repo-update
 
 before_script:
   - carthage bootstrap --platform iOS
