@@ -24,12 +24,27 @@ class RestaurantForm: UIView {
         super.init(frame: CGRect.zero)
         
         viewDidLoad()
+        
+        registerForKeyboardNotifications()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("error")
     }
 
+    func registerForKeyboardNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWasShown),
+            name: NSNotification.Name.UIKeyboardDidShow,
+            object: nil
+        )
+    }
+    
+    @objc func keyboardWasShown(notification: NSNotification) {
+        setHeight()
+    }
+    
     // MARK: - Public Methods
     func setDefaultValues(restaurant: Restaurant) {
         if let geolocation = restaurant.geolocation {
@@ -127,6 +142,16 @@ class RestaurantForm: UIView {
         categoriesInputRow.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         categoriesInputRow.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
         categoriesInputRow.bottomAnchor.constraint(equalTo: self.bottomAnchor).isActive = true
+    }
+    
+    func setHeight() {
+        let pickerViewHeight = CGFloat(200)
+        scrollView.contentSize.height = map.frame.height
+            + nameInputRow.frame.height
+            + nameJpInputRow.frame.height
+            + websiteInputRow.frame.height
+            + categoriesInputRow.frame.height
+            + pickerViewHeight
     }
 
     // MARK: - Request Methods

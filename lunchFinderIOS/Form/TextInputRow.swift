@@ -1,8 +1,8 @@
 import UIKit
 
 class TextInputRow: UIView {
-    private let textLabel: UILabel = UILabel()
-    let textInput: UITextField = UITextField()
+    private let label: UILabel = UILabel()
+    let textField: UITextField = UITextField()
     private let labelWidth: CGFloat
     private let defaultValue: String?
     
@@ -15,7 +15,7 @@ class TextInputRow: UIView {
     }
 
     init(labelText: String, labelWidth: CGFloat, defaultValue: String?) {
-        self.textLabel.text = labelText
+        self.label.text = labelText
         self.labelWidth = labelWidth
         self.defaultValue = defaultValue
         
@@ -30,39 +30,39 @@ class TextInputRow: UIView {
     }
     
     func setDefaultValue(defaultValue: String) {
-        textInput.text = defaultValue
+        textField.text = defaultValue
     }
     
     func setupSubviews() {
         self.backgroundColor = UIColor.white
         
-        textLabel.backgroundColor = UIColor.white
-        addSubview(textLabel)
+        label.backgroundColor = UIColor.white
+        addSubview(label)
 
-        textInput.backgroundColor = UIColor.white
-        textInput.layer.borderColor = UIColor.black.cgColor
-        textInput.layer.borderWidth = 1.0
-        addSubview(textInput)
+        textField.backgroundColor = UIColor.white
+        textField.layer.borderColor = UIColor.black.cgColor
+        textField.layer.borderWidth = 1.0
+        addSubview(textField)
     }
     
     func activateConstraints() {
-        textLabel.translatesAutoresizingMaskIntoConstraints = false
-        textLabel.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        textLabel.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
-        textLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-        textLabel.widthAnchor.constraint(equalToConstant: labelWidth).isActive = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        label.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
+        label.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        label.widthAnchor.constraint(equalToConstant: labelWidth).isActive = true
         
-        textInput.translatesAutoresizingMaskIntoConstraints = false
-        textInput.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
-        textInput.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
-        textInput.leadingAnchor.constraint(equalTo: textLabel.trailingAnchor).isActive = true
-        textInput.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
+        textField.heightAnchor.constraint(equalToConstant: CGFloat(50)).isActive = true
+        textField.leadingAnchor.constraint(equalTo: label.trailingAnchor).isActive = true
+        textField.trailingAnchor.constraint(equalTo: self.trailingAnchor).isActive = true
     }
     
     func text() -> String? {
-        guard textInput.text != "" else {
+        guard textField.text != "" else {
             return nil
         }
-        return textInput.text
+        return textField.text
     }
 }
