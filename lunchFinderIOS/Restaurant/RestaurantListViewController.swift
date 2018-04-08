@@ -6,12 +6,15 @@ class RestaurantListViewController: UIViewController {
     private let table: UITableView
     private let tableViewProtocols: RestaurantTableViewProtocols
     private var refreshControl: UIRefreshControl?
-
+    private let searchController: UISearchController
+    
     init(router: Router, repo: RestaurantRepo) {
         self.router = router
         self.repo = repo
         self.table = UITableView()
-        self.tableViewProtocols = RestaurantTableViewProtocols(router: router)
+        self.searchController = UISearchController(searchResultsController: nil)
+        self.tableViewProtocols = RestaurantTableViewProtocols(router: router,
+                                                               searchController: searchController)
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -42,6 +45,12 @@ class RestaurantListViewController: UIViewController {
                 target: self,
                 action: #selector(addRestaurantTapped)
         )
+
+        searchController.searchResultsUpdater = self.tableViewProtocols
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search Restaurants"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
 
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(
                 title: "Categories",

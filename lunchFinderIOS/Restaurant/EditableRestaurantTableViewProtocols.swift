@@ -6,7 +6,7 @@ class EditableRestaurantTableViewProtocols: RestaurantTableViewProtocols {
     private var editingCallback: ((Int) -> Future<Void, NSError>)?
 
     // MARK: - Constructors
-    override init(router: Router) {
+    override init(router: Router, searchController: UISearchController? = nil) {
         super.init(router: router)
     }
 

@@ -5,12 +5,14 @@ class RestaurantTableViewProtocols: NSObject {
     static let cellIdentifier: String = String(describing: UITableViewCell.self)
     
     private let router: Router
+    private let searchController: UISearchController?
     
     var restaurants: [BasicRestaurant] = []
 
     // MARK: - Constructors
-    init(router: Router) {
+    init(router: Router, searchController: UISearchController? = nil) {
         self.router = router
+        self.searchController = searchController
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -47,5 +49,24 @@ extension RestaurantTableViewProtocols: UITableViewDelegate {
     public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedRestaurant = restaurants[indexPath.row]
         router.showRestaurantDetailScreen(id: selectedRestaurant.id)
+    }
+}
+
+// MARK: - Extension: UISearchResultsUpdating
+extension RestaurantTableViewProtocols: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+    }
+    
+    // MARK: - Private instance methods
+    func searchBarIsEmpty() -> Bool {
+        return searchController!.searchBar.text?.isEmpty ?? true
+    }
+    
+    func filterContentForSearchText(_ searchText: String, scope: String = "All") {
+        restaurants = restaurants.filter({( restaurant: BasicRestaurant) -> Bool in
+            return restaurant.name.lowercased().contains(searchText.lowercased())
+        })
+        
+//        tableView.reloadData()
     }
 }
