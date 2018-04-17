@@ -161,6 +161,7 @@
 		8AC1775D4008FBA58192A7E5 /* Pods-lunchFinderIOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOSTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOSTests/Pods-lunchFinderIOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9962C523D0CB541DE2E8561E /* Pods-lunchFinderIOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-lunchFinderIOSTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-lunchFinderIOSTests/Pods-lunchFinderIOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		AE216B94206C6DE000CAF5E7 /* UITableTextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITableTextFieldCell.swift; sourceTree = "<group>"; };
+		AED57F6420859BE6007F95B2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		ECF952F1F6B7E81783A234C4 /* EditableRestaurantTableViewProtocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditableRestaurantTableViewProtocols.swift; sourceTree = "<group>"; };
 		ECF954EF7AD69EB9ABAF10FB /* CompletionHandlers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletionHandlers.swift; sourceTree = "<group>"; };
 		ECF95CD6DB99B5B2183F5CE9 /* BasicRestaurant.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicRestaurant.swift; sourceTree = "<group>"; };
@@ -309,6 +310,7 @@
 		249DD8F8200F5263006031A1 = {
 			isa = PBXGroup;
 			children = (
+				AED57F6420859BE6007F95B2 /* README.md */,
 				240B7AD320326CDD005959AB /* Result.framework.dSYM */,
 				240B7AD120326CD7005959AB /* BrightFutures.framework.dSYM */,
 				240B7ACD20326C6E005959AB /* Result.framework */,
