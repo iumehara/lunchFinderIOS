@@ -43,6 +43,7 @@ playground.xcworkspace
 
 ### Carthage ###
 Carthage/Build
+Carthage/Checkouts
 
 ### CocoaPods ###
 Pods/
