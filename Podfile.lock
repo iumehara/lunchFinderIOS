@@ -13,6 +13,12 @@ DEPENDENCIES:
   - GooglePlaces
   - Nimble (~> 7.0)
 
+SPEC REPOS:
+  https://github.com/CocoaPods/Specs.git:
+    - GoogleMaps
+    - GooglePlaces
+    - Nimble
+
 SPEC CHECKSUMS:
   GoogleMaps: 42f91c68b7fa2f84d5c86597b18ceb99f5414c7f
   GooglePlaces: f6ddf33b75cef69e888907d9947c57198ed845f3
@@ -20,4 +26,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 0fa89fd9fd6e76074a4fb08772e16180ab5c8f56
 
-COCOAPODS: 1.4.0
+COCOAPODS: 1.5.0

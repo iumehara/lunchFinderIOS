@@ -423,7 +423,6 @@
 				249DD8FE200F5263006031A1 /* Frameworks */,
 				249DD8FF200F5263006031A1 /* Resources */,
 				240B7AD820326D3A005959AB /* ShellScript */,
-				46316897D58CB98C9F6117E1 /* [CP] Embed Pods Frameworks */,
 				68612AEA68FACEBAD20C8344 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
@@ -444,7 +443,6 @@
 				249DD912200F5263006031A1 /* Frameworks */,
 				249DD913200F5263006031A1 /* Resources */,
 				B022B22FFC26224768482306 /* [CP] Embed Pods Frameworks */,
-				6B17C23FF22E18999A724E21 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -535,21 +533,6 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
-		46316897D58CB98C9F6117E1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lunchFinderIOS/Pods-lunchFinderIOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		68612AEA68FACEBAD20C8344 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -568,21 +551,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lunchFinderIOS/Pods-lunchFinderIOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6B17C23FF22E18999A724E21 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-lunchFinderIOSTests/Pods-lunchFinderIOSTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		6EEF2D189AC8695453F9C53D /* [CP] Check Pods Manifest.lock */ = {
